@@ -1,0 +1,79 @@
+   /* 
+    * 液晶字体
+    * 使用方法：font-family: 'DFW';
+   */
+   @font-face {
+     font-family: 'DFW';
+     src: url('@/assets/fonts/digifaceWide.ttf');
+     font-weight: bold;
+     font-style: normal;
+   }
+
+   @font-face {
+     font-family: 'DFW';
+     src: url('@/assets/fonts/ruizizhenyan.ttf');
+     font-weight: normal;
+     font-style: normal;
+   }
+
+   @font-face {
+     font-family: 'lmqylszrht';
+     src: url('@/assets/fonts/lmqylszrht.ttf');
+     font-weight: normal;
+     font-style: normal;
+   }
+
+   @font-face {
+     font-family: 'SOURCEHANSANS-MEDIUM';
+     src: url('@/assets/fonts/SOURCEHANSANS-MEDIUM.otf');
+     font-weight: normal;
+     font-style: normal;
+   }
+
+   /* 去掉input自动填充的黄色背景 */
+   input:-webkit-autofill {
+     transition: background-color 5000s ease-in-out 0s;
+     -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+     box-shadow: 0 0 0px 1000px transparent inset !important;
+     -webkit-text-fill-color: #fff;
+   }
+
+
+   /*滚动条凹槽的颜色，还可以设置边框属性 */
+   ::-webkit-scrollbar-track-piece {
+     background: transparent;
+     -webkit-border-radius: 2em;
+     -moz-border-radius: 2em;
+     border-radius: 2em;
+   }
+
+   /*滚动条的宽度*/
+   ::-webkit-scrollbar {
+     width: 4px;
+     height: 8px;
+   }
+
+   /*滚动条的设置*/
+   ::-webkit-scrollbar-thumb {
+     background: rgba(144, 147, 153, 0.5);
+     background-clip: padding-box;
+     -webkit-border-radius: 2em;
+     -moz-border-radius: 2em;
+     border-radius: 2em;
+   }
+
+   /*滚动条鼠标移上去*/
+   ::-webkit-scrollbar-thumb:hover {
+     background: rgba(144, 147, 153, 0.5);
+   }
+
+   /*顶部进度条样式 */
+   #nprogress .bar {
+     background: green !important;
+     /* 自定义颜色 */
+   }
+
+
+   .icon:hover {
+     color: #38B2FF !important;
+   }

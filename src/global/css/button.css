@@ -1,0 +1,107 @@
+.button21 {
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+	position: relative;
+	overflow: hidden;
+}
+
+.button21::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+	opacity: 1;
+	-webkit-transform: translate(0, -105%);
+	transform: translate(0, -105%);
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgba(255, 255, 255, 1);
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.button21:hover::before {
+	opacity: 0;
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+
+.button22 {
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+	position: relative;
+	overflow: hidden;
+}
+
+.button22::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+	opacity: 1;
+	-webkit-transform: translate(-105%, 0);
+	transform: translate(-105%, 0);
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: rgba(255, 255, 255, 1);
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.button22:hover::before {
+	opacity: 0;
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}
+
+.button23 {
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+	position: relative;
+	overflow: hidden;
+}
+
+.button23::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	transition: all 0.5s;
+	opacity: 1;
+	-webkit-transform: translate(-13%, -190%) rotate(-30deg);
+	transform: translate(-13%, -190%) rotate(-30deg);
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: rgba(255, 255, 255, 1);
+	background-color: rgba(255, 255, 255, 0.25);
+}
+
+.button23:hover::before {
+	opacity: 0;
+	-webkit-transform: translate(0, 0);
+	transform: translate(0, 0);
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport"
+    content="width=device-width ,height=device-height, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>Xu-Admin</title>
+  <!-- 加载网站的 favicon 图标文件 -->
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+  <!-- 使用CDN的CSS文件 -->
+  <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.css) { %>
+  <link rel="stylesheet" href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" />
+  <% } %>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.7/esri/css/main.css" media="print" onload="this.media='all'">
+
+  <script ref="preload" type="text/javascript" src="./AppConfig.js"></script>
+  <script ref="preload" type="text/javascript" src="./loadScripts.js"></script>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/echarts/5.0.2/echarts.min.js"></script>
+
+  <!--RSA加解密 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/jsencrypt/3.1.0/jsencrypt.min.js"></script>
+  <!-- Modernizr是一个 JavaScript 库， 用于检测用户浏览器的 HTML5 与 CSS3 特性 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <!--拖动拖拽插件 -->
+  <script src="https://cdn.bootcdn.net/ajax/libs/draggabilly/2.3.0/draggabilly.pkgd.min.js"></script>
+  <!--gojs -->
+  <!-- <script type="text/javascript" src="./static/demo/gojs_demo/gojs/go.js"></script> -->
+  <!--高德API -->
+  <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=115db1fb917242d5bb4f27a452760584">
+  </script>
+  <script type="text/javascript" src="https://webapi.amap.com/ui/1.1/main.js"></script>
+
+  <script type="text/javascript" src="./svg.min.js"></script>
+  
+  <script type="text/javascript">
+
+  </script>
+</head>
+
+
+<body>
+  <div id="app"></div>
+  <!-- 使用CDN的JS文件 -->
+  <% for (var i in htmlWebpackPlugin.options.cdn && htmlWebpackPlugin.options.cdn.js) { %>
+  <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+  <% } %>
+</body>
+
+</html>
+
+<script>
+  //----------------- 在VUE中设置字体不随着页面的缩放而改变--------------------
+  // var pWidth = 1920; //设计图尺寸 
+  // var prem = 100; //设置比例是 100px = 1rem
+
+  // window.onload = function () {
+  //   fnResize()
+  // };
+  // window.onresize = function () {
+  //   fnResize();
+  // }
+
+  // function fnResize() {
+  //   var oWidth = document.documentElement.clientWidth || window.innerWidth; //// 窗口宽度
+  //   document.documentElement.style.fontSize = oWidth / pWidth * prem + "px";
+  // }
+</script>
+<script type="text/javascript">
+  (function (win, doc) {
+    'use strict';
+
+    var options = {
+      width: 1920,
+      dpr: win.devicePixelRatio
+    };
+    var html = doc.documentElement,
+      width = html.getAttribute('data-width') || options.width,
+      dpr = html.getAttribute('data-dpr') || options.dpr,
+      viewPort = doc.querySelector('meta[name="viewport"]'),
+      rotate = win.onorientationchange ? 'orientationchange' : 'resize';
+
+    // 设置html fontSize
+    function setSize() {
+      var winWidth = win.innerWidth || html.clientWidth;
+      html.style.fontSize = 100 * winWidth / width + 'px';
+    };
+
+    // 设置 initial-scale
+    function setScale() {
+      setSize();
+      var viewContent = viewPort.getAttribute('content');
+      var reg = /initial-scale=(\d(.\d+)?)/i;
+      var matchRes = viewContent.match(reg);
+      var scale = 1 / parseInt(dpr);
+      if (matchRes && matchRes[1] == scale) {
+        return;
+      }
+      var newContent = viewContent.replace(reg, function (a, b) {
+        return a.replace(/\d(.\d+)?/i, scale);
+      });
+      viewPort.setAttribute('content', newContent);
+    };
+    // win.addEventListener('keydown', function (event) {
+    //   if (event.code == 'F11') {
+    //     window.onresize = () => {
+    //       return (() => {
+    //         document.getElementById("app").style.width = window.innerWidth + "px";
+    //         document.getElementById("app").style.height = window.innerHeight + "px";
+    //       })();
+    //     };
+
+    //   }
+    // })
+    win.addEventListener(rotate, setSize);
+    window.requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
+    requestAnimationFrame(setScale);
+  }(window, document));
+</script>

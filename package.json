@@ -1,0 +1,47 @@
+{
+  "name": "vue2.admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build --report"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "core-js": "^3.8.3",
+    "element-resize-detector": "^1.2.4",
+    "element-ui": "^2.15.6",
+    "esri-loader": "^3.5.0",
+    "font-awesome": "^4.7.0",
+    "js-cookie": "^3.0.1",
+    "moment": "^2.29.3",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "qs": "^6.10.3",
+    "v-viewer": "^1.6.4",
+    "video.js": "^7.19.2",
+    "videojs-contrib-hls": "^5.15.0",
+    "view-design": "^4.7.0",
+    "vue": "^2.6.14",
+    "vue-cropper": "^0.5.8",
+    "vue-router": "^3.5.1",
+    "vueg": "^1.4.5",
+    "vuex": "^3.6.2",
+    "yaml-loader": "^0.8.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "compression-webpack-plugin": "^10.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "less": "^4.1.2",
+    "less-loader": "^11.0.0",
+    "sass": "^1.52.1",
+    "sass-loader": "^13.0.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "vue-template-compiler": "^2.6.14",
+    "webpack-bundle-analyzer": "^4.5.0"
+  }
+}

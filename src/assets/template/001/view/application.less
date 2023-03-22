@@ -1,0 +1,209 @@
+.appDiv {
+  width: 19.2rem;
+  height: calc(~'100% - 0.75rem');
+  position: relative;
+  overflow: hidden;
+
+  .appMenu {
+    margin: 0.1rem 0;
+    width: 2.2rem;
+    height: calc(~'100% - 0.2rem');
+    border-right: none;
+    float: left;
+    overflow-y: auto;
+    background-image: url("@/assets/template/001/img/app/侧边伸缩.png");
+    background-size: 100% 100%;
+  }
+
+  .appCompontsRight {
+    height: 100%;
+    float: left;
+  }
+
+  .menuCont {
+    position: relative;
+    cursor: pointer;
+    margin: 0.2rem;
+    margin-right: 0.35rem;
+    height: 0.45rem;
+    line-height: 0.45rem;
+  }
+
+  .menuSel {
+    background-image: url("@/assets/template/001/img/app/bg_选项_sel.png");
+    background-size: 100% 100%;
+  }
+
+  .menuNor {
+    background-image: url("@/assets/template/001/img/app/bg_选项_nor.png");
+    background-size: 100% 100%;
+  }
+
+  .menuImg {
+    width: 0.2rem;
+    height: 0.2rem;
+    position: relative;
+    left: 0.15rem;
+    float: left;
+    padding-top: 0.06rem;
+  }
+
+  .menuContImg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+
+  .menuContText {
+    font-size: 0.12rem;
+    color: #9db8e5ba;
+    font-weight: bold;
+    padding-left: 0.45rem;
+  }
+
+  .menuContText .actives {
+    color: #ffffff;
+  }
+
+  .appCompontsL {
+    float: left;
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .appCompontsContLeft {
+      float: left;
+      margin: 0.1rem;
+      height: calc(~'100% - 0.2rem');
+      width: calc(~'100% - 0.2rem');
+    }
+
+    .appCompontsContLeftDiv {
+      border-radius: 0.1rem;
+      background: none;
+      width: 4.5rem;
+      height: 100%;
+      float: left;
+      position: relative;
+      border: 1px solid #326ab2;
+    }
+
+    .appCompontsScreen {
+      float: left;
+      margin: 0.1rem;
+      height: calc(~'100% - 0.2rem');
+    }
+
+    .appCompontsScreenDiv {
+      border: 1px solid #326ab2;
+      border-radius: 0.1rem;
+      background: transparent;
+      width: 100%;
+      height: 100%;
+      float: left;
+      position: relative;
+    }
+
+    .appCompontsContRight {
+      height: 100%;
+      float: left;
+    }
+
+    .appCompontsContMap {
+      border: 1px solid #2962ab;
+      border-radius: 0.1rem;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .appCompontsContDetail {
+      position: relative;
+      padding-top: 0.05rem;
+      float: left;
+    }
+
+    .appCompontsContDetailDiv {
+      height: 100%;
+      border: 1px solid #2962ab;
+      border-radius: 0.1rem;
+      position: relative;
+    }
+
+    .titleCont {
+      position: relative;
+    }
+
+    .titleContImg {
+      width: 100%;
+      height: 0.4rem;
+      line-height: 0.4rem;
+      border-bottom: 1px solid #0161ba;
+    }
+
+    .titleContImgT {
+      height: 0.4rem;
+      line-height: 0.4rem;
+      border-bottom: 1px solid #0161ba;
+    }
+
+    .titleContText {
+      position: absolute;
+      font-size: 0.14rem;
+      color: #ffffff;
+      font-weight: bold;
+      left: 0.15rem;
+      float: left;
+    }
+
+    .titleRight {
+      position: absolute;
+      top: 10%;
+      right: 0.05rem;
+    }
+
+    .closeIcon {
+      cursor: pointer;
+      padding: 0rem;
+      font-size: 0.30rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    .closeIcon:hover {
+      padding: 0rem;
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+
+  .imgReturnT {
+    display: inline-block;
+    height: 100%;
+    width: 0.2rem;
+    left: 0rem;
+    // background-image:url('../../../assets/static/img/newhome/侧边展开(左).png');
+    // background-repeat: no-repeat;
+    // background-size:100% 100%;
+  }
+
+  .imgReturnF {
+    display: inline-block;
+    height: 100%;
+    width: 0.2rem;
+    left: 0rem;
+    background-image: url("@/assets/template/001/img/app/侧边展开(右).png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
+
+  .tmap {
+    background-color: #031c4b !important;
+
+    #newmapbox_layers div:nth-child(1) img {
+      filter: contrast(65%) sepia(100%) invert(100%) brightness(138%) hue-rotate(358deg) saturate(100%) opacity(80%) !important;
+    }
+
+    #newmapbox_layers div:nth-child(2) img {
+      filter: contrast(65%) sepia(100%) invert(100%) brightness(138%) hue-rotate(358deg) saturate(100%) opacity(80%) !important;
+    }
+  }
+}
