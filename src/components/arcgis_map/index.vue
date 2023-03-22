@@ -358,7 +358,7 @@ export default {
     //加载地图
     createMap() {
       var _this = this;
-
+  
       //不自定义资源加载arcgis，管网加载有时慢会失败
       const options = {
         url: 'https://js.arcgis.com/3.27/init.js', //指定的arcgis api版本地址
