@@ -1,6 +1,6 @@
 <style lang="less"></style>
 <template>
-    <div class="homePageDiv" >
+    <div class="homepageDiv3" style="width:100%;height: 100%;">
         <div class="circleLeft fade-in-right">
             <homeLeft></homeLeft>
         </div>

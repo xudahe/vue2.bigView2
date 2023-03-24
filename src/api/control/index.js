@@ -99,3 +99,15 @@ export function throttle(callback, wait, options) {
   }
   return throttled;
 }
+
+
+//组件内部使用
+// import {
+//   debounce
+// } from '@/api/control/index.js'
+
+// methods: {
+//   handleClick: debounce(function () {
+
+//   }, 1000),
+// }

@@ -9,7 +9,7 @@ import bus from '../../../eventBus.js';
 import * as transformUtils from './mapTran.js';
 import mapconfig from './mapconfig'
 export const MapControl = {};
-const tips = require('@/assets/static/img/map/tips.png');
+const tips = require('@/assets/img/map/tips.png');
 
 MapControl.popupinfo; //地图窗口
 
@@ -1651,7 +1651,7 @@ MapControl.addGraphic = function ($graphic) {
       if (symbol.type == 'SimpleMarkerSymbol') {
         symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, symbol.size, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_CIRCLE, new dojo.Color(symbol.color)), new dojo.Color(symbol.color));
       } else if (symbol.type == 'PictureMarkerSymbol') {
-        symbol = new esri.symbol.PictureMarkerSymbol(require('@/assets/static/img/map/' + symbol.image), symbol.width, symbol.height);
+        symbol = new esri.symbol.PictureMarkerSymbol(require('@/assets/img/map/' + symbol.image), symbol.width, symbol.height);
       }
       break;
     case 'polyline':
@@ -1860,7 +1860,7 @@ MapControl.CreatGraphicsLayerWithMTip = function (
           var d = data[i];
           var p = new Point(d.x, d.y, map.spatialReference);
           var symbol = new esri.symbol.PictureMarkerSymbol(
-            require('@/assets/static/img/map/' + data[i].gra.symbol.image),
+            require('@/assets/img/map/' + data[i].gra.symbol.image),
             data[i].gra.symbol.width,
             data[i].gra.symbol.height
           );

@@ -32,10 +32,13 @@ import axios from '@/api/axios/index'
 import http from '@/api/axios/http'
 Vue.use(http)
 
-//定义全局混入
+// mixins可以把多个组件共用的配置提取成一个混入对象(便于维护、共用部分抽取出来、同时提高代码复用)
+// 定义全局混入
 import theme from '@/api/mixins/theme'
 Vue.mixin(theme)
 
+// 阻止显示生产模式的消息
+Vue.config.productionTip = false
 
 /**
  * @description 添加axios实例
@@ -145,10 +148,52 @@ Vue.prototype.$searchResult = ArrayMethod.searchResult
  */
 Vue.prototype.$removeRepeat = ArrayMethod.removeRepeat
 
-
+/**
+ * @description 全局element-resize-detector监听DOM元素宽度变化
+ * 
+ *  let that = this;
+    this.$erd.listenTo(document.getElementById("bar"), function (element) {
+        console.log(element)
+        that.$nextTick(function () {
+            //使echarts尺寸重置
+            that.myEcharts.resize();
+        })
+    })
+ */
 import ElementResizeDetectorMaker from "element-resize-detector"
 Vue.prototype.$erd = ElementResizeDetectorMaker()
 
 
-// 阻止显示生产模式的消息
-Vue.config.productionTip = false
+/**
+ * @description v-viewer图片预览插件，支持旋转、缩放、翻转等操作
+ * 
+ *  1、以组件的形式
+    <viewer :images="photo">
+        <img v-for="(src,index) in photo" :src="http://t.zoukankan.com/src" :key="index"/> 
+    </viewer> 
+    2、以指令的形式：只需要将v-viewer指令添加到任意元素即可，该元素下的所有img元素都会被viewer自动处理
+    <div v-viewer>
+        <img v-for="(src,index) in photo" :src="http://t.zoukankan.com/src" :key="index"/> 
+    </div>
+ */
+import Viewer from 'v-viewer'
+// import 'viewerjs/dist/viewer.css'
+Vue.use(Viewer)
+Viewer.setDefaults({
+    Options: {
+        'inline': true,
+        'button': true, //右上角按钮
+        "navbar": true, //底部缩略图
+        "title": true, //当前图片标题
+        "toolbar": true, //底部工具栏
+        "tooltip": true, //显示缩放百分比
+        "movable": true, //是否可以移动
+        "zoomable": true, //是否可以缩放
+        "rotatable": true, //是否可旋转
+        "scalable": true, //是否可翻转
+        "transition": true, //使用 CSS3 过度
+        "fullscreen": true, //播放时是否全屏
+        "keyboard": true, //是否支持键盘
+        'url': 'data-source'
+    }
+})

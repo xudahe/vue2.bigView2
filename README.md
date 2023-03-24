@@ -1,4 +1,4 @@
-# vue2.admin
+# vue2.bigview
 
 ## Project setup
 ```

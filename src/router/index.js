@@ -96,7 +96,6 @@ VueRouter.prototype.replace = function replace(location) {
   return originalReplace.call(this, location).catch(err => err)
 };
 
-console.log(defaultRouter)
 export default new VueRouter({
   // mode: 'history', //注意 打包时需要将该处注释 否则将出现静态文件找不到
   routes: defaultRouter

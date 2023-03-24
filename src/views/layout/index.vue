@@ -6,10 +6,15 @@
 </style>
 <template>
     <div id="homemain">
-		<component :is="classname"></component>
+        <component :is="classname"></component>
         <router-view />
     </div>
 </template>
+
+<!-- 
+    <router-link>   跳转用
+    <router-view/>  替换页面组件用 
+-->
 
 <script>
 import Vue from 'vue';
@@ -33,30 +38,30 @@ export default {
         }
     },
     data() {
-		return {
-			classname: "",
-		};
-	},
+        return {
+            classname: "",
+        };
+    },
     mounted() {
         let theme = this.$store.getters.templates;
-		switch (theme) {
-			case '001':
-				this.classname = 'header1';
-				break;
-			case '002':
-				this.classname = 'header2';
-				break;
-			case '003':
-				this.classname = 'header3';
-				break;
-			case '004':
-				this.classname = 'header4';
-				break;
-			default:
-			case '001':
-				this.classname = 'header1';
-				break;
-		}
+        switch (theme) {
+            case '001':
+                this.classname = 'header1';
+                break;
+            case '002':
+                this.classname = 'header2';
+                break;
+            case '003':
+                this.classname = 'header3';
+                break;
+            case '004':
+                this.classname = 'header4';
+                break;
+            default:
+            case '001':
+                this.classname = 'header1';
+                break;
+        }
     },
     beforeDestroy() {
     },

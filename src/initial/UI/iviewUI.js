@@ -1,14 +1,14 @@
 import Vue from 'vue'
 
 // 引入iview框架
-import IviewUI from 'view-design'
+import iview from 'view-design'
 import 'view-design/dist/styles/iview.css'
 
-Vue.use(IviewUI);
+Vue.use(iview);
 
 // iview 中<Select>组件的</Option>不要换行,不然展示下拉数据经常出不来
 
-// vue之iview table展示图片，实现点击放大
+// vue之iview table展示图片，v-viewer实现点击放大
 
 //------------------------------多张图片----------------------------------
 // {

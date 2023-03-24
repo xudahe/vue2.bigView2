@@ -10,24 +10,36 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
 
-// 从cdn中获取对象文件，减少打包体积
+// 国内免费（猫云）CDN https://www.bootcdn.cn/
+
+//配置打包时使用CDN节点（加入externals外部扩展）， 忽略打包的第三方库
+//左面放package.json中的扩展的名称,右面放项目依赖的名称(项目初始化要用的名称)
 const assetsCDN = {
-  //externals对象的属性名为package.json中，对应的库的名称（固定写法）,属性值为引入时你自定义的名称
+  // 属性名称 vue, 表示遇到 import xxx from 'vue' 这类引入 'vue'的，不去 node_modules 中找，而是去找全局变量 Vue（其他的为VueRouter、Vuex、axios、ELEMENT、echarts，注意全局变量是一个确定的值，不能修改为其他值，修改为其他大小写或者其他值会报错）
   externals: {
-    vue: 'Vue',
+    'vue': 'Vue',
     'vue-router': 'VueRouter',
-    axios: 'axios',
-    vuex: 'Vuex',
+    // 'vuex': 'Vuex', //打包后会找不到vuex
+    'axios': 'axios',
+    'view-design': 'iview',
+    'element-ui': 'ELEMENT',
+    'nprogress': 'NProgress',
   },
   css: [
-    // 'https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.css'
+    'https://cdn.bootcdn.net/ajax/libs/view-design/4.7.0/styles/iview.min.css',
+    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.13/theme-chalk/index.min.css',
+    'https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.css',
   ],
   js: [
     // vue必须在第一个
-    'https://cdn.bootcdn.net/ajax/libs/vue/2.6.14/vue.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/vue-router/3.5.1/vue-router.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/vuex/3.6.2/vuex.min.js',
-    'https://cdn.bootcdn.net/ajax/libs/axios/0.27.2/axios.min.js',
+    'https://cdn.bootcdn.net/ajax/libs/vue/2.7.0/vue.min.js',
+    'https://cdn.bootcdn.net/ajax/libs/vue-router/3.5.2/vue-router.min.js',
+    // 'https://cdn.bootcdn.net/ajax/libs/vuex/4.1.0/vuex.cjs.min.js',
+    'https://cdn.bootcdn.net/ajax/libs/axios/1.3.4/axios.min.js',
+
+    'https://cdn.bootcdn.net/ajax/libs/view-design/4.7.0/iview.min.js',
+    'https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.13/index.min.js',
+    'https://cdn.bootcdn.net/ajax/libs/nprogress/0.2.0/nprogress.min.js',
   ]
 }
 
@@ -143,10 +155,10 @@ module.exports = defineConfig({
       }
     }
 
-    // 关闭 webpack 的性能提示
-    // config.performance = {
-    //   hints: false
-    // }
+    // 关闭 webpack 打包的性能提示
+    config.performance = {
+      hints: false
+    }
 
     //返回一个将要合并的对象
     return {

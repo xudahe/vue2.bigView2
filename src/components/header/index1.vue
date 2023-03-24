@@ -40,7 +40,7 @@
                         <li class="eui-nav-item">
                             <Dropdown trigger="click" style="" @on-click='accountSwitches'>
                                 <span style="cursor: pointer;color: #fff">
-                                    <img :src="require('@/assets/static/img/menus/用户.png')" class="logo-img" />
+                                    <img :src="require('@/assets/template/004/img/login/头像.png')" class="logo-img" />
                                     <span>{{ loginName }}</span>
                                     <Icon type="arrow-down-b"></Icon>
                                 </span>

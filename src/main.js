@@ -6,6 +6,8 @@ import store from "./store"
 
 Vue.use(Vuex)
 
+Vue.prototype.$store = store
+
 //全局事件总线 eventBus
 // Vue.prototype.$eventBus = new Vue();
 
@@ -13,38 +15,32 @@ Vue.use(Vuex)
 import '@/initial/modules'
 
 //路由拦截
-import './router/intercept.js' 
+import './router/intercept.js'
 
-//图片点击放大预览
-import Viewer from 'v-viewer'
-Vue.use(Viewer)
-Viewer.setDefaults({
-  Options: {
-    'inline': true,
-    'button': true, //右上角按钮
-    "navbar": true, //底部缩略图
-    "title": true, //当前图片标题
-    "toolbar": true, //底部工具栏
-    "tooltip": true, //显示缩放百分比
-    "movable": true, //是否可以移动
-    "zoomable": true, //是否可以缩放
-    "rotatable": true, //是否可旋转
-    "scalable": true, //是否可翻转
-    "transition": true, //使用 CSS3 过度
-    "fullscreen": true, //播放时是否全屏
-    "keyboard": true, //是否支持键盘
-    'url': 'data-source'
-  }
+//全局过滤器初始化。在如下路径文件下全局注册过滤器即可。
+import filters from '@/initial/filter/index'
+// 全局注册过滤器
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
 })
 
-// 设置浏览器标题
-Vue.directive('title', {
-  inserted: function (el, binding) {
-    document.title = el.dataset.title
-  }
+//全局指令初始化。在如下路径文件下全局注册指令即可。
+import directives from '@/initial/directives/index'
+// 全局注册指令
+Object.keys(directives).forEach(key => {
+  Vue.directive(key, {
+    // 只调用一次，指令第一次绑定到元素时调用
+    bind: directives[key].bind || (() => {}),
+    // 被绑定元素插入父节点时调用
+    inserted: directives[key].inserted || (() => {}),
+    // 所在组件的 VNode 更新时调用，但是可能发生在其子 VNode 更新之前
+    update: directives[key].update || (() => {}),
+    // 指令所在组件的 VNode 及其子 VNode 全部更新后调用
+    componentUpdated: directives[key].componentUpdated || (() => {}),
+    // 只调用一次，指令与元素解绑时调用
+    unbind: directives[key].unbind || (() => {})
+  })
 })
-
-Vue.prototype.$store = store
 
 new Vue({
   router,

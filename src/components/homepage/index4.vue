@@ -1,5 +1,5 @@
 <template>
-	<div class="homePageDiv" style="width: 19.2rem;height: 100%;">
+	<div class="homepageDiv4" style="width:100%;height: 100%;">
 
 		<div class="circleLeft fade-in-right" style="width: 4.7rem;">
 			<homeLeft></homeLeft>

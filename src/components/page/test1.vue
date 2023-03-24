@@ -28,7 +28,7 @@
             </div>
           </div> -->
           <div style="float: left;cursor: pointer;">
-            <img :src="require('@/assets/static/img/暂无图片.png')" v-viewer style="width: 0.5rem;height: 0.55rem;" />
+            <img :src="require('@/assets/img/暂无图片.png')" v-viewer style="width: 0.5rem;height: 0.55rem;" />
           </div>
           <div style="display: inline-block;cursor: pointer;width: calc(100% - 0.7rem);padding-left: 0.05rem;">
             <Row type="flex" align="middle" style="height: 100%;">
@@ -99,9 +99,9 @@ export default {
       // var gralyrList = gralyr1.graphics;
       // for (var l = 0; l < gralyrList.length; l++) {
       //   if (gralyrList[l].attributes.id == item.id) {
-      //     gralyrList[l].symbol.url = require('@/assets/static/img/map/ic_flowmeter_online2.png');
+      //     gralyrList[l].symbol.url = require('@/assets/img/map/ic_flowmeter_online2.png');
       //   } else {
-      //     gralyrList[l].symbol.url = require('@/assets/static/img/map/ic_flowmeter_online1.png');
+      //     gralyrList[l].symbol.url = require('@/assets/img/map/ic_flowmeter_online1.png');
       //   }
       //   //  MapControl.graphicLayers['gralyr1'].remove(gralyrList[k]) //移除
       // }
@@ -147,9 +147,9 @@ export default {
 
       //   let gralyrList = gralyr1.graphics;
       //   for (let k = 0; k < gralyrList.length; k++) {
-      //     gralyrList[k].symbol.url = require('@/assets/static/img/map/ic_flowmeter_online1.png');
+      //     gralyrList[k].symbol.url = require('@/assets/img/map/ic_flowmeter_online1.png');
       //   }
-      //   val.graphic.symbol.url = require('@/assets/static/img/map/ic_flowmeter_online2.png');
+      //   val.graphic.symbol.url = require('@/assets/img/map/ic_flowmeter_online2.png');
       //   gralyr1.redraw();
 
       //   // let geo = MapControl.WktToAgs("POINT(" + value.x + " " + value.y + ")");

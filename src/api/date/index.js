@@ -5,10 +5,10 @@ moment.locale('zh-cn')
 
 /**
  * @description 日期格式化
- * 示例：this.$formatDate(new Date()) // 2019-11-05
- * 示例：this.$formatDate(new Date(), true) // 2019-11-05 10:06:31
+ * 示例：this.$formatDate(new Date(), false) // 2019-11-05
+ * 示例：this.$formatDate(new Date()) // 2019-11-05 10:06:31
  */
-function formatDate(date, isAccurate = false) {
+function formatDate(date, isAccurate = true) {
   return moment(date).format(`YYYY-MM-DD${isAccurate	? ' HH:mm:ss'	: ''}`)
 }
 

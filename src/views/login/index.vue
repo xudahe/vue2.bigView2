@@ -176,7 +176,7 @@ export default {
     }
 };
 </script>
-<style lang="less">
+<style lang="scss">
 .loginTitle {
     font-family: 'ruizizhenyan';
     text-align: left;

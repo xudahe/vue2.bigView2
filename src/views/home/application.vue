@@ -1,6 +1,6 @@
 <!--运营-->
 <template>
-	<div id="appComponts" class="appDiv">
+	<div id="application" class="applicationDiv">
 		<component :is="classname"></component>
 	</div>
 </template>
@@ -33,8 +33,7 @@ export default {
 		};
 	},
 	methods: {
-		getMenus(val) {
-		},
+
 	},
 	mounted() {
 		let theme = this.$store.getters.templates;
@@ -52,7 +51,6 @@ export default {
 				this.classname = 'application4';
 				break;
 			default:
-			case '001':
 				this.classname = 'application1';
 				break;
 		}

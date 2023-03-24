@@ -27,6 +27,7 @@ import router from '../../router/index'
 import apiSetting from "./apiSetting"
 
 axios.defaults.withCredentials = true; //跨域请求，允许保存cookie
+axios.defaults.timeout = 3000;
 
 if (process.env.NODE_ENV === 'production') {
   axios.defaults.baseURL = AppConfig.baseUrl_Pro; //生产环境接口地址
@@ -41,8 +42,8 @@ axios.interceptors.request.use(config => {
   var expiretime = new Date(Date.parse(store.state.tokenExpire))
 
   // 判断是否存在token，如果存在的话，则每个http header都加上token
-  if (store.state.token && (curTime < expiretime && store.state.tokenExpire)) {
-    config.headers.Authorization = "Bearer " + store.state.token;
+  if (store.state.loginToken && (curTime < expiretime && store.state.tokenExpire)) {
+    config.headers.Authorization = "Bearer " + store.state.loginToken;
   }
 
   saveRefreshtime();
@@ -85,7 +86,7 @@ axios.interceptors.response.use(response => {
         if (window.localStorage.refreshtime && (curTime <= refreshtime)) {
           // 直接将整个请求 return 出去，不然的话，请求会晚于当前请求，无法达到刷新操作 
           return httpServer(apiSetting.refreshToken, {
-            token: window.localStorage.Token
+            token: window.localStorage.loginToken
           }).then(res => {
               if (res.success == true) {
                 Vue.prototype.$message({
@@ -93,24 +94,23 @@ axios.interceptors.response.use(response => {
                   type: 'success'
                 });
 
-                store.commit("saveToken", res.token);
+                store.commit("loginToken", res.token);
 
                 var curTime = new Date();
                 var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + res.expires_in));
-                store.commit("saveTokenExpire", expiredate);
+                store.commit("savetokenExpire", expiredate);
 
                 error.config.__isRetryRequest = true;
                 error.config.headers.Authorization = 'Bearer ' + res.token;
                 return axios(error.config); //这里就是重新进行一次请求， error.config 包含了当前请求的所有信息             
               } else {
-                ToLogin() // 刷新token失败,清除token信息并跳转到登录页面
+                ToLogin()
               }
             },
             error => {
-              ToLogin() // 刷新token失败,清除token信息并跳转到登录页面
+              ToLogin()
             }
           );
-
         } else {
           // 返回 401，并且不知用户操作活跃期内 清除token信息并跳转到登录页面
           error.message = '未授权，请重新登录';
@@ -215,13 +215,16 @@ const httpServer = (opts, data) => {
       .catch((res) => {
         reject(res)
       })
-
   })
   return promise
 }
 
+/**
+ * 刷新token失败,清除token信息并跳转到登录页面
+ * @param {*} params 
+ */
 const ToLogin = params => {
-  store.commit("saveToken", "");
+  store.commit("saveLoginToken", "");
   store.commit("saveTokenExpire", "");
 
   router.replace({
@@ -234,11 +237,14 @@ const ToLogin = params => {
   // window.location.reload()
 };
 
-//当执行操作时更新刷新时间，这个的作用主要是记录当前用户的操作活跃期，当在这个活跃期内，就可以滑动更新，如果超过了这个时期，就跳转到登录页
+/**
+ * 当执行操作时更新刷新时间，这个的作用主要是记录当前用户的操作活跃期，当在这个活跃期内，就可以滑动更新，如果超过了这个时期，就跳转到登录页
+ * @param {*} params 
+ */
 export const saveRefreshtime = params => {
   let nowtime = new Date();
   let lastRefreshtime = window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime) : new Date(-1); //最后刷新时间，当用户操作的时候，实时更新最后的刷新时间，保证用户活跃时间一直有效
-  let expiretime = new Date(Date.parse(window.localStorage.TokenExpire))
+  let expiretime = new Date(Date.parse(window.localStorage.tokenExpire))
 
   //refreshCount 滑动系数：就是你自定义的用户的停止活跃时间段，比如你想用户最大的休眠时间是20分钟，用户可以最多20分钟内不进行操作，
   //如果20分钟后，再操作，就跳转到登录页，如果20分钟内，继续操作，那继续更新时间，休眠时间还是以当前时间 + 20分钟。
