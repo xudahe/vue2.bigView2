@@ -100,3 +100,8 @@ export default new VueRouter({
   // mode: 'history', //注意 打包时需要将该处注释 否则将出现静态文件找不到
   routes: defaultRouter
 });
+
+
+// $route
+// params传参：路径不能使用 path 只能使用 name，否则 params 将无效。
+// query传参：路径可以使用 path 或者 name。

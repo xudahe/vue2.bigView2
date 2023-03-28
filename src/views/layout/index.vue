@@ -7,7 +7,7 @@
 <template>
     <div id="homemain">
         <component :is="classname"></component>
-        <router-view />
+        <router-view style="width:100%;height: calc(100% - 0.79rem);" />
     </div>
 </template>
 

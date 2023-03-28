@@ -1,48 +1,45 @@
 <template>
     <div class="header" style="z-index: 99;">
-        <div class="homePageTitle">
-
-            <div style="width: 6.4rem;float: left;height: 0.75rem;">
-                <!-- <div class="headerTitle" style="width: 4.99rem;height: auto;margin-top: 0.14rem;margin-left: 0.7rem;">{{ ptTitle }}</div> -->
-                <img src="@/assets/template/004/img/app/灌南县排水管网GIS平台.png"
-                    style="width: 4.99rem;margin-top: -0.05rem;margin-left: 0.5rem;" />
-            </div>
-            <div class="right-div" style="float: left;padding-left: 0.8rem;">
-                <div :key="index" class="menuDiv" v-for="(item, index) in menuData">
-                    <div style="height: 100%" @click="changeMenu(item)">
-                        <div class="homeMenu" :class="[ismeunNum == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
-                            {{ item.menuname }}
-                        </div>
-                    </div>
-                    <div v-if="index < menuData.length - 1"
-                        style="width: 2px;height: 0.15rem;background-color: #00b0db;position: absolute;right: 0;top: 0.305rem;border-radius: 0.05rem;">
-                    </div>
-                </div>
-            </div>
-            <div class="right-div"
-                style="font-size: 0.17rem;float: left;padding-left: 0.8rem;right: 1.6rem;position: absolute;">
-                <div style="padding-right: 0.2rem;float:right;color:rgb(25, 210, 255);padding-top: 0.25rem;" id="showTime">
-                </div>
-                <div
-                    style="width: 2px;height: 0.35rem;background: #5AF1F7;right:0rem;position: absolute;top: 0.205rem;border-radius: 0.05rem;">
-                </div>
-            </div>
-            <ul class="right-menu">
-                <li class="eui-nav-item">
-                    <Dropdown trigger="click" style="" @on-click="accountSwitches">
-                        <span style="cursor: pointer;color: #fff;font-size: 0.18rem;">
-                            <img src="@/assets/template/004/img/login/头像.png" class="logo-img" />
-                            <span style="padding-left: 0.1rem;color: #19d2ff;">{{ loginName}}</span>
-                            <Icon type="arrow-down-b"></Icon>
-                        </span>
-                        <DropdownMenu slot="list" style="color: #ffffff">
-                            <DropdownItem name="密码修改">密码修改</DropdownItem>
-                            <Dropdown-item name="退出登录">退出登录</Dropdown-item>
-                        </DropdownMenu>
-                    </Dropdown>
-                </li>
-            </ul>
+        <div style="width: 6.4rem;float: left;height: 0.75rem;">
+            <!-- <div class="headerTitle" style="width: 4.99rem;height: auto;margin-top: 0.14rem;margin-left: 0.7rem;">{{ ptTitle }}</div> -->
+            <img src="@/assets/template/004/img/app/灌南县排水管网GIS平台.png"
+                style="width: 4.99rem;margin-top: -0.05rem;margin-left: 0.5rem;" />
         </div>
+        <div class="right-div" style="float: left;padding-left: 0.8rem;">
+            <div :key="index" class="menuDiv" v-for="(item, index) in menuData">
+                <div style="height: 100%" @click="changeMenu(item)">
+                    <div class="homeMenu" :class="[ismeunNum == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
+                        {{ item.menuname }}
+                    </div>
+                </div>
+                <div v-if="index < menuData.length - 1"
+                    style="width: 2px;height: 0.15rem;background-color: #00b0db;position: absolute;right: 0;top: 0.305rem;border-radius: 0.05rem;">
+                </div>
+            </div>
+        </div>
+        <div class="right-div"
+            style="font-size: 0.17rem;float: left;padding-left: 0.8rem;right: 1.6rem;position: absolute;">
+            <div style="padding-right: 0.2rem;float:right;color:rgb(25, 210, 255);padding-top: 0.25rem;" id="showTime">
+            </div>
+            <div
+                style="width: 2px;height: 0.35rem;background: #5AF1F7;right:0rem;position: absolute;top: 0.205rem;border-radius: 0.05rem;">
+            </div>
+        </div>
+        <ul class="right-menu">
+            <li class="eui-nav-item">
+                <Dropdown trigger="click" style="" @on-click="accountSwitches">
+                    <span style="cursor: pointer;color: #fff;font-size: 0.18rem;">
+                        <img src="@/assets/template/004/img/login/头像.png" class="logo-img" />
+                        <span style="padding-left: 0.1rem;color: #19d2ff;">{{ loginName }}</span>
+                        <Icon type="arrow-down-b"></Icon>
+                    </span>
+                    <DropdownMenu slot="list" style="color: #ffffff">
+                        <DropdownItem name="密码修改">密码修改</DropdownItem>
+                        <Dropdown-item name="退出登录">退出登录</Dropdown-item>
+                    </DropdownMenu>
+                </Dropdown>
+            </li>
+        </ul>
     </div>
 </template>
 

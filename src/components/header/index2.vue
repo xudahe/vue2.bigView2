@@ -1,60 +1,58 @@
 <template>
     <div class="header" style="z-index: 99;">
-        <div class="homePageTitle">
-            <div class="headerdiv" style="width: 6.4rem;text-align: right;">
-                <div class="leftTool">
-                    <div style="padding-left:0.1rem;color:rgb(75 236 214);">
+        <div class="headerdiv" style="width: 6.4rem;text-align: right;">
+            <div class="leftTool">
+                <div style="padding-left:0.1rem;color:rgb(75 236 214);">
 
-                    </div>
-                </div>
-                <div :key="index" :class="[ismeunNumLeft == item.id ? 'menuDiv menuDivL' : 'menuDiv']"
-                    v-for="(item, index) in menuDataLeft">
-                    <div style="height: 100%" @click="changeMenu_left(item)">
-                        <div class="homeMenu" :class="[ismeunNumLeft == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
-                            {{ item.menuname }}
-                        </div>
-                    </div>
-                    <div v-if="index < menuDataLeft.length - 1"
-                        style="width: 2px;height: 0.15rem;background-color: #36a8f9;position: absolute;right: 0;top: 0.26rem;border-radius: 0.05rem;">
-                    </div>
                 </div>
             </div>
-            <div class="headerdiv" style="width: 6.4rem;">
-                <div class="headerTitle">
-                    {{ ptTitle }}
-                </div>
-            </div>
-            <div class="headerdiv" style="width: 6.4rem;">
-                <div :key="index" :class="[ismeunNumRight == item.id ? 'menuDiv menuDivL' : 'menuDiv']"
-                    v-for="(item, index) in menuDataRight">
-                    <div style="height: 100%" @click="changeMenu_Right(item)">
-                        <div class="homeMenu" :class="[ismeunNumRight == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
-                            {{ item.menuname }}
-                        </div>
-                    </div>
-                    <div v-if="index < menuDataRight.length - 1"
-                        style="width: 2px;height: 0.15rem;background-color: #36a8f9;position: absolute;right: 0;top: 0.26rem;border-radius: 0.05rem;">
+            <div :key="index" :class="[ismeunNumLeft == item.id ? 'menuDiv menuDivL' : 'menuDiv']"
+                v-for="(item, index) in menuDataLeft">
+                <div style="height: 100%" @click="changeMenu_left(item)">
+                    <div class="homeMenu" :class="[ismeunNumLeft == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
+                        {{ item.menuname }}
                     </div>
                 </div>
+                <div v-if="index < menuDataLeft.length - 1"
+                    style="width: 2px;height: 0.15rem;background-color: #36a8f9;position: absolute;right: 0;top: 0.26rem;border-radius: 0.05rem;">
+                </div>
             </div>
-
-            <ul class="right-menu">
-                <li class="eui-nav-item">
-                    <Dropdown trigger="click" style="" @on-click='accountSwitches'>
-                        <span style='cursor: pointer;color: #fff'>
-                            <img src="@/assets/template/004/img/login/头像.png" class="logo-img" />
-                            <span style="padding-left: 0.1rem;color: #37a9f9;">{{ loginName }}</span>
-                            <Icon type="arrow-down-b"></Icon>
-                        </span>
-                        <DropdownMenu slot="list" style="color: #ffffff">
-                            <DropdownItem name="密码修改">密码修改</DropdownItem>
-                            <Dropdown-item name="平台切换">平台切换</Dropdown-item>
-                            <Dropdown-item name="账号切换">账号切换</Dropdown-item>
-                        </DropdownMenu>
-                    </Dropdown>
-                </li>
-            </ul>
         </div>
+        <div class="headerdiv" style="width: 6.4rem;">
+            <div class="headerTitle">
+                {{ ptTitle }}
+            </div>
+        </div>
+        <div class="headerdiv" style="width: 6.4rem;">
+            <div :key="index" :class="[ismeunNumRight == item.id ? 'menuDiv menuDivL' : 'menuDiv']"
+                v-for="(item, index) in menuDataRight">
+                <div style="height: 100%" @click="changeMenu_Right(item)">
+                    <div class="homeMenu" :class="[ismeunNumRight == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
+                        {{ item.menuname }}
+                    </div>
+                </div>
+                <div v-if="index < menuDataRight.length - 1"
+                    style="width: 2px;height: 0.15rem;background-color: #36a8f9;position: absolute;right: 0;top: 0.26rem;border-radius: 0.05rem;">
+                </div>
+            </div>
+        </div>
+
+        <ul class="right-menu">
+            <li class="eui-nav-item">
+                <Dropdown trigger="click" style="" @on-click='accountSwitches'>
+                    <span style='cursor: pointer;color: #fff'>
+                        <img src="@/assets/template/004/img/login/头像.png" class="logo-img" />
+                        <span style="padding-left: 0.1rem;color: #37a9f9;">{{ loginName }}</span>
+                        <Icon type="arrow-down-b"></Icon>
+                    </span>
+                    <DropdownMenu slot="list" style="color: #ffffff">
+                        <DropdownItem name="密码修改">密码修改</DropdownItem>
+                        <Dropdown-item name="平台切换">平台切换</Dropdown-item>
+                        <Dropdown-item name="账号切换">账号切换</Dropdown-item>
+                    </DropdownMenu>
+                </Dropdown>
+            </li>
+        </ul>
     </div>
 </template>
 

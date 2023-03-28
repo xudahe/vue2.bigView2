@@ -1,5 +1,5 @@
-color A
-
 rimraf node_modules
 
-cmd 
+npm cache clean --force
+
+cmd

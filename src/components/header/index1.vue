@@ -1,62 +1,56 @@
 <template>
     <div class="header" style="z-index: 9;position: relative;">
+        <div class="left-div" style="width:33.3%;float: left;height: 100%;">
+            <div class="leftTool">
+                <div style="padding-left:0.1rem;color:rgb(75 236 214);">
 
-        <div class="homePageTitle">
-
-            <div class="left-div" style="width:33.3%;float: left;height: 100%;">
-                <div class="leftTool">
-                    <div style="padding-left:0.1rem;color:rgb(75 236 214);">
-
-                    </div>
                 </div>
-                <div :key="index" class="menuDiv" :class="{ 'menuDivT': ismeunNumLeft == item.id }"
-                    v-for="(item, index) in menuDataLeft" @click="changeMenu_left(item)">
-                    <div style="height: 100%">
-                        <div class="homeMenu" :class="[ismeunNumLeft == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
-                            {{ item.menuname }}
-                        </div>
+            </div>
+            <div :key="index" class="menuDiv" :class="{ 'menuDivT': ismeunNumLeft == item.id }"
+                v-for="(item, index) in menuDataLeft" @click="changeMenu_left(item)">
+                <div style="height: 100%">
+                    <div class="homeMenu" :class="[ismeunNumLeft == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
+                        {{ item.menuname }}
                     </div>
                 </div>
             </div>
-
-            <div class="center-div" style="width:33.3%;float: left;text-align: center;height: 100%;">
-                <div style="display: inline-block;height: 100%;cursor: pointer;" @click="goHomepage()">
-                    <div class="ptname">{{ ptTitle }}</div>
-                </div>
-            </div>
-
-            <div class="right-div" style="width:33.3%;float: left;height: 100%;">
-                <div :key="index" class="menuDiv" :class="{ 'menuDivT': ismeunNumRight == item.id }"
-                    v-for="(item, index) in menuDataRight" @click="changeMenu_Right(item)">
-                    <div style="height: 100%">
-                        <div class="homeMenu homeMenuRight"
-                            :class="[ismeunNumRight == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
-                            {{ item.menuname }}
-                        </div>
-                    </div>
-                </div>
-                <div class="rightTool">
-                    <ul class="right-menu" style="display: inline-block;vertical-align: middle;">
-                        <li class="eui-nav-item">
-                            <Dropdown trigger="click" style="" @on-click='accountSwitches'>
-                                <span style="cursor: pointer;color: #fff">
-                                    <img :src="require('@/assets/template/004/img/login/头像.png')" class="logo-img" />
-                                    <span>{{ loginName }}</span>
-                                    <Icon type="arrow-down-b"></Icon>
-                                </span>
-                                <DropdownMenu slot="list" style="color: #ffffff">
-                                    <Dropdown-item name="密码修改">密码修改</Dropdown-item>
-                                    <Dropdown-item name="平台切换">平台切换</Dropdown-item>
-                                    <Dropdown-item name="退出登录">退出登录</Dropdown-item>
-                                </DropdownMenu>
-                            </Dropdown>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-
         </div>
 
+        <div class="center-div" style="width:33.3%;float: left;text-align: center;height: 100%;">
+            <div style="display: inline-block;height: 100%;cursor: pointer;" @click="goHomepage()">
+                <div class="ptname">{{ ptTitle }}</div>
+            </div>
+        </div>
+
+        <div class="right-div" style="width:33.3%;float: left;height: 100%;">
+            <div :key="index" class="menuDiv" :class="{ 'menuDivT': ismeunNumRight == item.id }"
+                v-for="(item, index) in menuDataRight" @click="changeMenu_Right(item)">
+                <div style="height: 100%">
+                    <div class="homeMenu homeMenuRight"
+                        :class="[ismeunNumRight == item.id ? 'homeMenuTextT' : 'homeMenuTextF']">
+                        {{ item.menuname }}
+                    </div>
+                </div>
+            </div>
+            <div class="rightTool">
+                <ul class="right-menu" style="display: inline-block;vertical-align: middle;">
+                    <li class="eui-nav-item">
+                        <Dropdown trigger="click" style="" @on-click='accountSwitches'>
+                            <span style="cursor: pointer;color: #fff">
+                                <img :src="require('@/assets/template/004/img/login/头像.png')" class="logo-img" />
+                                <span>{{ loginName }}</span>
+                                <Icon type="arrow-down-b"></Icon>
+                            </span>
+                            <DropdownMenu slot="list" style="color: #ffffff">
+                                <Dropdown-item name="密码修改">密码修改</Dropdown-item>
+                                <Dropdown-item name="平台切换">平台切换</Dropdown-item>
+                                <Dropdown-item name="退出登录">退出登录</Dropdown-item>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
 </template>
   

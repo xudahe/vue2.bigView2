@@ -1,0 +1,3 @@
+cnpm install
+
+cmd
