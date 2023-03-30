@@ -118,13 +118,14 @@ import bus from "@/eventBus.js";
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
 import arcgisMap from "@/components/arcgis_map/index3.vue";
 import splitView from "@/components/arcgis_map/split/splitView.vue";
-
+import vDialog from "@/components/dialog/dialog.vue";
 
 export default {
   name: "application",
   components: {
     arcgisMap,
     splitView,
+    vDialog
   },
   watch: {
     // 监测路由变化,只要变化了就获取路由参数重新加载菜单
@@ -323,6 +324,7 @@ export default {
         { id: 5, classname: "test5", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
         { id: 7, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "全屏" },
         { id: 9, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "半屏" },
+        { id: 10, classname: "CustomCompare", menuname: "分屏对比", img: "", systemid: 32, note: "弹出窗" },
         // { id: 6, classname: "sewagelist", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
         // { id: 2, classname: "waterStation", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
       ]

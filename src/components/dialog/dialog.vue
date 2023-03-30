@@ -25,7 +25,7 @@
 <script>
 import bus from "@/eventBus";
 var drag = (dragBox, moveBox = dragBox) => {
-  var mapview = document.getElementById("appComponts"); //地图界面窗口id
+  var mapview = document.getElementById("app"); //地图界面窗口id
   dragBox.onmousedown = (e) => {
     var disX = e.clientX - moveBox.offsetLeft + mapview.offsetLeft;
     var disY = e.clientY - moveBox.offsetTop + mapview.offsetTop;

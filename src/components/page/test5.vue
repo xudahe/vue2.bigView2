@@ -19,6 +19,12 @@ export default {
                 { serviceurl: "", servicename: "XXXX1" },
                 { serviceurl: "", servicename: "XXXX2" },
                 { serviceurl: "", servicename: "XXXX3" },
+                { serviceurl: "", servicename: "XXXX4" },
+                { serviceurl: "", servicename: "XXXX5" },
+                { serviceurl: "", servicename: "XXXX6" },
+                { serviceurl: "", servicename: "XXXX7" },
+                { serviceurl: "", servicename: "XXXX8" },
+                { serviceurl: "", servicename: "XXXX9" },
             ],
         };
     },

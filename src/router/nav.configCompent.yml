@@ -16,6 +16,8 @@ drainet:
             name: test4
           - title: test5
             name: test5
+          - title: 分屏对比
+            name: CustomCompare
           - title: 页面组件
             name: page
             pages:
