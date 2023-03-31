@@ -47,10 +47,10 @@ function validataToken() {
   if (window.localStorage.refreshtime && (curTime <= refreshtime)) {
     saveRefreshtime(); //刷新Token过期时间
 
-    if (!store.state.loginToken) {
-      store.commit("saveLoginToken", window.localStorage.loginToken)
+    if (!store.state.login.loginToken) {
+      store.commit("SET_LOGIN_TOKEN", window.localStorage.loginToken)
     }
-    if (!store.state.tokenExpire) {
+    if (!store.state.login.tokenExpire) {
       store.commit("savetokenExpire", window.localStorage.tokenExpire)
     }
 

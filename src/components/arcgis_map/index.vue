@@ -109,19 +109,6 @@
   #mapType .earth {
     background-position: 0 -181px;
   }
-
-  #mapType .threeD {
-    right: 0px;
-    z-index: 0;
-  }
-
-  #mapType:hover .threeD {
-    right: 120px;
-  }
-
-  #mapType .threeD {
-    background-position: 0 -362px;
-  }
 }
 
 .app-right-top {

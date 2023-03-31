@@ -3,20 +3,6 @@
     background: whitesmoke;
 }
 
-.shi {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    top: calc(50% - 25px);
-    left: calc(50% - 25px);
-    font-size: 50px;
-    color: red;
-    z-index: 99999;
-    text-align: center;
-    line-height: 50px;
-    font-weight: 100;
-}
-
 #mapType {
     cursor: pointer;
     -webkit-transition: all 0.4s ease;
@@ -91,9 +77,6 @@
 </style>
 <template>
     <div :id="id" @mouseover="getmapid" class="map-content">
-        <div v-show="this.$store.getters.ishowsz" class="shi">
-            <Icon type="ios-add"></Icon>
-        </div>
         <div id="mapType">
             <div class="mapTypeCard normal active" id="baselayer0" @click="getLayer('baselayer0')" title="地图">
                 <span>地图</span>

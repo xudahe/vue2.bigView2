@@ -6,7 +6,7 @@
 </style>
 <template>
     <div id="homemain">
-        <component :is="classname"></component>
+        <v-header />
         <router-view style="width:100%;height: calc(100% - 0.79rem);" />
     </div>
 </template>
@@ -18,50 +18,23 @@
 
 <script>
 import Vue from 'vue';
-import bus from "@/eventBus.js";
 import NavConfig from "@/router/nav.configCompent.yml";
-import header4 from '../../components/header/index4.vue';
-import header3 from '../../components/header/index3.vue';
-import header2 from '../../components/header/index2.vue';
-import header1 from '../../components/header/index1.vue';
+import vHeader from '@/views/header/index.vue';
 
 export default {
     components: {
-        header4,
-        header3,
-        header2,
-        header1
+        vHeader,
     },
     watch: {
         $route(to, from) {
-
+            console.log(to)
         }
     },
     data() {
         return {
-            classname: "",
         };
     },
     mounted() {
-        let theme = this.$store.getters.templates;
-        switch (theme) {
-            case '001':
-                this.classname = 'header1';
-                break;
-            case '002':
-                this.classname = 'header2';
-                break;
-            case '003':
-                this.classname = 'header3';
-                break;
-            case '004':
-                this.classname = 'header4';
-                break;
-            default:
-            case '001':
-                this.classname = 'header1';
-                break;
-        }
     },
     beforeDestroy() {
     },

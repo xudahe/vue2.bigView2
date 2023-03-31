@@ -7,7 +7,7 @@
 
 
 <script>
-import bus from "@/eventBus.js";
+import { mapGetters } from "vuex";
 import platform4 from "@/components/platform/index4.vue"
 import platform3 from "@/components/platform/index3.vue"
 import platform2 from "@/components/platform/index2.vue"
@@ -21,12 +21,9 @@ export default {
         platform2,
         platform1
     },
-    watch: {
-        $route(to, from) {
-
-        }
+    computed: {
+        ...mapGetters(["templates"])
     },
-    props: {},
     data() {
         return {
             classname: "platform1",
@@ -36,8 +33,7 @@ export default {
 
     },
     mounted() {
-        let theme = this.$store.getters.templates;
-        switch (theme) {
+        switch (this.templates) {
             case '001':
                 this.classname = 'platform1';
                 break;

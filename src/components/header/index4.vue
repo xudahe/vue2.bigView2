@@ -94,10 +94,10 @@ export default {
         },
         accountSwitches(name) {
             if (name == '退出登录') {
-                this.$router.push({
-                    name: 'login'
+                this.$store.dispatch("LogOut").then(() => {
+                    this.$router.push({ path: "/login" });
                 });
-                window.location.reload()
+                // window.location.reload()
             } else if (name == '密码修改') {
 
             }

@@ -171,10 +171,10 @@ export default {
                     });
                     break;
                 case "退出登录":
-                    this.$router.push({
-                        name: 'login'
+                    this.$store.dispatch("LogOut").then(() => {
+                        this.$router.push({ path: "/login" });
                     });
-                    window.location.reload()
+                    // window.location.reload()
                     break;
                 default:
                     break;

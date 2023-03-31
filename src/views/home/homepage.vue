@@ -9,11 +9,11 @@
 					<component :is="item.classname"></component>
 				</CarouselItem>
 			</Carousel>
-			</div> -->
+				</div> -->
 	</div>
 </template>
 <script>
-import bus from "@/eventBus.js";
+import { mapGetters } from "vuex";
 import homepage4 from "@/components/homepage/index4.vue"
 import homepage3 from "@/components/homepage/index3.vue"
 import homepage2 from "@/components/homepage/index2.vue"
@@ -28,10 +28,8 @@ export default {
 		homepage2,
 		homepage1,
 	},
-	watch: {
-		$route(to, from) {
-
-		}
+	computed: {
+		...mapGetters(["templates"])
 	},
 	data() {
 		return {
@@ -44,8 +42,7 @@ export default {
 
 	},
 	mounted() {
-		let theme = this.$store.getters.templates;
-		switch (theme) {
+		switch (this.templates) {
 			case '001':
 				this.classname = 'homepage1';
 				break;

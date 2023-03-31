@@ -8,7 +8,6 @@ export default {
     mapitemsload: Object, //分屏预加载图层
     mapitemslayers: [], //分屏预加载图层
     layertree: [], //图层获取树
-    ishowsz: false, //是否显示十字丝
   },
   mutations: {
     GISToken (state, arg) {
@@ -33,9 +32,6 @@ export default {
     mapitemslayers(state, arg) {
       state.mapitemslayers = arg;
     },
-    ishowsz(state, arg) {
-      state.ishowsz = arg;
-    },
   },
   actions: {
     GISToken ({commit}, arg) {
@@ -58,9 +54,6 @@ export default {
     },
     mapitemslayers ({commit}, arg) {
       commit("mapitemslayers", arg);
-    },
-    ishowsz ({commit}, arg) {
-      commit("ishowsz", arg);
     },
   }
 }

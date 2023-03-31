@@ -11,9 +11,9 @@ const mixin = {
         ]),
     },
     created() {
-        // var theme = localStorage.theme;
-        // if(theme) {
-        //     this.templatesMu(theme);
+        // var themeVal = localStorage.themeVal;
+        // if(themeVal) {
+        //     this.templatesMu(themeVal);
         // }
     },
     methods: {

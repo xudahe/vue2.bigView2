@@ -7,7 +7,7 @@
 
 
 <script>
-import bus from "@/eventBus.js";
+import { mapGetters } from "vuex";
 import application4 from "@/components/application/index4.vue"
 import application3 from "@/components/application/index3.vue"
 import application2 from "@/components/application/index2.vue"
@@ -21,12 +21,9 @@ export default {
 		application2,
 		application1
 	},
-	watch: {
-		$route(to, from) {
-
-		}
-	},
-	props: {},
+	computed: {
+        ...mapGetters(["templates"])
+    },
 	data() {
 		return {
 			classname: "application1",
@@ -36,8 +33,7 @@ export default {
 
 	},
 	mounted() {
-		let theme = this.$store.getters.templates;
-		switch (theme) {
+		switch (this.templates) {
 			case '001':
 				this.classname = 'application1';
 				break;

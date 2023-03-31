@@ -39,11 +39,11 @@ if (process.env.NODE_ENV === 'production') {
 //添加request请求拦截器
 axios.interceptors.request.use(config => {
   var curTime = new Date()
-  var expiretime = new Date(Date.parse(store.state.tokenExpire))
+  var expiretime = new Date(Date.parse(store.state.login.tokenExpire))
 
   // 判断是否存在token，如果存在的话，则每个http header都加上token
-  if (store.state.loginToken && (curTime < expiretime && store.state.tokenExpire)) {
-    config.headers.Authorization = "Bearer " + store.state.loginToken;
+  if (store.state.login.loginToken && (curTime < expiretime && store.state.login.tokenExpire)) {
+    config.headers.Authorization = "Bearer " + store.state.login.loginToken;
   }
 
   saveRefreshtime();
@@ -224,8 +224,8 @@ const httpServer = (opts, data) => {
  * @param {*} params 
  */
 const ToLogin = params => {
-  store.commit("saveLoginToken", "");
-  store.commit("saveTokenExpire", "");
+  store.commit("SET_LOGIN_TOKEN", "");
+  store.commit("SET_TOKEN_EXPIRE", "");
 
   router.replace({
     path: "/login",
@@ -233,8 +233,6 @@ const ToLogin = params => {
       redirect: router.currentRoute.fullPath
     }
   });
-
-  // window.location.reload()
 };
 
 /**

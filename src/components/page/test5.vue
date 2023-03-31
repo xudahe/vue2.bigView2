@@ -29,9 +29,6 @@ export default {
         };
     },
     methods: {
-        changeSwitch(value) {
-            this.$store.dispatch('ishowsz', value);
-        },
         Splitscreen() {
             if (this.items.length < 2 || this.items.length > 9) {
                 this.$Message.error("不能满足分屏要求");
