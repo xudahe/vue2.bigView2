@@ -1,4 +1,12 @@
 export default [{
+  path: "/platform",
+  name: "platform",
+  meta: {
+    title: "平台"
+  },
+  component: () => import('@/views/home/platform'),
+  children: []
+}, {
   path: "/homepage",
   name: "homepage",
   meta: {

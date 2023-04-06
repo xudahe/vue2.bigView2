@@ -29,28 +29,30 @@
       <div class="compare-right">
         <div class="compare-right-toolbar">
           <el-radio-group v-model="compareMode" size="mini">
+            <el-radio-button label="单屏"></el-radio-button>
             <el-radio-button label="双屏"></el-radio-button>
             <el-radio-button label="三屏"></el-radio-button>
             <el-radio-button label="四屏"></el-radio-button>
             <el-radio-button label="五屏"></el-radio-button>
             <el-radio-button label="六屏"></el-radio-button>
+            <el-radio-button label="七屏"></el-radio-button>
+            <el-radio-button label="八屏"></el-radio-button>
+            <el-radio-button label="九屏"></el-radio-button>
           </el-radio-group>
         </div>
         <div class="compare-right-layout" @dragleave="onDragLeave">
-          <div :class="screenClass(item)" v-for="item in compareNum" :key="item" @dragover="onDragOver(item, $event)"
-            @drop="onDragDrop(item, $event)">
-
+          <div v-for="(item, index) in compareNum" @dragover="onDragOver(item, $event)" @drop="onDragDrop(item, $event)"
+            :class="screenClass(item)">
             <div class="compare-screen-data">
               <div class="screen-data__title">{{ item }}</div>
               <div class="screen-data__id">
-                <div>专题ID</div>
-                <div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                  {{ screenTopics[item - 1].topic ? screenTopics[item - 1].topic.FEATUREID : "未选择" }}</div>
+                <div>
+                  {{ screenTopics[item - 1].topic ? screenTopics[item - 1].topic.FEATUREID : "专题ID" }}
+                </div>
               </div>
               <div class="screen-data__name">
-                <div>专题名</div>
-                <div style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                  {{ screenTopics[item - 1].topic ? screenTopics[item - 1].topic.FEATURENAME : "未选择" }}
+                <div>
+                  {{ screenTopics[item - 1].topic ? screenTopics[item - 1].topic.FEATURENAME : "专题名" }}
                 </div>
               </div>
             </div>
@@ -71,6 +73,7 @@ import DragPop from "@/api/mixins/dragPop";
 import ArrBase from "@/api/mixins/arrBase";
 
 export default {
+  name:'test6',
   mixins: [DragPop, ArrBase],
   components: {
 
@@ -4519,45 +4522,59 @@ export default {
           ],
           "className": "icon-special"
         },
-      
       ],
       compareNum: 2,
       compareMode: "双屏",
       screenMode: {
+        单屏: "one-screen",
         双屏: "two-screen",
         三屏: "three-screen",
         四屏: "four-screen",
         五屏: "five-screen",
-        六屏: "six-screen"
+        六屏: "six-screen",
+        七屏: "seven-screen",
+        八屏: "eight-screen",
+        九屏: "nine-screen",
       },
+
       currentScreenIndex: -1,
       currentDraggingTopic: {},
-      screenTopics: [
-        {
-          id: 1,
-          topic: null
-        },
-        {
-          id: 2,
-          topic: null
-        },
-        {
-          id: 3,
-          topic: null
-        },
-        {
-          id: 4,
-          topic: null
-        },
-        {
-          id: 5,
-          topic: null
-        },
-        {
-          id: 6,
-          topic: null
-        }
-      ],
+      screenTopics: [{
+        id: 1,
+        topic: null
+      },
+      {
+        id: 2,
+        topic: null
+      },
+      {
+        id: 3,
+        topic: null
+      },
+      {
+        id: 4,
+        topic: null
+      },
+      {
+        id: 5,
+        topic: null
+      },
+      {
+        id: 6,
+        topic: null
+      },
+      {
+        id: 7,
+        topic: null
+      },
+      {
+        id: 8,
+        topic: null
+      },
+      {
+        id: 9,
+        topic: null
+      }],
       onDragging: false
     };
   },
@@ -4566,9 +4583,9 @@ export default {
     screenClass() {
       return function (item) {
         if (item === this.currentScreenIndex) {
-          return `${this.screenMode[this.compareMode]} screen${item} active`;
+          return `${this.screenMode[this.compareMode]}${item} screen active`;
         }
-        return `${this.screenMode[this.compareMode]} screen${item}`;
+        return `${this.screenMode[this.compareMode]}${item} screen`;
       };
     }
   },
@@ -4579,11 +4596,15 @@ export default {
 
     compareMode(newVal) {
       const screenNumList = {
+        单屏: 1,
         双屏: 2,
         三屏: 3,
         四屏: 4,
         五屏: 5,
-        六屏: 6
+        六屏: 6,
+        七屏: 7,
+        八屏: 8,
+        九屏: 9,
       };
       this.compareNum = screenNumList[newVal];
     },
@@ -4692,12 +4713,12 @@ export default {
 <style scoped>
 .custom-compare {
   height: auto;
-  width: 600px;
+  width: 800px;
 }
 
 .custom-compare-content {
   position: relative;
-  height: 324px;
+  height: 424px;
   background: #f0f0f0;
 }
 
@@ -4724,7 +4745,7 @@ export default {
   position: absolute;
   height: 100%;
   right: 0;
-  width: 420px;
+  width: calc(100% - 180px);
   border: 1px solid #e5e5e5;
 }
 
@@ -4749,27 +4770,14 @@ export default {
 
 
 /* .active, */
-.two-screen.active,
-.three-screen.active,
-.four-screen.active,
-.five-screen.active,
-.six-screen.active {
+.screen.active {
   border: 1px solid cyan !important;
   transform: scale(0.95);
   box-shadow: 5px 20px 30px rgba(0, 0, 0, 0, 0.2);
   transition: box-shadow 0.5s, transform 0.5s;
 }
 
-/* 双屏样式 */
-.two-screen.screen1,
-.two-screen.screen2 {
-  height: 100%;
-  width: 50%;
-  float: left;
-  border: 1px solid #e5e5e5;
-}
-
-.two-screen .compare-screen-data {
+.screen .compare-screen-data {
   position: relative;
   height: 100%;
   width: 100%;
@@ -4780,7 +4788,7 @@ export default {
   transition: box-shadow 0.5s, transform 0.5s;
 }
 
-.two-screen .compare-screen-data .screen-data__title {
+.screen .compare-screen-data .screen-data__title {
   position: absolute;
   height: 20px;
   width: 20px;
@@ -4790,24 +4798,24 @@ export default {
   font-size: 20px;
 }
 
-.two-screen .compare-screen-data .screen-data__id {
+.screen .compare-screen-data .screen-data__id {
   position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 40px;
-  top: 70px;
+  height: 30px;
+  width: 50%;
+  left: 25%;
+  top: 25%;
   background: #006767;
   text-align: center;
   font-size: 14px;
   color: #fff;
 }
 
-.two-screen .compare-screen-data .screen-data__name {
+.screen .compare-screen-data .screen-data__name {
   position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 40px;
-  top: 120px;
+  height: 30px;
+  width: 50%;
+  left: 25%;
+  top: 51%;
   background: #006767;
   text-align: center;
   font-size: 14px;
@@ -4816,48 +4824,17 @@ export default {
   text-overflow: ellipsis;
 }
 
-.two-screen .compare-screen-data::before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 0;
-  width: 0;
-  left: 0;
-  top: 0;
-  border: 30px solid;
-  border-color: #006767 transparent transparent #006767;
-  filter: drop-shadow(4px -4px 2px rgba(0, 0, 0, 0.5));
-}
-
-
-/* 三屏样式 */
-.three-screen.screen1 {
-  height: 100%;
-  width: 70%;
-  float: left;
-  border: 1px solid #e5e5e5;
-}
-
-.three-screen.screen2,
-.three-screen.screen3 {
-  height: 50%;
-  width: 30%;
-  float: left;
-  border: 1px solid #e5e5e5;
-}
-
-.three-screen .compare-screen-data {
-  position: relative;
+.screen .compare-screen-data .screen-data__id div,
+.screen .compare-screen-data .screen-data__name div {
+  line-height: 200%;
   height: 100%;
   width: 100%;
-  background: #fff;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   overflow: hidden;
-  box-shadow: 0;
-  transform: scale(1);
-  transition: box-shadow 0.5s, transform 0.5s;
 }
 
-.three-screen.screen1 .compare-screen-data::before {
+.screen .compare-screen-data::before {
   content: "";
   display: block;
   position: absolute;
@@ -4870,358 +4847,420 @@ export default {
   filter: drop-shadow(4px -4px 2px rgba(0, 0, 0, 0.5));
 }
 
-.three-screen.screen2 .compare-screen-data::before,
-.three-screen.screen3 .compare-screen-data::before {
-  content: "";
-  display: block;
+
+
+/*分屏样式*/
+/*1*/
+.one-screen1 {
   position: absolute;
-  height: 0;
-  width: 0;
-  left: 0;
-  top: 0;
-  border: 20px solid;
-  border-color: #006767 transparent transparent #006767;
-  filter: drop-shadow(4px -4px 2px rgba(0, 0, 0, 0.5));
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  bottom: 0px;
+  /*border: 1px solid #e5e5e5;*/
 }
 
-.three-screen.screen1 .compare-screen-data .screen-data__title {
+/*2*/
+.two-screen1 {
   position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 10px;
-  top: 10px;
-  color: #fff;
-  font-size: 20px;
-}
-
-.three-screen.screen1 .compare-screen-data .screen-data__id {
-  position: absolute;
-  height: 40px;
-  width: 200px;
-  left: 40px;
-  top: 70px;
-  background: #006767;
-  text-align: center;
-  font-size: 14px;
-  color: #fff;
-}
-
-.three-screen.screen1 .compare-screen-data .screen-data__name {
-  position: absolute;
-  height: 40px;
-  width: 200px;
-  left: 40px;
-  top: 120px;
-  background: #006767;
-  text-align: center;
-  font-size: 14px;
-  color: #fff;
-}
-
-.three-screen.screen2 .compare-screen-data .screen-data__title,
-.three-screen.screen3 .compare-screen-data .screen-data__title {
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 6px;
-  top: 2px;
-  color: #fff;
-  font-size: 18px;
-}
-
-.three-screen.screen2 .compare-screen-data .screen-data__id,
-.three-screen.screen3 .compare-screen-data .screen-data__id {
-  position: absolute;
-  height: 40px;
-  width: 100px;
-  left: 10px;
-  top: 40px;
-  background: #006767;
-  text-align: center;
-  font-size: 10px;
-  color: #fff;
-}
-
-.three-screen.screen2 .compare-screen-data .screen-data__name,
-.three-screen.screen3 .compare-screen-data .screen-data__name {
-  position: absolute;
-  height: 40px;
-  width: 100px;
-  left: 10px;
-  top: 90px;
-  background: #006767;
-  text-align: center;
-  font-size: 10px;
-  color: #fff;
-}
-
-/* 四屏样式 */
-.four-screen.screen1,
-.four-screen.screen2,
-.four-screen.screen3,
-.four-screen.screen4 {
-  float: left;
-  height: 50%;
+  left: 0px;
   width: 50%;
+  height: 100%;
+  top: 0px;
   border: 1px solid #e5e5e5;
 }
 
-.four-screen .compare-screen-data {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background: #fff;
-  overflow: hidden;
-  box-shadow: 0;
-  transform: scale(1);
-  transition: box-shadow 0.5s, transform 0.5s;
-}
-
-.four-screen .compare-screen-data::before {
-  content: "";
-  display: block;
+.two-screen2 {
   position: absolute;
-  height: 0;
-  width: 0;
-  left: 0;
-  top: 0;
-  border: 30px solid;
-  border-color: #006767 transparent transparent #006767;
-  filter: drop-shadow(4px -4px 2px rgba(0, 0, 0, 0.5));
-}
-
-.four-screen .compare-screen-data .screen-data__title {
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 10px;
-  top: 10px;
-  color: #fff;
-  font-size: 20px;
-}
-
-.four-screen .compare-screen-data .screen-data__id {
-  position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 40px;
-  top: 40px;
-  background: #006767;
-  text-align: center;
-  font-size: 14px;
-  color: #fff;
-}
-
-.four-screen .compare-screen-data .screen-data__name {
-  position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 40px;
-  top: 90px;
-  background: #006767;
-  text-align: center;
-  font-size: 14px;
-  color: #fff;
-}
-
-/* 五屏样式 */
-.five-screen.screen1 {
-  float: left;
-  height: 100%;
+  right: 0px;
   width: 50%;
-  border: 1px solid #e5e5e5;
-}
-
-.five-screen.screen2,
-.five-screen.screen3,
-.five-screen.screen4,
-.five-screen.screen5 {
-  float: left;
-  height: 50%;
-  width: 25%;
-  border: 1px solid #e5e5e5;
-}
-
-.five-screen .compare-screen-data {
-  position: relative;
   height: 100%;
-  width: 100%;
-  background: #fff;
-  overflow: hidden;
-  box-shadow: 0;
-  transform: scale(1);
-  transition: box-shadow 0.5s, transform 0.5s;
-}
-
-.five-screen.screen1 .compare-screen-data::before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 0;
-  width: 0;
-  left: 0;
-  top: 0;
-  border: 30px solid;
-  border-color: #006767 transparent transparent #006767;
-  filter: drop-shadow(4px -4px 2px rgba(0, 0, 0, 0.5));
-}
-
-.five-screen.screen2 .compare-screen-data::before,
-.five-screen.screen3 .compare-screen-data::before,
-.five-screen.screen4 .compare-screen-data::before,
-.five-screen.screen5 .compare-screen-data::before {
-  content: "";
-  display: block;
-  position: absolute;
-  height: 0;
-  width: 0;
-  left: 0;
-  top: 0;
-  border: 20px solid;
-  border-color: #006767 transparent transparent #006767;
-  filter: drop-shadow(4px -4px 2px rgba(0, 0, 0, 0.5));
-}
-
-.five-screen.screen1 .compare-screen-data .screen-data__title {
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 10px;
-  top: 10px;
-  color: #fff;
-  font-size: 20px;
-}
-
-.five-screen.screen2 .compare-screen-data .screen-data__title,
-.five-screen.screen3 .compare-screen-data .screen-data__title,
-.five-screen.screen4 .compare-screen-data .screen-data__title,
-.five-screen.screen5 .compare-screen-data .screen-data__title {
-  position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 6px;
-  top: 2px;
-  color: #fff;
-  font-size: 18px;
-}
-
-.five-screen.screen1 .compare-screen-data .screen-data__id {
-  position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 40px;
-  top: 90px;
-  background: #006767;
-  text-align: center;
-  font-size: 14px;
-  color: #fff;
-}
-
-.five-screen.screen2 .compare-screen-data .screen-data__id,
-.five-screen.screen3 .compare-screen-data .screen-data__id,
-.five-screen.screen4 .compare-screen-data .screen-data__id,
-.five-screen.screen5 .compare-screen-data .screen-data__id {
-  position: absolute;
-  height: 40px;
-  width: 80px;
-  left: 10px;
-  top: 40px;
-  background: #006767;
-  text-align: center;
-  font-size: 10px;
-  color: #fff;
-}
-
-.five-screen.screen1 .compare-screen-data .screen-data__name {
-  position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 40px;
-  top: 140px;
-  background: #006767;
-  text-align: center;
-  font-size: 14px;
-  color: #fff;
-}
-
-.five-screen.screen2 .compare-screen-data .screen-data__name,
-.five-screen.screen3 .compare-screen-data .screen-data__name,
-.five-screen.screen4 .compare-screen-data .screen-data__name,
-.five-screen.screen5 .compare-screen-data .screen-data__name {
-  position: absolute;
-  height: 40px;
-  width: 80px;
-  left: 10px;
-  top: 90px;
-  background: #006767;
-  text-align: center;
-  font-size: 10px;
-  color: #fff;
-}
-
-/* 六屏样式 */
-.six-screen {
-  float: left;
-  height: 50%;
-  width: 33.3%;
+  top: 0px;
   border: 1px solid #e5e5e5;
 }
 
-.six-screen .compare-screen-data {
-  position: relative;
+/*3*/
+.three-screen1 {
+  position: absolute;
+  left: 0px;
+  width: 50%;
   height: 100%;
-  width: 100%;
-  background: #fff;
-  overflow: hidden;
-  box-shadow: 0;
-  transform: scale(1);
-  transition: box-shadow 0.5s, transform 0.5s;
+  top: 0px;
+  border: 1px solid #e5e5e5;
 }
 
-.six-screen .compare-screen-data::before {
-  content: "";
-  display: block;
+.three-screen2 {
   position: absolute;
-  height: 0;
-  width: 0;
-  left: 0;
-  top: 0;
-  border: 20px solid;
-  border-color: #006767 transparent transparent #006767;
-  filter: drop-shadow(4px -4px 2px rgba(0, 0, 0, 0.5));
+  right: 0px;
+  width: 50%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
 }
 
-.six-screen .compare-screen-data .screen-data__title {
+.three-screen3 {
   position: absolute;
-  height: 20px;
-  width: 20px;
-  left: 6px;
-  top: 2px;
-  color: #fff;
-  font-size: 18px;
+  right: 0px;
+  width: 50%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
 }
 
-.six-screen .compare-screen-data .screen-data__id {
+/*4*/
+.four-screen1 {
   position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 10px;
-  top: 40px;
-  background: #006767;
-  text-align: center;
-  font-size: 10px;
-  color: #fff;
+  left: 0px;
+  width: 50%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
 }
 
-.six-screen .compare-screen-data .screen-data__name {
+.four-screen4 {
   position: absolute;
-  height: 40px;
-  width: 120px;
-  left: 10px;
-  top: 90px;
-  background: #006767;
-  text-align: center;
-  font-size: 10px;
-  color: #fff;
+  left: 0px;
+  width: 50%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.four-screen2 {
+  position: absolute;
+  right: 0px;
+  width: 50%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.four-screen3 {
+  position: absolute;
+  right: 0px;
+  width: 50%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+/*5*/
+.five-screen1 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 100%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.five-screen2 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.five-screen5 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.five-screen3 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.five-screen4 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+/*6*/
+.six-screen1 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.six-screen2 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.six-screen3 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.six-screen4 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.six-screen5 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.six-screen6 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+/*7*/
+.seven-screen1 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 100%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.seven-screen2 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.seven-screen3 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.seven-screen4 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 33.3%;
+  border: 1px solid #e5e5e5;
+}
+
+.seven-screen5 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 33.33%;
+  border: 1px solid #e5e5e5;
+}
+
+.seven-screen6 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.seven-screen7 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+/*8*/
+.eight-screen1 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 50%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.eight-screen2 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.eight-screen3 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.eight-screen4 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 33.33%;
+  border: 1px solid #e5e5e5;
+}
+
+.eight-screen5 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 33.33%;
+  border: 1px solid #e5e5e5;
+}
+
+.eight-screen6 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.eight-screen7 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.eight-screen8 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 50%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+/*9*/
+.nine-screen1 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 33.33%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen2 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen3 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen4 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 33.33%;
+  top: 33.33%;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen5 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 33.33%;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen6 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  top: 33.33%;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen7 {
+  position: absolute;
+  left: 0px;
+  width: 33.33%;
+  height: 33.33%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen8 {
+  position: absolute;
+  left: 33.33%;
+  width: 33.33%;
+  height: 33.33%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
+}
+
+.nine-screen9 {
+  position: absolute;
+  left: 66.66%;
+  width: 33.33%;
+  height: 33.33%;
+  bottom: 0px;
+  border: 1px solid #e5e5e5;
 }
 </style>

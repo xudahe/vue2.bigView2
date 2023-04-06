@@ -170,10 +170,7 @@ module.exports = defineConfig({
         // }
       },
       module: {
-        rules: [{
-          test: /\.yml$/,
-          loader: 'yaml-loader'
-        }, ]
+        rules: []
       }
     }
   },

@@ -18,7 +18,6 @@
 
 <script>
 import Vue from 'vue';
-import NavConfig from "@/router/nav.configCompent.yml";
 import vHeader from '@/views/header/index.vue';
 
 export default {
@@ -39,43 +38,20 @@ export default {
     beforeDestroy() {
     },
     methods: {
-        //注册组件
-        regeisterComponent(NavConfig) {
-            Object.keys(NavConfig).forEach((lang, idx) => {
-                const pageNavs = NavConfig[lang];
 
-                pageNavs.forEach(nav => {
-                    nav.groups && nav.groups.forEach(group => {
-                        group.items.forEach(item => {
-                            if (item.details) {
-                                item.details.forEach(detail => {
-                                    if (detail.pages) {
-                                        detail.pages.forEach(page => {
-                                            Vue.component(page.name, function (resolve) {
-                                                require([`@/${nav.name}/${group.name}/${item.name}/${detail.name}/${page.name}.vue`], resolve);
-                                            });
-                                        });
-                                    }
-                                    else {
-                                        Vue.component(detail.name, function (resolve) {
-                                            require([`@/${nav.name}/${group.name}/${item.name}/${detail.name}.vue`], resolve);
-                                        });
-                                    }
-                                });
-                            } else {
-                                Vue.component(item.name, function (resolve) {
-                                    require([`@/${nav.name}/${group.name}/${item.name}.vue`], resolve);
-                                });
-                            }
-                        });
-                    });
-                });
-            });
-        }
     },
     created() {
-        // 开始注册组件
-        this.regeisterComponent(NavConfig);
+
+        //全局组件初始化。最终读取src/components下的所有index.vue文件进行组件注册。
+        //注意：自动注册组件依赖组件名称，因此，请在封装组件时给组件加上name字段。
+        const req = require.context('@/components/page', true, /\.vue$/)
+        //全局注册组件
+        req.keys().forEach(val => {
+            const component = req(val).default
+            console.log(component)
+            Vue.component(component.name, component)
+        })
+
         this._getLess('/public.less');
     }
 };

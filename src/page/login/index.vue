@@ -104,7 +104,6 @@ export default {
             }
         },
         handleSubmit() {
-            var that = this;
             var username = this.inputValue1;
             var password = this.inputValue2;
 
@@ -137,23 +136,7 @@ export default {
             var username = this.inputValue1;
             var password = this.inputValue2;
             if (this.inputValue1 != '') {
-                this.$http(ApiSetting.codeModule, {
-                    code: username
-                }).then(
-                    res => {
-                        if (res.data.success == true) {
-                            if (this.checkboxValue1 == true) {
-                                Cookies.set('password', password);
-                                Cookies.set('code', username);
-                            }
-                        } else {
-                            this.$refs.userNameV.innerHTML = res.data.source;
-                        }
-                    },
-                    error => {
-                        alert(error);
-                    }
-                )
+                //调用接口进行 账号验证
             } else {
                 this.$refs.userNameV.innerHTML = '用户名不能为空';
             }

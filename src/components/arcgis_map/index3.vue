@@ -261,7 +261,7 @@ export default {
             //实例化MapView对象
             let mapView = new MapView({
               map: mapControl,
-              container: "mapbox",
+              container: _this.mapId,
               center: [118.1, 32.8],
               extent: extent,
               zoom: 2

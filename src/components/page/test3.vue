@@ -63,6 +63,7 @@ import bus from "@/eventBus.js";
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
 
 export default {
+  name:'test3',
   components: {},
   data() {
     return {

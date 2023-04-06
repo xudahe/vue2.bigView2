@@ -49,6 +49,7 @@
 import bus from "@/eventBus.js";
 
 export default {
+  name:'test2',
   components: {
 
   },

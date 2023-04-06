@@ -8,7 +8,7 @@
 
 <template>
   <div>
-    <dialogtt ref="dialog" v-model="dialog.show" :title="dialog.title" :buttons="dialog.buttons" :bodyshow="dialog.bodyshow" @input="close">
+    <v-dialog ref="dialog" v-model="dialog.show" :title="dialog.title" :buttons="dialog.buttons" :bodyshow="dialog.bodyshow" @input="close">
       <div style="width: auto;min-height:50px;max-height:auto;overflow:overlay;">
         <Row style="width: auto;margin: 10px;color:#fff">
           <Col span="24">
@@ -27,17 +27,17 @@
           </Col>
         </Row>
       </div>
-    </dialogtt>
+    </v-dialog>
   </div>
 </template>
 <script>
-import dialogtt from "@/components/dialog/dialog.vue"
+import vDialog from "@/components/dialog/dialog.vue"
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
 import apiSetting from '@/api/axios/apiSetting.js';
 import bus from "@/eventBus.js";
 
 export default {
-  components: { dialogtt },
+  components: { vDialog },
   data() {
     return {
       dialog: {

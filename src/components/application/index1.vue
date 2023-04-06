@@ -5,9 +5,7 @@
     <div v-if="isdialog">
       <v-dialog ref="dialog" v-model="dialog.show" :title="dialog.title" :buttons="dialog.buttons"
         :bodyshow="dialog.bodyshow" @input="detailclose('dialogdetail')">
-        <div class="dialogCoor" style="margin: 0.1rem;">
-          <component :is="componentDialog" v-bind:detailData="dialogDetailData"></component>
-        </div>
+        <component :is="componentDialog" v-bind:detailData="dialogDetailData"></component>
       </v-dialog>
     </div>
 
@@ -260,7 +258,7 @@ export default {
           this.componentDialog = item.classname;
           setTimeout(() => {
             this.$refs.dialog.retresize();
-          }, 200)
+          }, 200);
           break;
       }
     },
@@ -318,15 +316,14 @@ export default {
       _this.menuData = [];
       let children = [
         { id: 1, classname: "test1", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
-        { id: 8, classname: "test2", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
+        { id: 2, classname: "test2", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
         { id: 3, classname: "test3", menuname: "二级菜单", img: "", systemid: 32, note: "右侧" },
         { id: 4, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "下侧" },
         { id: 5, classname: "test5", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
-        { id: 7, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "全屏" },
-        { id: 9, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "半屏" },
-        { id: 10, classname: "CustomCompare", menuname: "分屏对比", img: "", systemid: 32, note: "弹出窗" },
-        // { id: 6, classname: "sewagelist", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
-        // { id: 2, classname: "waterStation", menuname: "二级菜单", img: "", systemid: 32, note: "左侧" },
+        { id: 6, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "全屏" },
+        { id: 7, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "半屏" },
+        { id: 8, classname: "test6", menuname: "二级菜单", img: "", systemid: 32, note: "弹出窗" },
+        { id: 9, classname: "test4", menuname: "二级菜单", img: "", systemid: 32, note: "弹出窗" },
       ]
       for (let l = 0; l < children.length; l++) {
         _this.menuData.push({

@@ -2,12 +2,10 @@
     <div id="appComponts4" style="width:100%;height: 100%;">
         <!-- 弹出窗组件 -->
         <div v-if="isdialog">
-            <dialogtt ref="dialog" v-model="dialog.show" :title="dialog.title" :buttons="dialog.buttons"
+            <v-dialog ref="dialog" v-model="dialog.show" :title="dialog.title" :buttons="dialog.buttons"
                 :bodyshow="dialog.bodyshow" @input="detailclose('closeDialog')">
-                <div class="dialogCoor" style="margin: 0.1rem;">
-                    <component :is="componentNameLeft" v-bind:detailData="detailDataLeft"></component>
-                </div>
-            </dialogtt>
+                <component :is="componentNameLeft" v-bind:detailData="detailDataLeft"></component>
+            </v-dialog>
         </div>
 
         <!-- 左侧菜单 -->
@@ -65,12 +63,12 @@
 <script>
 import bus from "@/eventBus.js";
 import apiSetting from "@/api/axios/apiSetting";
-import dialogtt from "@/components/dialog/dialog.vue"
+import vDialog from "@/components/dialog/dialog.vue"
 import newMap from "@/components/arcgis_map/index.vue"
 export default {
     name: "application4",
     components: {
-        dialogtt,
+        vDialog,
         newMap
     },
     watch: {
