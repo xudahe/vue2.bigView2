@@ -73,7 +73,7 @@ var centerPoint;
  */
 MapControl.setMapFull = function () {
   let map = MapControl.map[MapControl.mapId];
-  let extent = mapconfig.extent_01;
+  let extent = mapconfig.extent;
 
   esriLoader.loadModules(
     ['esri/map', 'esri/geometry/Extent', 'esri/toolbars/navigation']).then(

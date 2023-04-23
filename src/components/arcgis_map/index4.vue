@@ -27,9 +27,10 @@ import * as esriLoader from "esri-loader";
 import { MapControl } from "./js/MapControl";
 import mapconfig from "./js/mapconfig";
 import {
-  onlineTdtDigitalURL,
-  onlineTdtSatelliteURL,
-  onlineTdtAnooMarkerURL
+  tdt_vec_c,
+  tdt_cva_c,
+  tdt_img_c,
+  tdt_cia_c
 } from "./js/config";
 
 var map, navToolbar;

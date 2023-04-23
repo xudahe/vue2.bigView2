@@ -345,7 +345,7 @@ export default {
     //加载地图
     createMap() {
       var _this = this;
-  
+
       //不自定义资源加载arcgis，管网加载有时慢会失败
       const options = {
         url: 'https://js.arcgis.com/3.27/init.js', //指定的arcgis api版本地址
@@ -415,6 +415,10 @@ export default {
             // maxZoom: 18 // 最大缩放级别
           });
 
+          //arcgis 在线切片底图图
+          var myTileLayer = new ArcGISTiledMapServiceLayer("https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer");
+          map.addLayer(myTileLayer)
+
           // const basemapurl = mapconfig.basemap + '?token=' + this.$store.getters.GISToken;
           // const basemaplayer = new esri.layers.ArcGISTiledMapServiceLayer(
           //   basemapurl
@@ -429,30 +433,13 @@ export default {
             mapconfig.GeometryService + '?token=' + this.$store.getters.GISToken
           );
 
-          var graphicLayer1 = new esri.layers.GraphicsLayer();
-          graphicLayer1.id = "graphicLayer1";
-          map.addLayer(graphicLayer1);
-          MapControl.graphicLayers["gralyr1"] = graphicLayer1;
-
-          var graphicLayer2 = new esri.layers.GraphicsLayer();
-          graphicLayer2.id = "graphicLayer2";
-          map.addLayer(graphicLayer2);
-          MapControl.graphicLayers["gralyr2"] = graphicLayer2;
-
-          var graphicLayer3 = new esri.layers.GraphicsLayer();
-          graphicLayer3.id = "graphicLayer3";
-          map.addLayer(graphicLayer3);
-          MapControl.graphicLayers["gralyr3"] = graphicLayer3;
-
-          var graphicLayer4 = new esri.layers.GraphicsLayer();
-          graphicLayer4.id = "graphicLayer4";
-          map.addLayer(graphicLayer4);
-          MapControl.graphicLayers["gralyr4"] = graphicLayer4;
-
-          var graphicLayer5 = new esri.layers.GraphicsLayer();
-          graphicLayer5.id = "graphicLayer5";
-          map.addLayer(graphicLayer5);
-          MapControl.graphicLayers["gralyr5"] = graphicLayer5;
+          //绘制图层
+          for (let i = 1; i < 6; i++) {
+            let graphicLayer = new esri.layers.GraphicsLayer();
+            graphicLayer.id = "graphicLayer" + i;
+            map.addLayer(graphicLayer);
+            MapControl.graphicLayers["gralyr" + i] = graphicLayer;
+          }
 
           var carLayer = new esri.layers.GraphicsLayer({
             id: "carLayer"
@@ -469,6 +456,7 @@ export default {
 
           //绑定鼠标在地图上移动事件
           map.on("mouse-move", function (event) {
+            console.log(event)
             event.scale = scaleUtils.getScale(map)
 
             _this.currentscale = {
@@ -483,12 +471,17 @@ export default {
 
           //绑定地图缩放事件
           map.on("zoom-end", function (event) {
+            console.log(event)
             event.scale = scaleUtils.getScale(map)
 
             _this.currentscale.scale = parseInt(event.scale);
             _this.$store.dispatch("mapscale", _this.currentscale);
           });
 
+          //监听地图缩放
+          map.on("update-end", function () {
+            console.log("当前地图层级：" + map.getLevel())
+          });
 
           function initFunctionality() {
             _this.$store.dispatch("mapload", true);

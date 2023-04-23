@@ -22,9 +22,8 @@
 
 import * as esriLoader from "esri-loader";
 import {
-  onlineTdtDigitalURL,
-  onlineTdtSatelliteURL,
-  onlineTdtAnooMarkerURL
+  tdt_vec_c,
+  tdt_cva_c,
 } from "./js/config";
 
 export default {
@@ -55,17 +54,15 @@ export default {
         .loadModules(
           [
             "esri/Map",
-            "esri/Basemap",
             "esri/config",
             "esri/views/MapView",
             "esri/views/SceneView",
             "esri/geometry/Extent",
             "esri/geometry/SpatialReference",
+            "esri/geometry/Point",
             "esri/layers/TileLayer",
             "esri/layers/WebTileLayer",
             "esri/layers/support/TileInfo",
-            "esri/Ground",
-            "dojo/on",
             "dojo/domReady!"
           ],
           options
@@ -73,28 +70,26 @@ export default {
         .then(
           ([
             Map,
-            Basemap,
             esriConfig,
             MapView,
             SceneView,
             Extent,
             SpatialReference,
+            Point,
             TileLayer,
             WebTileLayer,
             TileInfo,
-            Ground,
-            on
           ]) => {
-            //实例化坐标系
+            /**
+             * 实例化坐标系
+             * 创建地图，不设置底图，如果设置底图会造成坐标系无法被转换成 ESPG:4326 (WGS1984)
+             * 高版本好像不用那么麻烦了：直接就能用（4.15）：
+             */
             let spatialReference = new SpatialReference({ wkid: 4326 });
+            //实例化初始定位
+            var cityCenter = new Point(118.1, 32.8, spatialReference);
             //实例化初始范围
-            let extent = new Extent(
-              95.56,
-              36.28,
-              125.65,
-              45.33,
-              spatialReference
-            );
+            let extent = new Extent(95.56, 36.28, 125.65, 45.33, spatialReference);
 
             // 设定瓦片信息，天地图经纬度地图的切片信息全部使用该信息设定
             let tileInfo = new TileInfo({
@@ -220,52 +215,71 @@ export default {
                 },
                 {
                   level: 20,
-                  levelValue: 2,
+                  levelValue: 20,
                   resolution: 1.341104507446289075e-6,
                   scale: 563.616930119991375
                 }
               ]
             });
             //矢量底图
-            let digitalLayer = new WebTileLayer({
-              id: "digitalMap",
-              title: "digitalMap",
-              urlTemplate: onlineTdtDigitalURL,
-              subDomains: ["t0"],
-              tileInfo: tileInfo,
-              spatialReference: spatialReference
-            });
-            //影像底图
-            let satelliteLayer = new WebTileLayer({
-              urlTemplate: onlineTdtSatelliteURL,
-              subDomains: ["t0"],
+            let tdt_vec_c_layer = new WebTileLayer({
+              id: "tdt_vec_c",
+              title: "天地图矢量底图",
+              urlTemplate: tdt_vec_c,
+              subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
               tileInfo: tileInfo,
               spatialReference: spatialReference
             });
             //矢量注记
-            let anooMarkerLayer = new WebTileLayer({
-              id: "anooMarkerMap",
-              title: "anooMarkerMap",
-              urlTemplate: onlineTdtAnooMarkerURL,
-              subDomains: ["t0"],
+            let tdt_cva_c_layer = new WebTileLayer({
+              id: "tdt_cva_c",
+              title: "天地图矢量注记",
+              urlTemplate: tdt_cva_c,
+              subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
               tileInfo: tileInfo,
               spatialReference: spatialReference
             });
-            //实例化Map对象
+
+            //实例化Map对象    Map 用来管理地图中的所有图层，可以进行添加图层、移除图层等操作。
             let mapControl = new Map({
               //spatialReference:spatialReference,
               basemap: {
-                baseLayers: [digitalLayer, anooMarkerLayer]
+                baseLayers: [tdt_vec_c_layer, tdt_cva_c_layer]
               }
             });
-            //实例化MapView对象
+            //实例化一个 MapView 对象 (用于显示二维地图)
             let mapView = new MapView({
               map: mapControl,
-              container: _this.mapId,
-              center: [118.1, 32.8],
+              container: _this.mapId,  //页面中用于显示二维地图div元素的ID
+              // center: cityCenter, // 设置中心点
               extent: extent,
-              zoom: 2
+              zoom: 8,   //设置初始显示层级
+              ui: {
+                components: ["zoom", "compass"]
+              }
             });
+
+            mapControl.on("zoom-end", function (event) {
+              console.log(event)
+              event.scale = scaleUtils.getScale(mapControl)
+            });
+
+
+            mapView.on("pointer-move", (event) => {
+              let point = mapView.toMap({ x: event.x, y: event.y });
+              //保留三位小数
+              let lon = Math.round(point.x * 1000) / 1000;
+              let lat = Math.round(point.y * 1000) / 1000;
+              console.log(event);
+            });
+
+            mapView.on("click", (event) => {
+              //保留六位小数
+              let lat = Math.round(event.mapPoint.latitude * 1000000) / 1000000;
+              let lon = Math.round(event.mapPoint.longitude * 1000000) / 1000000;
+              // console.log(lon + " " + lat);
+            });
+
           }
         );
     }
