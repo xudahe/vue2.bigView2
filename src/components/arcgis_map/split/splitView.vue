@@ -486,6 +486,7 @@ export default {
     methods: {
         clearMapControl() {
             mapconfig.MapControl = {}; //置空
+            mapconfig.MapControl1 = {}; //置空
         },
         isEmptyObject(obj) {
             for (var key in obj) {
@@ -507,6 +508,8 @@ export default {
             } //第一次切换地图窗口时，以切换后的窗体作为主体，同步其他窗口
         },
         ExtentChange(value) {
+            if (!mapconfig.MapControl1[value.id]) return;
+
             if (
                 this.isEmptyObject(mapconfig.MapControl) ||
                 !this.isEmptyObject2key(mapconfig.MapControl, value.id)

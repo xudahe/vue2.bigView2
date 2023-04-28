@@ -456,7 +456,6 @@ export default {
 
           //绑定鼠标在地图上移动事件
           map.on("mouse-move", function (event) {
-            console.log(event)
             event.scale = scaleUtils.getScale(map)
 
             _this.currentscale = {
@@ -471,7 +470,6 @@ export default {
 
           //绑定地图缩放事件
           map.on("zoom-end", function (event) {
-            console.log(event)
             event.scale = scaleUtils.getScale(map)
 
             _this.currentscale.scale = parseInt(event.scale);

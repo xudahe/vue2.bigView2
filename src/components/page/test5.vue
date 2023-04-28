@@ -47,7 +47,6 @@ export default {
 
             this.$store.dispatch('mapitems', mapbox);
             this.$store.dispatch('mapitemsload', layeritem);
-            this.$store.dispatch('mapitemslayers', this.items);
         },
         //重置
         Reset() {
@@ -55,7 +54,6 @@ export default {
             this.items = [];
             this.$store.dispatch('mapitems', []);
             this.$store.dispatch('mapitemsload', {});
-            this.$store.dispatch('mapitemslayers', []);
             MapControl.setMapClear();
         },
     },

@@ -34,7 +34,7 @@
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
 import bus from '@/eventBus.js';
 
-import esriLoader from 'esri-loader';
+import * as esriLoader from 'esri-loader';
 
 var identifyHandler;
 var hiddfields = "objectid,shape,FEATURECODE,SHAPEONE,syzt,pkstatus,hjpdyj,hjgldh,关联表名";
@@ -98,7 +98,6 @@ export default {
       }
 
       let map = MapControl.map[MapControl.mapId];
-      debugger
       map.setMapCursor("default");
 
       switch (item.value) {
@@ -128,6 +127,7 @@ export default {
 
                   let geometry = MapControl.WktToAgs(item.shape)
                   _this.showGraphic(geometry, 0, "gralyr2", "#ff0000", 12);
+                  _this.initial_point = item.shape;
                 }
                 else {
                   for (var i = 0; i < _this.mapurl.length; i++) {
@@ -356,8 +356,8 @@ export default {
             break;
           case 'extent':
             geo = new Polygon(geo);
-            symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri
-              .symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH,
+            symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+              new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH,
                 new dojo.Color(color == undefined ? [0, 255, 255] : color), 3),
               new dojo.Color(color == undefined ? [0, 0, 0, 0.25] : color));
             showExtent = geo.getExtent();

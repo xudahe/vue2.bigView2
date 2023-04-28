@@ -114,7 +114,7 @@
 <script>
 import bus from "@/eventBus.js";
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
-import arcgisMap from "@/components/arcgis_map/index3.vue";
+import arcgisMap from "@/components/arcgis_map/index.vue";
 import splitView from "@/components/arcgis_map/split/splitView.vue";
 import vDialog from "@/components/dialog/dialog.vue";
 

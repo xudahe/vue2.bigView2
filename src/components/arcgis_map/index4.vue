@@ -54,7 +54,7 @@ export default {
       var _this = this;
 
       const options = {
-        url: "https://js.arcgis.com/4.12/", // 需使用的arcgis api版本地址
+        url: "https://js.arcgis.com/4.7/", // 需使用的arcgis api版本地址
         css: true
       };
 

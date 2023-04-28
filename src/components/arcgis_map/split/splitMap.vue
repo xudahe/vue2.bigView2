@@ -2,91 +2,13 @@
 .map-content {
     background: whitesmoke;
 }
-
-#mapType {
-    cursor: pointer;
-    -webkit-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-    background-color: rgba(249, 248, 248, 0);
-}
-
-#mapType:hover {
-    width: 120px;
-    background-color: rgba(249, 248, 248, 0.8);
-}
-
-#mapType:hover .earth {
-    right: 60px;
-}
-
-#mapType:hover .scape {
-    right: 120px;
-}
-
-#mapType .mapTypeCard {
-    height: 36px;
-    width: 53px;
-    position: absolute;
-    border-radius: 2px;
-    bottom: 5px;
-    box-sizing: border-box;
-    background: url(@/assets/img/maptype.png);
-    -webkit-transition: all 0.4s ease;
-    transition: all 0.4s ease;
-}
-
-.mapTypeCard.active {
-    border: 1px solid #3385ff;
-}
-
-#mapType .mapTypeCard.active span,
-#mapType .mapTypeCard:hover span {
-    background-color: #3385ff;
-}
-
-#mapType .mapTypeCard span {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    display: inline-block;
-    font-size: 12px;
-    height: 12px;
-    line-height: 12px;
-    color: #fff;
-    border-top-left-radius: 2px;
-}
-
-#mapType .mapTypeCard:hover {
-    border: 1px solid #3385ff;
-}
-
-#mapType .earth {
-    right: 0px;
-    z-index: 1;
-}
-
-#mapType .normal {
-    z-index: 2;
-    background-position: 0 0;
-    right: 0px;
-}
-
-#mapType .earth {
-    background-position: 0 -181px;
-}
 </style>
+
 <template>
     <div :id="id" @mouseover="getmapid" class="map-content">
-        <div id="mapType">
-            <div class="mapTypeCard normal active" id="baselayer0" @click="getLayer('baselayer0')" title="地图">
-                <span>地图</span>
-            </div>
-            <div class="mapTypeCard earth" id="imagelayer0" @click="getLayer('imagelayer0')" title="影像">
-                <span>影像</span>
-            </div>
-        </div>
         <div style="position: absolute;z-index: 3;bottom: 10px;margin-left: 10px;font-size: 16px;font-weight: bolder;">
-            {{ this.$store.getters.mapitemsload[id][0].servicename }}</div>
+            {{ this.$store.getters.mapitemsload[id][0].servicename }}
+        </div>
     </div>
 </template>
 <script>
@@ -115,7 +37,7 @@ export default {
 
             //自定义资源加载arcgis
             const options = {
-                url: mapconfig.arcgisUrl, //指定的arcgis api版本地址
+                url: 'https://js.arcgis.com/3.27/init.js', //指定的arcgis api版本地址
                 css: true,
             };
 
@@ -141,12 +63,24 @@ export default {
                         logo: false,
                         slider: false
                     });
-                    // const basemapurl = mapconfig.lsbasemap;
-                    // const basemaplayer = new esri.layers.ArcGISTiledMapServiceLayer(
-                    //     basemapurl
-                    // );
-                    // basemaplayer.id = basemapurl;
-                    // map.addLayer(basemaplayer); //添加底图
+
+                    // 3、图层顺序
+                    // 图层顺序控制可以在添加layer的时候控制，利用addLayer(layer, index)，其中index就是图层的顺序，从0、1、2、3依次增长，数字越大越靠近用户。
+                    // 假如我直接这样写：map.addLayer(featureLayer, 100)；写了100但它index不见得是100，因为它默认添加到最外图层的下一个位置，比如原来有两个图层0、1，添加上述新图层后index会改为2。
+                    // 所以不要乱插奥，当然你要是 map.addLayer(featureLayer, 1)，他还是会添加到原来两个图层之间的，这个肯定没问题。
+
+                    const basemapurl = mapconfig.basemap;
+                    const basemaplayer = new esri.layers.ArcGISTiledMapServiceLayer(
+                        basemapurl
+                    );
+                    basemaplayer.id = basemapurl;
+                    map.addLayer(basemaplayer); //添加底图
+
+
+                    let graphicLayer1 = new esri.layers.GraphicsLayer();
+                    graphicLayer1.id = that.id + "_graphicLayer";
+                    map.addLayer(graphicLayer1);
+                    MapControl.graphicLayers[graphicLayer1.id] = graphicLayer1;
 
                     map.on("load", initFunctionality);
                     map.on("mouse-move", function (event) {
@@ -160,10 +94,13 @@ export default {
 
                     });
                     function initFunctionality(value) {
-                        // let mapId = value.map.id;
-                        // MapControl.map[mapId] = value.map;
+                        let mapId = value.map.id;
+                        MapControl.mapArr[mapId] = value.map;
+
+                        mapconfig.MapControl1[mapId] = true;
+                        that.loadlayer(mapId);
+
                         // let extent = mapconfig.extent;
-                        // that.loadlayer(mapId);
                         // let mapExtent = new esri.geometry.Extent(
                         //     extent.xmin,
                         //     extent.ymin,
@@ -188,22 +125,14 @@ export default {
                 }
             }
         },
-        //地图影像切换
-        getLayer(id) {
-            if (id == "imagelayer0") {
-                MapControl.SetLayerbaseloadsplit([
-                    { url: "", isshow: false },
-                    { url: "", isshow: true }
-                ]);
-                document.getElementById("imagelayer0").style.zIndex = 2;
-                document.getElementById("baselayer0").style.zIndex = 1;
-            } else if (id == "baselayer0") {
-                MapControl.SetLayerbaseloadsplit([
-                    { url: "", isshow: true },
-                    { url: "", isshow: false }
-                ]);
-                document.getElementById("imagelayer0").style.zIndex = 1;
-                document.getElementById("baselayer0").style.zIndex = 2;
+        showIdentity() {
+            this.showident = !this.showident
+
+            if (!this.showident) {
+                let _graphic = this.view.id + '_graphicLayer'
+                if (MapControl.graphicLayers[_graphic]) {
+                    MapControl.graphicLayers[_graphic].clear();
+                }
             }
         },
     },

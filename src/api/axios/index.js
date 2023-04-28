@@ -42,8 +42,8 @@ axios.interceptors.request.use(config => {
   var expiretime = new Date(Date.parse(store.state.login.tokenExpire))
 
   // 判断是否存在token，如果存在的话，则每个http header都加上token
-  if (store.state.login.loginToken && (curTime < expiretime && store.state.login.tokenExpire)) {
-    config.headers.Authorization = "Bearer " + store.state.login.loginToken;
+  if (store.state.login.accessToken && (curTime < expiretime && store.state.login.tokenExpire)) {
+    config.headers.Authorization = "Bearer " + store.state.login.accessToken;
   }
 
   saveRefreshtime();
@@ -86,7 +86,7 @@ axios.interceptors.response.use(response => {
         if (window.localStorage.refreshtime && (curTime <= refreshtime)) {
           // 直接将整个请求 return 出去，不然的话，请求会晚于当前请求，无法达到刷新操作 
           return httpServer(apiSetting.refreshToken, {
-            token: window.localStorage.loginToken
+            token: window.localStorage.accessToken
           }).then(res => {
               if (res.success == true) {
                 Vue.prototype.$message({
@@ -94,11 +94,11 @@ axios.interceptors.response.use(response => {
                   type: 'success'
                 });
 
-                store.commit("loginToken", res.token);
+                store.commit("SET_ACCESS_TOKEN", res.token);
 
                 var curTime = new Date();
                 var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + res.expires_in));
-                store.commit("savetokenExpire", expiredate);
+                store.commit("SET_TOKEN_EXPIRE", expiredate);
 
                 error.config.__isRetryRequest = true;
                 error.config.headers.Authorization = 'Bearer ' + res.token;
@@ -224,14 +224,13 @@ const httpServer = (opts, data) => {
  * @param {*} params 
  */
 const ToLogin = params => {
-  store.commit("SET_LOGIN_TOKEN", "");
-  store.commit("SET_TOKEN_EXPIRE", "");
-
-  router.replace({
-    path: "/login",
-    query: {
-      redirect: router.currentRoute.fullPath
-    }
+  store.dispatch("LogOut").then(() => {
+    router.replace({
+      path: "/login",
+      query: {
+        redirect: router.currentRoute.fullPath
+      }
+    });
   });
 };
 

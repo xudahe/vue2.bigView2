@@ -37,16 +37,14 @@ const store = new Vuex.Store({
   getters: {
     templates: state => state.themeVal,
 
-    loginToken: state => state.login.loginToken,
+    accessToken: state => state.login.accessToken,
     loginInfo: state => state.login.loginInfo,
 
     GISToken: state => state.map.GISToken,
     mapscale: state => state.map.mapscale,
     mapload: state => state.map.mapload,
-    layertree: state => state.map.layertree,
     mapitems: state => state.map.mapitems,
     mapitemsload: state => state.map.mapitemsload,
-    mapitemslayers: state => state.map.mapitemslayers,
 
     lockPasswd: state => state.common.lockPasswd,
     isLock: state => state.common.isLock,

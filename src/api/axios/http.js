@@ -34,7 +34,7 @@ export default {
       };
       var setHeaders = function (xhr, headers) {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.setRequestHeader("Authorization", "Bearer " + store.state.login.loginToken);
+        xhr.setRequestHeader("Authorization", "Bearer " + store.state.login.accessToken);
         // xhr.responseType = "blob"; //可以将`xhr.responseType`设置为"blob" 或 "arrayBuffer"
         if (!headers) {
           return false;

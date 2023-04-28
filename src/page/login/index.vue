@@ -61,7 +61,7 @@
 
         </div>
         <div id="bottom" class="bottoms">
-            <span>技术支持：XXXXX信息科技有限公司</span>
+            <span>技术支持：XXXXXXXXXX</span>
         </div>
     </div>
 </template>

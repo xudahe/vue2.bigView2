@@ -23,11 +23,10 @@ export default {
     // }).then(
     //   res => {
     //     if (res.data.success == true) {
-    //       this.$store.commit("servertoken", res.data.source);
+    //       this.$store.commit("GISToken", res.data.source);
     //     }
     //   },
     //   error => {
-    //     alert(error);
     //   }
     // );
 

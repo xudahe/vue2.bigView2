@@ -7,6 +7,7 @@ const mapconfig = {
   GeometryService: 'http://58.213.48.106:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer', //ArcGIS Server空间服务
   //GeometryService: 'http://10.10.12.71:6080/arcgis/rest/services/Utilities/Geometry/GeometryServer', //ArcGIS Server空间服务
   MapControl: {}, //用来控制地图是否同步
+  MapControl1: {}, //用来控制某个地图是否同步
 
   extent: { // 初始化定位  --天地图(经纬度)
     xmin: 118.548,
