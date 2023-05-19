@@ -105,7 +105,7 @@ export default {
 
           _this.clear();
 
-          esriLoader.loadModules(['esri/tasks/IdentifyTask', 'esri/tasks/IdentifyParameters', 'esri/geometry/scaleUtils']).then(([IdentifyTask, IdentifyParameters, scaleUtils]) => {
+          esriLoader.loadModules(['esri/tasks/IdentifyTask', 'esri/tasks/IdentifyParameters']).then(([IdentifyTask, IdentifyParameters]) => {
             let map = MapControl.map[MapControl.mapId];
             map.setMapCursor("pointer");
 
@@ -211,32 +211,30 @@ export default {
             return _this.$Message.error('请先拾取管点！');
           }
 
-          esriLoader.loadModules(['esri/tasks/IdentifyTask', 'esri/tasks/IdentifyParameters', 'esri/geometry/scaleUtils']).then(([IdentifyTask, IdentifyParameters, scaleUtils]) => {
-            let map = MapControl.map[MapControl.mapId];
-            map.setMapCursor("pointer");
+          let map = MapControl.map[MapControl.mapId];
+          map.setMapCursor("pointer");
 
-            identifyHandler = map.on('click', function (geo) {
-              // map.setMapCursor("default");
-              // identifyHandler.remove();
+          identifyHandler = map.on('click', function (geo) {
+            // map.setMapCursor("default");
+            // identifyHandler.remove();
 
-              //点
-              let shape1 = 'POINT (' + geo.mapPoint.x + ' ' + geo.mapPoint.y + ' )'
-              // let wkt1 = MapControl.WktToAgs(shape1)
-              // MapControl.showGraphic(wkt1, true, 'gralyr2')
+            //点
+            let shape1 = 'POINT (' + geo.mapPoint.x + ' ' + geo.mapPoint.y + ' )'
+            // let wkt1 = MapControl.WktToAgs(shape1)
+            // MapControl.showGraphic(wkt1, true, 'gralyr2')
 
-              //量距
-              _this.outputDistance(_this.initial_point, shape1);
+            //量距
+            _this.outputDistance(_this.initial_point, shape1);
 
-              //连接线
-              let shape2 = _this.LINESTRING(_this.initial_point, shape1)
-              let wkt2 = MapControl.WktToAgs(shape2);
-              _this.showGraphic(wkt2, 0, "gralyr2", "#ff0000");
+            //连接线
+            let shape2 = _this.LINESTRING(_this.initial_point, shape1)
+            let wkt2 = MapControl.WktToAgs(shape2);
+            _this.showGraphic(wkt2, 0, "gralyr2", "#ff0000");
 
-              _this.later_point.push(shape1);
-              _this.later_lines.push(shape2);
-            });
+            _this.later_point.push(shape1);
+            _this.later_lines.push(shape2);
+          });
 
-          })
           break;
         case "rest": //撤销
           if (MapControl.graphicLayers["gralyr2"] != undefined) {
@@ -427,12 +425,57 @@ export default {
       MapControl.showExtent(wkt, 0); //定位
 
       setTimeout(() => {
-        this.CreateFwk2Png();
+        this.PrintOutTask();
       }, 1000);
     },
-    CreateFwk2Png() {
+    PrintOutTask() {
       this.spinShow = true;
-      let FWZT_ParamsList = [];
+      let that = this;
+
+      esriLoader
+        .loadModules([
+          "esri/tasks/PrintTask",
+          "esri/tasks/PrintTemplate",
+          "esri/tasks/PrintParameters"
+        ])
+        .then(([PrintTask, PrintTemplate, PrintParameters]) => {
+          let map = MapControl.map[MapControl.mapId];
+
+          var printMap = new PrintTask("http://10.10.12.71:6080/arcgis/rest/services/ExportWebMap/GPServer/Export%20Web%20Map");
+          //创建地图打印模版
+          var template = new PrintTemplate();
+          //创建地图的打印参数，参数里面包括：模版和地图
+          var params = new PrintParameters();
+          //输出图片的空间参考
+          printMap.outSpatialReference = map.SpatialReference;
+          //打印图片的各种参数
+          template.exportOptions = {
+            width: map.width,
+            height: map.height,
+            dpi: 96,//分辨率 ["96", "100", "120"]
+          };
+          //打印输出的格式
+          template.format = "JPG"; // [ PDF, PNG32, PNG8, JPG, GIF, EPS, SVG, SVGZ ]
+          //输出地图的布局
+          template.layout = "MAP_ONLY";
+          PrintTemplate;
+          //设置参数地图
+          params.map = map;
+          //设置参数模版
+          params.template = template;
+          //运行结果
+          printMap.execute(params, function (result) {
+            that.spinShow = false;
+            console.log(result)
+            if (result != null) {
+              //网页打开生成的地图
+              window.open(result.url, "_blank");
+            } else console.error("打印失败");
+          });
+        })
+        .catch(err => {
+          console.error(err);
+        });
 
     },
   },
