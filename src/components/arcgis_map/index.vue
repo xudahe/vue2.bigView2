@@ -403,6 +403,10 @@ export default {
           esriConfig,
           Fx,
         ]) => {
+
+          //增加跨域配置 --3.2x写法
+          // esriConfig.defaults.io.corsEnabledServers.push("webst01.is.autonavi.com");
+
           MapControl.popupinfo = new esri.dijit.Popup(null, document.createElement("div"));
           //加载地图
           map = new Map(_this.mapId, {
