@@ -15,7 +15,7 @@ export default {
     },
     data() {
         return {
-            issplit: false, //鏄惁宸茬粡鍒嗗睆
+            issplit: false, //是否已经分屏
             items: [
                 { serviceurl: "", servicename: "XXXX1" },
                 { serviceurl: "", servicename: "XXXX2" },
@@ -32,7 +32,7 @@ export default {
     methods: {
         Splitscreen() {
             if (this.items.length < 2 || this.items.length > 9) {
-                this.$Message.error("涓嶈兘婊¤冻鍒嗗睆瑕佹眰");
+                this.$Message.error("不能满足分屏要求");
                 return;
             }
             this.issplit = true;
@@ -48,7 +48,7 @@ export default {
             this.$store.dispatch('mapitems', mapbox);
             this.$store.dispatch('mapitemsload', layeritem);
         },
-        //閲嶇疆
+        //重置
         Reset() {
             this.issplit = false;
             this.items = [];

@@ -8,7 +8,7 @@
         </div>
         <div class="compare-left-list">
           <el-tree ref="tree" :data="resourceData" node-key="FEATUREID" :filter-node-method="filterNode"
-            :props="defaultProps" expand-on-click-node="false" @node-expand="filterTopic" draggable :allowDrag="allowDrag"
+            :props="defaultProps" :expand-on-click-node="false" @node-expand="filterTopic" draggable :allowDrag="allowDrag"
             :allowDrop="() => false" @node-drag-start="startDragNode" @node-drag-end="endDragNode">
             <div slot-scope="{ data }">
               <div class="inline-block" :class="{ 'tree-left-label': data.FEATURETYPE === 'topic' }">
@@ -88,6 +88,7 @@ export default {
   data() {
     return {
       filterText: "",
+      defaultProps: {},
       resourceData: [
         {
           "FEATUREID": "FE002494",
@@ -569,7 +570,7 @@ export default {
     },
 
     currentScreenIndex(newVal) {
-      console.log("currentScreenIndex", newVal);
+      // console.log("currentScreenIndex", newVal);
     },
 
     compareNum(newVal) {
@@ -670,6 +671,7 @@ export default {
       const _this = this;
 
       MapControl.mapArr = {};
+      this.$store.commit("splitFlag", false);
       this.$store.commit("splitMapId", '');
       this.$store.commit("splitScreens", []);
 
@@ -684,8 +686,9 @@ export default {
         };
         splitScreens.push(splitScreen);
       }
+      this.$store.commit("splitFlag", true);
       this.$store.commit("splitScreens", splitScreens);
-      console.log("splitScreenINfo", splitScreens);
+      console.log("splitScreenInfo", splitScreens);
 
       setTimeout(() => {
         _this.spiltmodal = true;

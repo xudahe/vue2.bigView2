@@ -5,8 +5,3 @@ var AppSetting = {
   webservices: "",
   hiddfields: [],
 };
-
-var mapconfig = {
-  MapControl: {},
-  MapControl1: {},
-}

@@ -10,7 +10,8 @@ export default {
     mapitemsload: Object, //分屏预加载图层
 
     //----------------------------------------split_mode--------------------------------------
-    splitScreens: [],
+	splitFlag: false, //    
+	splitScreens: [],
     topicList: [],
     splitMapId: "", //当前操作的分屏地图Id
     queryVisible: false,
@@ -35,7 +36,12 @@ export default {
       state.mapitemsload = arg;
     },
 
-
+	splitFlag(state, val) {
+      state.splitFlag = val;
+    },
+    splitScreens(state, val) {
+      state.splitScreens = val;
+    },
     splitMapId(state, val) {
       state.splitMapId = val;
     },

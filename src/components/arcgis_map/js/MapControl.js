@@ -113,9 +113,9 @@ MapControl.RefreshExtend = function () {
  */
 MapControl.setMapZoomIn = function () {
   // let map = MapControl.map[MapControl.mapId];
-	// var num = map.getLevel();
+  // var num = map.getLevel();
   // map.setZoom(num + 1)
-  
+
   esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
     var navToolbar = MapControl.navToolbar[MapControl.mapId];
     navToolbar.activate(esri.toolbars.Navigation.ZOOM_IN);
@@ -130,9 +130,9 @@ MapControl.setMapZoomIn = function () {
  */
 MapControl.setMapZoomOut = function () {
   // let map = MapControl.map[MapControl.mapId];
-	// var num = map.getLevel();
-	// map.setZoom(num - 1)
-  
+  // var num = map.getLevel();
+  // map.setZoom(num - 1)
+
   esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
     var navToolbar = MapControl.navToolbar[MapControl.mapId];
     navToolbar.activate(esri.toolbars.Navigation.ZOOM_OUT);
@@ -3134,6 +3134,43 @@ MapControl.hidePopupinfo = function () {
 
 //------------------------------------------------------map分屏-----------------------------------------------------------
 MapControl.mapArr = {};
+MapControl.ExtentChanges = {};
+
+//创建地图
+MapControl.CreateMapView = function (domNode, domId, options, basemapurl) {
+  return esriLoader.loadModules(
+    [
+      "esri/map",
+      "esri/layers/ArcGISTiledMapServiceLayer",
+      "esri/layers/ArcGISDynamicMapServiceLayer",
+    ],
+    options
+  ).then(
+    ([
+      Map,
+      ArcGISTiledMapServiceLayer, //切片
+      ArcGISDynamicMapServiceLayer, //矢量
+    ]) => {
+      let map = new Map(domNode, {
+        logo: false,
+        slider: false
+      });
+
+      const basemaplayer = new esri.layers.ArcGISTiledMapServiceLayer(
+        basemapurl
+      );
+      basemaplayer.id = basemapurl;
+      map.addLayer(basemaplayer); //添加底图
+
+      let graphicLayer1 = new esri.layers.GraphicsLayer();
+      graphicLayer1.id = domId + "_graphicLayer";
+      map.addLayer(graphicLayer1);
+      MapControl.graphicLayers[graphicLayer1.id] = graphicLayer1;
+
+      return map;
+    }
+  )
+};
 
 //分屏联动
 MapControl.ExtentChange = function (extent, items) {
@@ -3183,6 +3220,9 @@ MapControl.MapDestroy = function () {
   for (let key in MapControl.mapArr) {
     let map = MapControl.mapArr[key];
     map.destroy();
+
+    let mapEC = MapControl.ExtentChanges[key];
+    if (mapEC != undefined) mapEC.remove();
   }
 };
 
