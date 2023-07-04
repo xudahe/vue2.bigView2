@@ -7,7 +7,7 @@
  * 加载地图时：使用了 {subsDomain}，{col},{row},{level}分别替换服务器列表，瓦片列编号，瓦片行编号，当前缩放级别
  * 天地图瓦片可用子域有八个 subDomains: ["t0", "t1", "t2", "t3", "t4", "t5", "t6", "t7"],
  */
-export const tdt_vec_c = 
+export const tdt_vec_c =
   "http://{subDomain}.tianditu.gov.cn/vec_c/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=c&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&FORMAT=tiles&tk=5003bc22120f9d66a3276a29bf4be1ed";
 export const tdt_cva_c =
   "http://{subDomain}.tianditu.gov.cn/cva_c/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=cva&STYLE=default&TILEMATRIXSET=c&TILEMATRIX={level}&TILEROW={row}&TILECOL={col}&FORMAT=tiles&tk=5003bc22120f9d66a3276a29bf4be1ed";

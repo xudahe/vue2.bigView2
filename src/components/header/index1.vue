@@ -62,7 +62,7 @@ export default {
     name: "index1",
     data() {
         return {
-            loginName: '测试管理员',
+            loginName: '管理员',
             ptTitle: '灌南县排水管网GIS平台',
 
             ismeunNumLeft: null,
@@ -166,8 +166,20 @@ export default {
                     });
                     break;
                 case "退出登录":
-                    this.$store.dispatch("LogOut").then(() => {
-                        this.$router.push({ path: "/login" });
+                    this.$Modal.confirm({
+                        content: '是否退出系统, 是否继续？',
+                        title: '提示',
+                        okText: '离开',
+                        cancelText: '取消',
+                        onOk: function () {
+                            // 正常跳转
+                            this.$store.dispatch("LogOut").then(() => {
+                                this.$router.push({ path: "/login" });
+                            });
+                        },
+                        onCancel: function () {
+                            // 取消跳转
+                        }
                     });
                     // window.location.reload()
                     break;

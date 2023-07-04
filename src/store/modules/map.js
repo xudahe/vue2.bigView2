@@ -4,17 +4,12 @@ export default {
     mapload: false, //监听地图是否加载完成
     mapscale: -1, //监听地图比例尺
 
-
-    //------------------------------------------------------------------------------
-    mapitems: [], //地图窗口组件id名称(分屏使用)
-    mapitemsload: Object, //分屏预加载图层
-
     //----------------------------------------split_mode--------------------------------------
-	splitFlag: false, //    
-	splitScreens: [],
-    topicList: [],
-    splitMapId: "", //当前操作的分屏地图Id
-    queryVisible: false,
+    splitFlag: false, //是否开启分屏模式
+    splitScreens: [],
+    topicList: [], //图层控制 数据源
+    splitMapId: "", //当前鼠标指针操作的分屏地图Id
+    queryVisible: false, //分屏模式中的工具栏
   },
   mutations: {
     GISToken(state, arg) {
@@ -28,15 +23,7 @@ export default {
       state.mapscale = arg;
     },
 
-
-    mapitems(state, arg) {
-      state.mapitems = arg;
-    },
-    mapitemsload(state, arg) {
-      state.mapitemsload = arg;
-    },
-
-	splitFlag(state, val) {
+    splitFlag(state, val) {
       state.splitFlag = val;
     },
     splitScreens(state, val) {
@@ -50,30 +37,14 @@ export default {
     },
   },
   actions: {
-    GISToken({
-      commit
-    }, arg) {
+    GISToken({ commit }, arg) {
       commit("GISToken", arg);
     },
-    mapload({
-      commit
-    }, arg) {
+    mapload({ commit }, arg) {
       commit("mapload", arg);
     },
-    mapscale({
-      commit
-    }, arg) {
+    mapscale({ commit }, arg) {
       commit("mapscale", arg);
     },
-    mapitems({
-      commit
-    }, arg) {
-      commit("mapitems", arg);
-    },
-    mapitemsload({
-      commit
-    }, arg) {
-      commit("mapitemsload", arg);
-    },
-  }
-}
+  },
+};

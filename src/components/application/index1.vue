@@ -65,8 +65,7 @@
         <!-- 中间地图 -->
         <div class="appCompontsContMap scale-in" :style="{ height: mapHeight, width: '100%' }">
           <!--arcgisMap 上添加滤镜 class="tmap"-->
-          <arcgisMap v-if="this.$store.getters.mapitems.length == 0" class="tmap"></arcgisMap>
-          <splitView ref="splitView" :items="this.$store.getters.mapitems" v-else></splitView>
+          <arcgisMap class="tmap"></arcgisMap>
         </div>
 
         <!-- 底部框 -->
@@ -115,14 +114,12 @@
 import bus from "@/eventBus.js";
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
 import arcgisMap from "@/components/arcgis_map/index.vue";
-import splitView from "@/components/arcgis_map/split/splitView.vue";
 import vDialog from "@/components/dialog/dialog.vue";
 
 export default {
   name: "application",
   components: {
     arcgisMap,
-    splitView,
     vDialog
   },
   watch: {

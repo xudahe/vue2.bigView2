@@ -56,8 +56,8 @@ export default {
   },
   mounted() {
     this.clearMapControl();
-    bus.$on("getmapid", this.getmapid);
-    bus.$on("ExtentChange", this.ExtentChange);
+    bus.$off("getmapid").$on("getmapid", this.getmapid);
+    bus.$off("ExtentChange").$on("ExtentChange", this.ExtentChange);
   },
   beforeRouteLeave(to, from, next) {
     this.clearMapControl();
@@ -67,7 +67,7 @@ export default {
   methods: {
     clearMapControl() {
       mapconfig.MapControl = {}; //置空
-      mapconfig.MapControl1 = {}; //置空
+      MapControl.isSync = {}; //置空
     },
     isEmptyObject(obj) {
       for (var key in obj) {
@@ -89,7 +89,7 @@ export default {
       }
     },
     ExtentChange(value) {
-      if (!mapconfig.MapControl1[value.id]) return bus.$off("ExtentChange", "off");
+      if (!MapControl.isSync[value.id]) return bus.$off("ExtentChange", "off");
 
       if (
         this.isEmptyObject(mapconfig.MapControl) ||
@@ -403,7 +403,8 @@ export default {
 
 .split-container.five-screen.screen2.layout3,
 .split-container.five-screen.screen3.layout3,
-.split-container.five-screen.screen4.layout3 {
+.split-container.five-screen.screen4.layout3,
+.split-container.five-screen.screen5.layout3 {
   float: left;
   height: 40%;
   width: 25%

@@ -8,19 +8,15 @@
         </div>
         <div class="compare-left-list">
           <el-tree ref="tree" :data="resourceData" node-key="FEATUREID" :filter-node-method="filterNode"
-            :props="defaultProps" :expand-on-click-node="false" @node-expand="filterTopic" draggable :allowDrag="allowDrag"
-            :allowDrop="() => false" @node-drag-start="startDragNode" @node-drag-end="endDragNode">
-            <div slot-scope="{ data }">
-              <div class="inline-block" :class="{ 'tree-left-label': data.FEATURETYPE === 'topic' }">
-                <i v-if="data.FEATURETYPE === 'topic' && data.ISEMPTY == false" class="icon i-tree-left"
-                  :class="{ 'i-atlas': data.FEATURETYPE === 'topic' }"></i>
-                <i v-if="data.FEATURETYPE === 'topic' && data.ISEMPTY == true" class="icon i-tree-left"
-                  :class="{ 'i-empty-atlas': data.FEATURETYPE === 'topic' }"></i>
-                <span :title="data.FEATURENAME" class="inline-block tree-label" :class="{
-                    'font-bold':
-                      data.FEATURETYPE === 'dir' ||
-                      data.FEATURETYPE === 'parent'
-                  }" v-show="data.FEATURETYPE !== 'layer'">{{ data.FEATURENAME }}</span>
+            :props="defaultProps" :expand-on-click-node="false" @node-expand="filterTopic" draggable
+            :allowDrag="allowDrag" :allowDrop="() => false" @node-drag-start="startDragNode" @node-drag-end="endDragNode">
+            <div slot-scope="{ node,data }">
+              <div class="inline-block" :class="{ 'tree-left-label': data.FEATURETYPE === 'topic' }"
+                @click.stop="toggleNodeExpand(node, data)">
+
+                <Icon type="logo-buffer" style="margin-right: 3px;"
+                  v-if="data.FEATURETYPE !== 'dir' && data.FEATURETYPE !== 'parent'" />
+                <span :title="data.FEATURENAME" class="inline-block tree-label">{{ data.FEATURENAME }}</span>
               </div>
             </div>
           </el-tree>
@@ -41,8 +37,8 @@
           </el-radio-group>
         </div>
         <div class="compare-right-layout" @dragleave="onDragLeave">
-          <div v-for="(item, index) in compareNum" @dragover="onDragOver(item, $event)" @drop="onDragDrop(item, $event)"
-            :class="screenClass(item)">
+          <div v-for="(item, index) in compareNum" :key="index" @dragover="onDragOver(item, $event)"
+            @drop="onDragDrop(item, $event)" :class="screenClass(item)">
             <div class="compare-screen-data">
               <div class="screen-data__title">{{ item }}</div>
               <div class="screen-data__id">
@@ -64,7 +60,7 @@
       <el-button type="primary" size="small" @click="compare($event)">开始对比</el-button>
     </div>
 
-    <Modal v-model="spiltmodal" fullscreen footer-hide>
+    <Modal v-model="spiltmodal" fullscreen footer-hide :closable="false">
       <splitscreen></splitscreen>
     </Modal>
   </div>
@@ -538,7 +534,18 @@ export default {
       spiltmodal: false,
     };
   },
-  mounted() { },
+  mounted() {
+    MapControl.mapArr = {};
+    MapControl.isSync = {};
+    this.$store.commit("splitFlag", false);
+    this.$store.commit("splitMapId", '');
+    this.$store.commit("splitScreens", []);
+
+    let _this = this;
+    EventBus.$off("quitSplitMode").$on("quitSplitMode", function () {
+      _this.spiltmodal = false;
+    })
+  },
   computed: {
     screenClass() {
       return function (item) {
@@ -583,6 +590,12 @@ export default {
     }
   },
   methods: {
+    toggleNodeExpand(node, data) {
+      if (data.FEATURETYPE !== "parent") {
+        return;
+      }
+      node.expanded = !node.expanded;
+    },
     filterTopic(data, node) {
       if (node.childNodes.length > 0) {
         node.childNodes.forEach(child => {
@@ -671,6 +684,7 @@ export default {
       const _this = this;
 
       MapControl.mapArr = {};
+      MapControl.isSync = {};
       this.$store.commit("splitFlag", false);
       this.$store.commit("splitMapId", '');
       this.$store.commit("splitScreens", []);
@@ -678,11 +692,11 @@ export default {
 
       const splitScreens = [];
       for (let i = 1; i < this.compareNum + 1; i++) {
-        // const featureId = this.screenTopics[i - 1].topic.FEATUREID;
+        const featureId = Math.ceil((Math.random() * 9000) + 1000) + '';  // this.screenTopics[i - 1].topic.FEATUREID;
         const splitScreen = {
           screenId: `分屏${i}`,
           screenIndex: i,
-          featureId: 'featureId' //featureId
+          featureId: featureId
         };
         splitScreens.push(splitScreen);
       }

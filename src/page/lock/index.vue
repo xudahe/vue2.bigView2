@@ -35,14 +35,20 @@ export default {
   props: [],
   methods: {
     handleLogout() {
-      this.$confirm("是否退出系统, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
-      }).then(() => {
-        this.$store.dispatch("LogOut").then(() => {
-          this.$router.push({ path: "/login" });
-        });
+      this.$Modal.confirm({
+        content: '是否退出系统, 是否继续？',
+        title: '提示',
+        okText: '离开',
+        cancelText: '取消',
+        onOk: function () {
+          // 正常跳转
+          this.$store.dispatch("LogOut").then(() => {
+            this.$router.push({ path: "/login" });
+          });
+        },
+        onCancel: function () {
+          // 取消跳转
+        }
       });
     },
     handleLogin() {

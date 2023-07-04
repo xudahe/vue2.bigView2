@@ -634,11 +634,9 @@ export default {
     },
   },
   mounted() {
-    let _this = this;
-
     this.$store.dispatch("mapload", false);
     this.clearCompt();
-    this.createMap();
+    // this.createMap();
   },
   beforeDestroy() {
     MapControl.setMapClear();

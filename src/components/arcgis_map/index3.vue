@@ -285,9 +285,7 @@ export default {
     }
   },
   mounted() {
-    let _this = this;
-
-    _this.createMap();
+    // this.createMap();
   },
   beforeDestroy() { }
 };

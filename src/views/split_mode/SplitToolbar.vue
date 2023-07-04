@@ -299,13 +299,25 @@ export default {
       }
     },
     quitSplitMode: function quitSplitMode() {
-      MapControl.mapArr = {};
-      MapControl.MapDestroy();
+      this.$Modal.confirm({
+        content: '是否退出分屏对比, 是否继续？',
+        title: '提示',
+        okText: '离开',
+        cancelText: '取消',
+        onOk: function () {
+          // 正常跳转
+          MapControl.mapArr = {};
+          MapControl.MapDestroy();
 
-      this.$store.commit("splitMapId", '');
-      this.$store.commit("splitScreens", []);
+          this.$store.commit("splitMapId", '');
+          this.$store.commit("splitScreens", []);
 
-      EventBus.$emit("quitSplitMode")
+          EventBus.$emit("quitSplitMode")
+        },
+        onCancel: function () {
+          // 取消跳转
+        }
+      });
     },
     addSplitScreen: function addSplitScreen() {
       var screens = this.$store.state.map.splitScreens;
@@ -331,9 +343,7 @@ export default {
         case "s2-1":
           /* document.getElementById('split-map1').style = "width:50%;height:100%;float:left;";
           document.getElementById('split-map2').style = "width:50%;height:100%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.two-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.two-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout3");
           });
@@ -341,9 +351,7 @@ export default {
         case "s2-2":
           /* document.getElementById('split-map1').style = "width:100%;height:60%;float:left;";
           document.getElementById('split-map2').style = "width:100%;height:40%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.two-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.two-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout3");
             element.classList.add("layout2");
@@ -352,9 +360,7 @@ export default {
         case "s2-3":
           /* document.getElementById('split-map1').style = "width:70%;height:100%;float:left;";
           document.getElementById('split-map2').style = "width:30%;height:100%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.two-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.two-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2");
             element.classList.add("layout3");
@@ -364,16 +370,9 @@ export default {
           /* document.getElementById('split-map1').style = "width:70%;height:100%;float:left;";
           document.getElementById('split-map2').style = "width:30%;height:50%;float:left;";
           document.getElementById('split-map3').style = "width:30%;height:50%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.three-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.three-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout3",
-              "layout4",
-              "layout5"
-            );
+            element.classList.remove("layout2", "layout3", "layout4", "layout5");
           });
           break;
         case "s3-2":
@@ -393,9 +392,7 @@ export default {
           /* document.getElementById('split-map1').style = "width:40%;height:100%;float:left;";
           document.getElementById('split-map2').style = "width:30%;height:100%;float:left;";
           document.getElementById('split-map3').style = "width:30%;height:100%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.three-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.three-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout4", "layout5");
             element.classList.add("layout3");
@@ -405,9 +402,7 @@ export default {
           /* document.getElementById('split-map1').style = "width:30%;height:100%;float:left;";
           document.getElementById('split-map2').style = "width:40%;height:100%;float:left;";
           document.getElementById('split-map3').style = "width:30%;height:100%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.three-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.three-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout3", "layout5");
             element.classList.add("layout4");
@@ -417,9 +412,7 @@ export default {
           /* document.getElementById('split-map1').style = "width:100%;height:60%;float:left;";
           document.getElementById('split-map2').style = "width:50%;height:40%;float:left;";
           document.getElementById('split-map3').style = "width:50%;height:40%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.three-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.three-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout3", "layout4");
             element.classList.add("layout5");
@@ -430,9 +423,7 @@ export default {
           document.getElementById('split-map2').style = "width:50%;height:50%;float:left;";
           document.getElementById('split-map3').style = "width:50%;height:50%;float:left;";
           document.getElementById('split-map4').style = "width:50%;height:50%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.four-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.four-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout3", "layout4");
           });
@@ -442,9 +433,7 @@ export default {
           document.getElementById('split-map2').style = "width:30%;height:33.3%;float:left;";
           document.getElementById('split-map3').style = "width:30%;height:33.3%;float:left;";
           document.getElementById('split-map4').style = "width:30%;height:33.3%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.four-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.four-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout3", "layout4");
             element.classList.add("layout2");
@@ -455,9 +444,7 @@ export default {
           document.getElementById('split-map2').style = "width:20%;height:100%;float:left;";
           document.getElementById('split-map3').style = "width:20%;height:100%;float:left;";
           document.getElementById('split-map4').style = "width:20%;height:100%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.four-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.four-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout4");
             element.classList.add("layout3");
@@ -468,9 +455,7 @@ export default {
           document.getElementById('split-map2').style = "width:33.3%;height:40%;float:left;";
           document.getElementById('split-map3').style = "width:33.3%;height:40%;float:left;";
           document.getElementById('split-map4').style = "width:33.3%;height:40%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.four-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.four-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout3");
             element.classList.add("layout4");
@@ -482,16 +467,9 @@ export default {
           document.getElementById('split-map3').style = "width:25%;height:50%;float:left;";
           document.getElementById('split-map4').style = "width:25%;height:50%;float:left;";
           document.getElementById('split-map5').style = "width:25%;height:50%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.five-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.five-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout3",
-              "layout4",
-              "layout5"
-            );
+            element.classList.remove("layout2", "layout3", "layout4", "layout5");
           });
           break;
         case "s5-2":
@@ -500,9 +478,7 @@ export default {
           document.getElementById('split-map3').style = "width:33.3%;height:50%;float:left;";
           document.getElementById('split-map4').style = "width:33.3%;height:50%;float:left;";
           document.getElementById('split-map5').style = "width:33.4%;height:50%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.five-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.five-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout3", "layout4", "layout5");
             element.classList.add("layout2");
@@ -514,9 +490,7 @@ export default {
           document.getElementById('split-map3').style = "width:25%;height:40%;float:left;";
           document.getElementById('split-map4').style = "width:25%;height:40%;float:left;";
           document.getElementById('split-map5').style = "width:25%;height:40%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.five-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.five-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout4", "layout5");
             element.classList.add("layout3");
@@ -528,9 +502,7 @@ export default {
           document.getElementById('split-map3').style = "width:50%;height:100%;position:absolute;top:0%;left:25%;";
           document.getElementById('split-map4').style = "width:25%;height:50%;position:absolute;top:0%;left:75%;";
           document.getElementById('split-map5').style = "width:25%;height:50%;position:absolute;top:50%;left:75%;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.five-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.five-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout3", "layout5");
             element.classList.add("layout4");
@@ -540,13 +512,9 @@ export default {
           /* document.getElementById('split-map1').style = "width:66%;height:50%;float:left;";
           document.getElementById('split-map2').style = "width:66%;height:50%;float:left;";
           document.getElementById('split-map3').style = "width:34%;height:33.3%;position:absolute;top:0%;left:66%;";
-          document.getElementById('split-map4').style =
-          "width:34%;height:33.3%;position:absolute;top:33.3%;left:66%;";
-          document.getElementById('split-map5').style =
-          "width:34%;height:33.4%;position:absolute;top:66.6%;left:66%;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.five-screen"
-          );
+          document.getElementById('split-map4').style = "width:34%;height:33.3%;position:absolute;top:33.3%;left:66%;";
+          document.getElementById('split-map5').style = "width:34%;height:33.4%;position:absolute;top:66.6%;left:66%;"; */
+          splitElements = document.querySelectorAll(".split-container.five-screen");
           splitElements.forEach(function (element) {
             element.classList.remove("layout2", "layout3", "layout4");
             element.classList.add("layout5");
@@ -559,18 +527,9 @@ export default {
           document.getElementById('split-map4').style = "width:33.3%;height:50%;float:left;";
           document.getElementById('split-map5').style = "width:33.3%;height:50%;float:left;";
           document.getElementById('split-map6').style = "width:33.3%;height:50%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.six-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.six-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout3",
-              "layout4",
-              "layout5",
-              "layout6",
-              "layout7"
-            );
+            element.classList.remove("layout2", "layout3", "layout4", "layout5", "layout6", "layout7");
           });
           break;
         case "s6-2":
@@ -580,17 +539,9 @@ export default {
           document.getElementById('split-map4').style = "width:50%;height:33.3%;float:left;";
           document.getElementById('split-map5').style = "width:50%;height:33.4%;float:left;";
           document.getElementById('split-map6').style = "width:50%;height:33.4%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.six-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.six-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout3",
-              "layout4",
-              "layout5",
-              "layout6",
-              "layout7"
-            );
+            element.classList.remove("layout3", "layout4", "layout5", "layout6", "layout7");
             element.classList.add("layout2");
           });
           break;
@@ -601,17 +552,9 @@ export default {
           document.getElementById('split-map4').style = "width:20%;height:40%;float:left;";
           document.getElementById('split-map5').style = "width:20%;height:40%;float:left;";
           document.getElementById('split-map6').style = "width:20%;height:40%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.six-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.six-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout4",
-              "layout5",
-              "layout6",
-              "layout7"
-            );
+            element.classList.remove("layout2", "layout4", "layout5", "layout6", "layout7");
             element.classList.add("layout3");
           });
           break;
@@ -622,17 +565,9 @@ export default {
           document.getElementById('split-map4').style = "width:25%;height:40%;float:left;";
           document.getElementById('split-map5').style = "width:25%;height:40%;float:left;";
           document.getElementById('split-map6').style = "width:25%;height:40%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.six-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.six-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout3",
-              "layout5",
-              "layout6",
-              "layout7"
-            );
+            element.classList.remove("layout2", "layout3", "layout5", "layout6", "layout7");
             element.classList.add("layout4");
           });
           break;
@@ -643,17 +578,9 @@ export default {
           document.getElementById('split-map4').style = "width:33%;height:34%;position:absolute;top:66%;left:0%;";
           document.getElementById('split-map5').style = "width:33%;height:34%;position:absolute;top:66%;left:33%;";
           document.getElementById('split-map6').style = "width:34%;height:34%;position:absolute;top:66%;left:66%;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.six-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.six-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout3",
-              "layout4",
-              "layout6",
-              "layout7"
-            );
+            element.classList.remove("layout2", "layout3", "layout4", "layout6", "layout7");
             element.classList.add("layout5");
           });
           break;
@@ -664,17 +591,9 @@ export default {
           document.getElementById('split-map4').style = "width:25%;height:50%;float:left;";
           document.getElementById('split-map5').style = "width:25%;height:50%;float:left;";
           document.getElementById('split-map6').style = "width:25%;height:50%;float:left;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.six-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.six-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout3",
-              "layout4",
-              "layout5",
-              "layout7"
-            );
+            element.classList.remove("layout2", "layout3", "layout4", "layout5", "layout7");
             element.classList.add("layout6");
           });
           break;
@@ -685,17 +604,9 @@ export default {
           document.getElementById('split-map4').style = "width:34%;height:25%;position:absolute;top:25%;left:66%;";
           document.getElementById('split-map5').style = "width:34%;height:25%;position:absolute;top:50%;left:66%;";
           document.getElementById('split-map6').style = "width:34%;height:25%;position:absolute;top:75%;left:66%;"; */
-          splitElements = document.querySelectorAll(
-            ".split-container.six-screen"
-          );
+          splitElements = document.querySelectorAll(".split-container.six-screen");
           splitElements.forEach(function (element) {
-            element.classList.remove(
-              "layout2",
-              "layout3",
-              "layout4",
-              "layout5",
-              "layout6"
-            );
+            element.classList.remove("layout2", "layout3", "layout4", "layout5", "layout6");
             element.classList.add("layout7");
           });
           break;

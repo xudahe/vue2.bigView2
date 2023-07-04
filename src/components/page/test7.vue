@@ -127,7 +127,7 @@
 export default {
     name: 'test7',
     components: {
-        
+
     },
     data() {
         return {
@@ -681,10 +681,10 @@ export default {
         },
         deletestand(root, node, data) {
             this.$Modal.confirm({
-                title: '提示',
                 content: '您确定要删除吗？',
-                cancelText: '关闭',
-                maskClosable: false,
+                title: '提示',
+                okText: '离开',
+                cancelText: '取消',
                 onOk: () => {
 
                     const parentKey = root.find(el => el === node).parent;
@@ -766,10 +766,10 @@ export default {
         },
         deleteRepari(row) {
             this.$Modal.confirm({
-                title: '提示',
                 content: '您确定要删除吗？',
-                cancelText: '关闭',
-                maskClosable: false,
+                title: '提示',
+                okText: '离开',
+                cancelText: '取消',
                 onOk: () => {
 
                 }
@@ -833,4 +833,5 @@ export default {
         font-size: 0.16rem !important;
     }
 
-}</style>
+}
+</style>

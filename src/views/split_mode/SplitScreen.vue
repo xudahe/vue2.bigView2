@@ -29,17 +29,21 @@
     </Spin>
 
     <div class="screen-view" :id="domId" @mouseover="getmapid">
+
       <div v-if="queryVisible" id="mode-center" style="visibility: visible;">
         <div style="height: 100%;width: 100%;" @click="showIdentity">
           <i :class="showident ? 'el-icon-d-arrow-right' : 'el-icon-warning-outline'" style="font-size: 20px;"></i>
         </div>
+
+        <!-- <idenfity v-if="showident" style="position: absolute;right: 40px;top: 0px;"></idenfity> -->
       </div>
+
     </div>
   </div>
 </template>
 
 <script>
-import { loadModules } from "esri-loader";
+import { loadModules, loadCss } from "esri-loader";
 import bus from "@/eventBus";
 import mapconfig from "@/components/arcgis_map/js/mapconfig";
 import { MapControl } from "@/components/arcgis_map/js/MapControl";
@@ -70,8 +74,9 @@ export default {
     this.$store.commit("queryVisible", false);
 
     this.$nextTick(() => {
+      //延迟加载地图，防止卡死
       setTimeout(() => {
-        this.createView();
+        // this.createView();
       }, this.screenIndex * 1000);
     })
   },
@@ -105,66 +110,73 @@ export default {
       const domNode = document.getElementById(this.domId);
 
       const options = {
-        url: mapconfig.jsapi
+        url: "http://10.10.12.71:90/arcgis_js_api/library/3.27/3.27/init.js"
       };
 
-      const basemapurl = "https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer";
+      const basemapurl = "http://10.10.10.48:6080/arcgis/rest/services/2018%E5%8D%97%E4%BA%AC%E5%9F%BA%E7%A1%80%E5%BA%95%E5%9B%BEWGS84/MapServer";
 
-      // MapControl.CreateMapView(domNode, _this.domId, options, basemapurl)
-      //   .then((map) => {
-      //     _this.view = map;
+      MapControl.CreateMapView(domNode, _this.domId, options, basemapurl)
+        .then((map) => {
+          _this.view = map;
 
-      //     let navToolbar = new esri.toolbars.Navigation(map);
-      //     let drawToolbar = new esri.toolbars.Draw(map);
-      //     let editToolbar = new esri.toolbars.Edit(map);
-      //     const geometryservice = new esri.tasks.GeometryService(
-      //       mapconfig.GeometryService
-      //     );
+          // let navToolbar = new esri.toolbars.Navigation(map);
+          // let drawToolbar = new esri.toolbars.Draw(map);
+          // let editToolbar = new esri.toolbars.Edit(map);
+          // const geometryservice = new esri.tasks.GeometryService(
+          //   mapconfig.GeometryService
+          // );
 
-      //     map.on("load", initFunctionality);
+          map.on("load", initFunctionality);
 
-      //     function initFunctionality(value) {
-      //       _this.spinShow = false;
-      //       _this.resetLayerViews(_this.featureId);
+          function initFunctionality(value) {
+            _this.spinShow = false;
+            _this.resetLayerViews(_this.featureId);
 
-      //       let mapId = value.map.id;
-      //       MapControl.mapArr[mapId] = value.map;
+            let mapId = value.map.id;
+            MapControl.mapArr[mapId] = value.map;
+            MapControl.isSync[mapId] = true;
 
-      //       mapconfig.MapControl1[mapId] = true;
+            // MapControl.navToolbar[mapId] = navToolbar;
+            // MapControl.drawToolbar[mapId] = drawToolbar;
+            // MapControl.editToolbar[mapId] = editToolbar;
+            // MapControl.GeometryService = geometryservice;
 
-      //       MapControl.isLoad[mapId] = true;
-      //       MapControl.navToolbar[mapId] = navToolbar;
-      //       MapControl.drawToolbar[mapId] = drawToolbar;
-      //       MapControl.editToolbar[mapId] = editToolbar;
-      //       MapControl.GeometryService = geometryservice;
+            let extent = {
+              "xmin": 118.29471137700011,
+              "ymin": 31.193508232000056,
+              "xmax": 119.2940849990001,
+              "ymax": 32.63308214100006,
+              "spatialReference": {
+                "wkid": 4326,
+                "latestWkid": 4326
+              }
+            } //地图初始化范围;
+            let mapExtent = new esri.geometry.Extent(
+              extent.xmin,
+              extent.ymin,
+              extent.xmax,
+              extent.ymax,
+              map.spatialReference
+            );
+            map.setExtent(mapExtent);
 
-      //       let extent = mapconfig.extent;
-      //       let mapExtent = new esri.geometry.Extent(
-      //         extent.xmin,
-      //         extent.ymin,
-      //         extent.xmax,
-      //         extent.ymax,
-      //         map.spatialReference
-      //       );
-      //       map.setExtent(mapExtent);
+            MapControl.ExtentChanges[mapId] = map.on("extent-change", function (event) {
+              if (MapControl.isSync[mapId]) {
+                bus.$emit('ExtentChange', { event: event.extent, id: _this.domId });
+              }
+            })
+          }
+        })
+        .then(() => {
 
-      //       MapControl.ExtentChanges[mapId] = map.on("extent-change", function (event) {
-      //         if (mapconfig.MapControl1[mapId]) {
-      //           bus.$emit('ExtentChange', { event: event.extent, id: _this.domId });
-      //         }
-      //       })
-      //     }
-      //   })
-      //   .then(() => {
-
-      //   });
+        });
     },
     //加载服务
     resetLayerViews(featureId) {
       if ([null, undefined, ""].indexOf(this.view) !== -1) {
         return;
       }
-
+      
     },
     showIdentity() {
       this.$store.commit("splitMapId", this.view.id);
@@ -181,10 +193,11 @@ export default {
 
     changeLinkage(value) {
       this.view.linkageSwitch = value;
-      mapconfig.MapControl1[this.view.id] = value;
+      MapControl.isSync[this.view.id] = value;
     },
 
     handleCommand(command) {
+      //先移除当前分屏的图层服务
       var map = MapControl.mapArr[this.view.id];
       let layerIds = JSON.parse(JSON.stringify(map.layerIds));
       for (let i = 1; i < layerIds.length; i++) {
@@ -194,6 +207,7 @@ export default {
         }
       }
 
+      //后在添加图层服务
       this.featureId = command.id;
     },
 
