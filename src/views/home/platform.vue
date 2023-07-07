@@ -7,7 +7,7 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+
 import platform4 from "@/components/platform/index4.vue"
 import platform3 from "@/components/platform/index3.vue"
 import platform2 from "@/components/platform/index2.vue"
@@ -22,7 +22,17 @@ export default {
         platform1
     },
     computed: {
-        ...mapGetters(["templates"])
+        theme() {
+            return this.$store.state.theme.themeName;
+        }
+    },
+    watch: {
+        theme: {
+            handler: function (newVal) {
+                this.setCmpt();
+            },
+            deep: true
+        },
     },
     data() {
         return {
@@ -30,29 +40,31 @@ export default {
         };
     },
     methods: {
-
-    },
-    mounted() {
-        switch (this.templates) {
-            case '001':
-                this.classname = 'platform1';
-                break;
-            case '002':
-                this.classname = 'platform2';
-                break;
-            case '003':
-                this.classname = 'platform3';
-                break;
-            case '004':
-                this.classname = 'platform4';
-                break;
-            default:
-                this.classname = 'platform1';
-                break;
+        setCmpt() {
+            switch (this.theme) {
+                case '001':
+                    this.classname = 'platform1';
+                    break;
+                case '002':
+                    this.classname = 'platform2';
+                    break;
+                case '003':
+                    this.classname = 'platform3';
+                    break;
+                case '004':
+                    this.classname = 'platform4';
+                    break;
+                default:
+                    this.classname = 'platform1';
+                    break;
+            }
         }
     },
+    mounted() {
+        this.setCmpt();
+    },
     created() {
-        this._getLess("/view/platform.less");
+
     },
     beforeDestroy() {
     },

@@ -2,18 +2,10 @@
 <template>
 	<div id="homepage" class="homepageDiv">
 		<component :is="classname"></component>
-
-	<!-- <div style="height: 100%;position: relative;overflow-y: hidden;width: 100%;">
-			<Carousel v-model="overviewPage">
-				<CarouselItem :key="inde" v-for="(item, inde) in menus">
-					<component :is="item.classname"></component>
-				</CarouselItem>
-			</Carousel>
-				</div> -->
 	</div>
 </template>
 <script>
-import { mapGetters } from "vuex";
+
 import homepage4 from "@/components/homepage/index4.vue"
 import homepage3 from "@/components/homepage/index3.vue"
 import homepage2 from "@/components/homepage/index2.vue"
@@ -29,7 +21,17 @@ export default {
 		homepage1,
 	},
 	computed: {
-		...mapGetters(["templates"])
+		theme() {
+			return this.$store.state.theme.themeName;
+		}
+	},
+	watch: {
+		theme: {
+			handler: function (newVal) {
+				this.setCmpt();
+			},
+			deep: true
+		},
 	},
 	data() {
 		return {
@@ -39,60 +41,36 @@ export default {
 		};
 	},
 	methods: {
-
+		setCmpt() {
+			switch (this.theme) {
+				case '001':
+					this.classname = 'homepage1';
+					break;
+				case '002':
+					this.classname = 'homepage2';
+					break;
+				case '003':
+					this.classname = 'homepage3';
+					break;
+				case '004':
+					this.classname = 'homepage4';
+					break;
+				default:
+					this.classname = 'homepage1';
+					break;
+			}
+		},
 	},
 	mounted() {
-		switch (this.templates) {
-			case '001':
-				this.classname = 'homepage1';
-				break;
-			case '002':
-				this.classname = 'homepage2';
-				break;
-			case '003':
-				this.classname = 'homepage3';
-				break;
-			case '004':
-				this.classname = 'homepage4';
-				break;
-			default:
-				this.classname = 'homepage1';
-				break;
-		}
+		this.setCmpt();
 	},
 	beforeDestroy() {
 
 	},
 	created() {
-		this._getLess('/view/homepage.less');
+
 	}
 };
 </script>
 
-<style lang="less">
-#homepage {
-	.ivu-carousel {
-		height: 100% !important;
-	}
-
-	.ivu-carousel-list {
-		height: 100% !important;
-	}
-
-	.ivu-carousel-track {
-		height: 100% !important;
-	}
-
-	.ivu-carousel-item {
-		height: 100% !important;
-	}
-
-	.ivu-carousel-arrow {
-		background-color: rgb(83, 133, 152) !important;
-	}
-
-	.ivu-carousel-arrow :hover {
-		background-color: rgb(83, 133, 152) !important;
-	}
-}
-</style>
+<style lang="less"></style>

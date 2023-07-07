@@ -1,3 +1,5 @@
+import { setStore, getStore } from "@/utils/storage";
+
 export default {
   state: {
     GISToken: "YGzF1pSSi5awB-d-QumbDCmRA8853m99hh55iYn6Vzmf7XNv_d2py9SyIcy_AwtmvHh4C0oNlKTdFMAqbxPGpQ..", //底图的token
@@ -14,6 +16,7 @@ export default {
   mutations: {
     GISToken(state, arg) {
       state.GISToken = arg;
+      setStore({ name: "GISToken", content: state.GISToken });
     },
     mapload(state, arg) {
       state.mapload = arg;

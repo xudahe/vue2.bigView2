@@ -1,5 +1,5 @@
 <template>
-    <div class="header" style="z-index: 99;">
+    <div class="header" style="z-index: 99;position: relative;">
         <div style="width: 6.4rem;float: left;height: 0.75rem;">
             <!-- <div class="headerTitle" style="width: 4.99rem;height: auto;margin-top: 0.14rem;margin-left: 0.7rem;">{{ ptTitle }}</div> -->
             <img src="@/assets/template/004/img/app/灌南县排水管网GIS平台.png"
@@ -27,14 +27,15 @@
         </div>
         <ul class="right-menu">
             <li class="eui-nav-item">
-                <Dropdown trigger="click" style="" @on-click="accountSwitches">
+                <Dropdown trigger="hover" style="" @on-click="accountSwitches">
                     <span style="cursor: pointer;color: #fff;font-size: 0.18rem;">
                         <img src="@/assets/template/004/img/login/头像.png" class="logo-img" />
                         <span style="padding-left: 0.1rem;color: #19d2ff;">{{ loginName }}</span>
-                        <Icon type="arrow-down-b"></Icon>
+                        <!-- <Icon type="arrow-down-b"></Icon> -->
                     </span>
                     <DropdownMenu slot="list" style="color: #ffffff">
-                        <DropdownItem name="密码修改">密码修改</DropdownItem>
+                        <Dropdown-item name="密码修改">密码修改</Dropdown-item>
+                        <Dropdown-item name="主题切换">主题切换</Dropdown-item>
                         <Dropdown-item name="退出登录">退出登录</Dropdown-item>
                     </DropdownMenu>
                 </Dropdown>
@@ -45,7 +46,7 @@
 
 <script>
 import bus from "@/eventBus.js";
-import apiSetting from "@/api/axios/apiSetting";
+
 export default {
     name: "index4",
     components: {
@@ -69,7 +70,7 @@ export default {
     },
     data() {
         return {
-            loginName: '测试管理员',
+            loginName: '管理员',
             ptTitle: '',
 
             ismeunNum: null,
@@ -93,25 +94,35 @@ export default {
             });
         },
         accountSwitches(name) {
-            if (name == '退出登录') {
-                this.$Modal.confirm({
-                    content: '是否退出系统, 是否继续？',
-                    title: '提示',
-                    okText: '离开',
-                    cancelText: '取消',
-                    onOk: function () {
-                        // 正常跳转
-                        this.$store.dispatch("LogOut").then(() => {
-                            this.$router.push({ path: "/login" });
-                        });
-                    },
-                    onCancel: function () {
-                        // 取消跳转
-                    }
-                });
-                // window.location.reload()
-            } else if (name == '密码修改') {
+            let _this = this;
 
+            switch (name) {
+                case "密码修改":
+
+                    break;
+                case "主题切换":
+                    bus.$emit("topTheme", true);
+                    break;
+                case "退出登录":
+                    this.$Modal.confirm({
+                        content: '是否退出系统, 是否继续？',
+                        title: '提示',
+                        okText: '离开',
+                        cancelText: '取消',
+                        onOk: function () {
+                            // 正常跳转
+                            this.$store.dispatch("LogOut").then(() => {
+                                _this.$router.push({ path: "/login" });
+                            });
+                        },
+                        onCancel: function () {
+                            // 取消跳转
+                        }
+                    });
+                    // window.location.reload()
+                    break;
+                default:
+                    break;
             }
         },
     },
@@ -138,7 +149,7 @@ export default {
     },
 
     created() {
-        this._getLess("/header/index.less");
+
     },
 };
 </script>

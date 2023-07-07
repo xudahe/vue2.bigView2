@@ -16,6 +16,7 @@
 import Cookies from 'js-cookie';
 import apiSetting from "@/api/axios/apiSetting";
 import bus from '@/eventBus.js';
+import { isNull } from "@/utils/validate";
 
 export default {
     name: "loading",
@@ -28,19 +29,23 @@ export default {
     methods: {},
 
     mounted() {
-        var that = this;
-        that.text = '登录中...';
+        var _this = this;
+
+        _this.text = '登录中...';
+        let themename = this.$route.params.themename;
         let username = this.$route.params.username;
         let password = this.$route.params.password;
 
         loadScripts(['./AppSetting.js']).then((e) => {
-            that.text = '登录成功!!!';
+            _this.text = '登录成功!!!';
+
+            //后期从接口获取theme值
+            _this.$store.commit("SET_THEME_NAME", isNull(themename) ? _this.$store.state.theme.themeName : themename);
+
             setTimeout(function () {
-                that.$router.push({
+                _this.$router.push({
                     name: 'homepage',
-                    query: {
-                        id: '1'
-                    }
+                    query: { id: '1' }
                 });
             }, 500);
         })

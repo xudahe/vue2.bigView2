@@ -1,11 +1,10 @@
 <template>
-	<div class="homepageDiv4" style="width:100%;height: 100%;">
-
-		<div class="circleLeft fade-in-right" style="width: 4.7rem;">
+	<div class="homepageDiv4" style="width:100%;height: 100%;margin-top: 0.05rem;">
+		<div class="circleLeft fade-in-right">
 			<homeLeft></homeLeft>
 		</div>
 
-		<div class="circleMiddle" style="width: 9.8rem;">
+		<div class="circleMiddle">
 			<div style="height: calc(100%/3*2 - 0.1rem); margin-bottom: 0.1rem;width:100%;" class="scale-in">
 				<homeMiddleTop></homeMiddleTop>
 			</div>
@@ -14,7 +13,7 @@
 			</div>
 		</div>
 
-		<div class="circleRight fade-in-left" style="width: 4.7rem;">
+		<div class="circleRight fade-in-left">
 			<homeRight></homeRight>
 		</div>
 	</div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="header" style="z-index: 99;">
+    <div class="header" style="z-index: 99;position: relative;">
         <div class="headerdiv" style="width: 6.4rem;text-align: right;">
             <div class="leftTool">
                 <div style="padding-left:0.1rem;color:rgb(75 236 214);">
@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="headerdiv" style="width: 6.4rem;">
-            <div class="headerTitle">
+            <div class="headerTitle" style="cursor: pointer;" @click="goHomepage()">
                 {{ ptTitle }}
             </div>
         </div>
@@ -39,16 +39,17 @@
 
         <ul class="right-menu">
             <li class="eui-nav-item">
-                <Dropdown trigger="click" style="" @on-click='accountSwitches'>
+                <Dropdown trigger="hover" style="" @on-click='accountSwitches'>
                     <span style='cursor: pointer;color: #fff'>
                         <img src="@/assets/template/004/img/login/头像.png" class="logo-img" />
                         <span style="padding-left: 0.1rem;color: #37a9f9;">{{ loginName }}</span>
-                        <Icon type="arrow-down-b"></Icon>
+                        <!-- <Icon type="arrow-down-b"></Icon> -->
                     </span>
                     <DropdownMenu slot="list" style="color: #ffffff">
                         <DropdownItem name="密码修改">密码修改</DropdownItem>
                         <Dropdown-item name="平台切换">平台切换</Dropdown-item>
-                        <Dropdown-item name="账号切换">账号切换</Dropdown-item>
+                        <Dropdown-item name="主题切换">主题切换</Dropdown-item>
+                        <Dropdown-item name="退出登录">退出登录</Dropdown-item>
                     </DropdownMenu>
                 </Dropdown>
             </li>
@@ -86,7 +87,7 @@ export default {
     },
     data() {
         return {
-            loginName: '测试管理员',
+            loginName: '管理员',
             ptTitle: '灌南县排水管网GIS平台',
 
             ismeunNumLeft: null,
@@ -161,6 +162,8 @@ export default {
             });
         },
         accountSwitches(name) {
+            let _this = this;
+
             switch (name) {
                 case "密码修改":
 
@@ -170,8 +173,11 @@ export default {
                         name: 'platform'
                     });
                     break;
+                case "主题切换":
+                    bus.$emit("topTheme", true);
+                    break;
                 case "退出登录":
-                this.$Modal.confirm({
+                    this.$Modal.confirm({
                         content: '是否退出系统, 是否继续？',
                         title: '提示',
                         okText: '离开',
@@ -179,7 +185,7 @@ export default {
                         onOk: function () {
                             // 正常跳转
                             this.$store.dispatch("LogOut").then(() => {
-                                this.$router.push({ path: "/login" });
+                                _this.$router.push({ path: "/login" });
                             });
                         },
                         onCancel: function () {
@@ -201,7 +207,7 @@ export default {
 
     },
     created() {
-        this._getLess("/header/index.less");
+
     },
 };
 </script>

@@ -13,9 +13,9 @@ const LoginModule = {
     url: '/api/Login/RefreshToken',
     method: 'get'
   },
-   /**
-   * Token登录
-   */
+  /**
+  * Token登录
+  */
   getLoginByToken: {
     url: '/api/Login/GetLoginByToken',
     method: 'get'

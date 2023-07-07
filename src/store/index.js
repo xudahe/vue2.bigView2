@@ -1,29 +1,30 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { setStore, getStore } from '@/utils/storage'
 
 Vue.use(Vuex);
 
 import common from "./modules/common";
 import login from "./modules/login";
+import theme from "./modules/theme";
 import map from "./modules/map";
 
 const store = new Vuex.Store({
   state: {
     metatitle: "XXXX信息化平台", //浏览器标题头
 
-    themeVal: "001", //主题样式
+    themeName: getStore({ name: 'themeName' }) || "001", //主题样式
   },
   mounted() { },
   modules: {
     common,
     login,
+    theme,
     map,
   },
   // 执行同步操作改变state   this.$store.commit("templatesMu", data)
   mutations: {
-    templatesMu(state, data) {
-      state.themeVal = data;
-    },
+
   },
   // 执行异步操作，但不能直接改变state   this.$store.dispatch("templatesMu", data);
   // actions的方法最终还是通过调用mutations的方法来实现修改vuex的状态的
@@ -31,8 +32,6 @@ const store = new Vuex.Store({
   // Getters相当于vue中的computed计算属性，getter的返回值根据它的依赖被缓存起来，且只有当它的依赖值发生改变时才会重新计算。
   // Getters可以用于监听，state中的值的变化，返回计算后的结果。
   getters: {
-    templates: (state) => state.themeVal,
-
     accessToken: (state) => state.login.accessToken,
     loginInfo: (state) => state.login.loginInfo,
 
@@ -40,8 +39,6 @@ const store = new Vuex.Store({
     mapscale: (state) => state.map.mapscale,
     mapload: (state) => state.map.mapload,
 
-    lockPasswd: (state) => state.common.lockPasswd,
-    isLock: (state) => state.common.isLock,
   },
 });
 

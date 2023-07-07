@@ -3,12 +3,12 @@
  *
  */
 
-import * as esriLoader from 'esri-loader';
-import bus from '../../../eventBus.js';
-import * as transformUtils from './mapTran.js';
-import mapconfig from './mapconfig'
+import * as esriLoader from "esri-loader";
+import bus from "../../../eventBus.js";
+import * as transformUtils from "./mapTran.js";
+import mapconfig from "./mapconfig";
 export const MapControl = {};
-const tips = require('@/assets/img/map/tips.png');
+const tips = require("@/assets/img/map/tips.png");
 
 MapControl.popupinfo; //地图窗口
 
@@ -47,7 +47,7 @@ MapControl.GeometryService = {};
 
 MapControl.MenuForMap = {};
 
-MapControl.mapId = 'mapbox';
+MapControl.mapId = "mapbox";
 
 // identify点击事件
 MapControl.identifyHandler = {};
@@ -74,36 +74,30 @@ MapControl.setMapFull = function () {
   let map = MapControl.map[MapControl.mapId];
   let extent = mapconfig.extent;
 
-  esriLoader.loadModules(
-    ['esri/map', 'esri/geometry/Extent', 'esri/toolbars/navigation']).then(
-      ([Map, Extent]) => {
-        let mapExtent = new esri.geometry.Extent(
-          extent.xmin,
-          extent.ymin,
-          extent.xmax,
-          extent.ymax,
-          map.spatialReference
-        );
-        map.setExtent(mapExtent);
+  esriLoader
+    .loadModules(["esri/map", "esri/geometry/Extent", "esri/toolbars/navigation"])
+    .then(([Map, Extent]) => {
+      let mapExtent = new esri.geometry.Extent(
+        extent.xmin,
+        extent.ymin,
+        extent.xmax,
+        extent.ymax,
+        map.spatialReference
+      );
+      map.setExtent(mapExtent);
 
-        var navToolbar = MapControl.navToolbar[MapControl.mapId];
-        navToolbar.deactivate();
-      }
-    ).catch(err => {
-      console.error(err);
+      var navToolbar = MapControl.navToolbar[MapControl.mapId];
+      navToolbar.deactivate();
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 MapControl.RefreshExtend = function () {
   let map = MapControl.map[MapControl.mapId];
   //  let cPoint = map.extent.getCenter();
   let extent = map.extent;
-  let mapExtent = new esri.geometry.Extent(
-    extent.xmin,
-    extent.ymin,
-    extent.xmax,
-    extent.ymax,
-    map.spatialReference
-  );
+  let mapExtent = new esri.geometry.Extent(extent.xmin, extent.ymin, extent.xmax, extent.ymax, map.spatialReference);
   map.setExtent(mapExtent);
 };
 
@@ -116,12 +110,15 @@ MapControl.setMapZoomIn = function () {
   // var num = map.getLevel();
   // map.setZoom(num + 1)
 
-  esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
-    var navToolbar = MapControl.navToolbar[MapControl.mapId];
-    navToolbar.activate(esri.toolbars.Navigation.ZOOM_IN);
-  }).catch(err => {
-    console.error(err);
-  })
+  esriLoader
+    .loadModules(["esri/map", "esri/toolbars/navigation"])
+    .then(([Map, Navigation]) => {
+      var navToolbar = MapControl.navToolbar[MapControl.mapId];
+      navToolbar.activate(esri.toolbars.Navigation.ZOOM_IN);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /**
@@ -133,12 +130,15 @@ MapControl.setMapZoomOut = function () {
   // var num = map.getLevel();
   // map.setZoom(num - 1)
 
-  esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
-    var navToolbar = MapControl.navToolbar[MapControl.mapId];
-    navToolbar.activate(esri.toolbars.Navigation.ZOOM_OUT);
-  }).catch(err => {
-    console.error(err);
-  })
+  esriLoader
+    .loadModules(["esri/map", "esri/toolbars/navigation"])
+    .then(([Map, Navigation]) => {
+      var navToolbar = MapControl.navToolbar[MapControl.mapId];
+      navToolbar.activate(esri.toolbars.Navigation.ZOOM_OUT);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /**
@@ -146,12 +146,15 @@ MapControl.setMapZoomOut = function () {
  * @param mapId
  */
 MapControl.setMapPan = function () {
-  esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
-    var navToolbar = MapControl.navToolbar[MapControl.mapId];
-    navToolbar.activate(esri.toolbars.Navigation.PAN);
-  }).catch(err => {
-    console.error(err);
-  })
+  esriLoader
+    .loadModules(["esri/map", "esri/toolbars/navigation"])
+    .then(([Map, Navigation]) => {
+      var navToolbar = MapControl.navToolbar[MapControl.mapId];
+      navToolbar.activate(esri.toolbars.Navigation.PAN);
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /**
@@ -159,12 +162,15 @@ MapControl.setMapPan = function () {
  * @param mapId
  */
 MapControl.setMapZoomToPrev = function () {
-  esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
-    var navToolbar = MapControl.navToolbar[MapControl.mapId];
-    navToolbar.zoomToPrevExtent();
-  }).catch(err => {
-    console.error(err);
-  })
+  esriLoader
+    .loadModules(["esri/map", "esri/toolbars/navigation"])
+    .then(([Map, Navigation]) => {
+      var navToolbar = MapControl.navToolbar[MapControl.mapId];
+      navToolbar.zoomToPrevExtent();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /**
@@ -172,12 +178,15 @@ MapControl.setMapZoomToPrev = function () {
  * @param mapId
  */
 MapControl.setMapZoomToNext = function () {
-  esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
-    var navToolbar = MapControl.navToolbar[MapControl.mapId];
-    navToolbar.zoomToNextExtent();
-  }).catch(err => {
-    console.error(err);
-  })
+  esriLoader
+    .loadModules(["esri/map", "esri/toolbars/navigation"])
+    .then(([Map, Navigation]) => {
+      var navToolbar = MapControl.navToolbar[MapControl.mapId];
+      navToolbar.zoomToNextExtent();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /**
@@ -185,12 +194,15 @@ MapControl.setMapZoomToNext = function () {
  * @param mapId
  */
 MapControl.setMapZoomToFull = function () {
-  esriLoader.loadModules(['esri/map', 'esri/toolbars/navigation']).then(([Map, Navigation]) => {
-    var navToolbar = MapControl.navToolbar[MapControl.mapId];
-    navToolbar.zoomToFullExtent();
-  }).catch(err => {
-    console.error(err);
-  })
+  esriLoader
+    .loadModules(["esri/map", "esri/toolbars/navigation"])
+    .then(([Map, Navigation]) => {
+      var navToolbar = MapControl.navToolbar[MapControl.mapId];
+      navToolbar.zoomToFullExtent();
+    })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /**
@@ -201,7 +213,7 @@ MapControl.setMapClear = function () {
   let map = MapControl.map[MapControl.mapId];
 
   for (let key in MapControl.graphicLayers) {
-    let gralyr = MapControl.graphicLayers[key]
+    let gralyr = MapControl.graphicLayers[key];
     if (gralyr != undefined) {
       gralyr.clear();
       gralyr.onMouseOver = function (val) { };
@@ -269,11 +281,11 @@ MapControl.identifyHandlerRemove = function () {
   if (MapControl.identifyHandler) {
     MapControl.identifyHandler.remove();
   }
-}
+};
 
 //点定位
 MapControl.PointTo = function (x, y) {
-  esriLoader.loadModules(['esri/map', 'esri/geometry/Point']).then(([Map, Point]) => {
+  esriLoader.loadModules(["esri/map", "esri/geometry/Point"]).then(([Map, Point]) => {
     let map = MapControl.map[MapControl.mapId];
     // var xMin = parseFloat(x) - 0.005;
     // var yMin = parseFloat(y) - 0.005;
@@ -282,8 +294,8 @@ MapControl.PointTo = function (x, y) {
     // var showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
     // map.setExtent(showExtent.expand(0.1));
     map.centerAndZoom(new Point(x, y), 7);
-  })
-}
+  });
+};
 
 /**
  *加载服务
@@ -291,16 +303,16 @@ MapControl.PointTo = function (x, y) {
  */
 MapControl.addservice = function (item) {
   let map = MapControl.map[MapControl.mapId];
-  if (item.ISADD == 'true') {
-    if (item.type == 'tiled') {
+  if (item.ISADD == "true") {
+    if (item.type == "tiled") {
       let titleLayer = new esri.layers.ArcGISTiledMapServiceLayer(item.url);
       titleLayer.id = item.SERVICENAME;
       map.addLayer(titleLayer);
-    } else if (item.type == 'dynamic') {
+    } else if (item.type == "dynamic") {
       let dynamicLayer = new esri.layers.ArcGISDynamicMapServiceLayer(item.url);
       dynamicLayer.id = item.SERVICENAME;
       map.addLayer(dynamicLayer);
-    } else if (item.type == 'image') {
+    } else if (item.type == "image") {
       let imageLayer = new esri.layers.ArcGISImageServiceLayer(item.url);
       imageLayer.id = item.SERVICENAME;
       map.addLayer(imageLayer);
@@ -310,7 +322,7 @@ MapControl.addservice = function (item) {
     if (curLyr) map.removeLayer(curLyr);
   }
 
-  bus.$emit('refreshlyr');
+  bus.$emit("refreshlyr");
 };
 
 /**
@@ -346,112 +358,158 @@ MapControl.changeLayer = function (item, newIndex) {
  *地图高亮显示
  */
 MapControl.showGraphic = function (geo, issolid, gralyr, isshowExtent, color) {
-  esriLoader.loadModules(
-    ['esri/geometry/Point', 'esri/geometry/Polyline', 'esri/geometry/Polygon']).then(
-      ([Point, Polyline, Polygon]) => {
-        let map = MapControl.map[MapControl.mapId];
-        var symbol;
-        var showExtent;
-        switch (geo.type) {
-          case 'point':
-            geo = new Point(geo);
-            var xMin = geo.x - 0.000005;
-            var yMin = geo.y - 0.000005;
-            var xMax = geo.x + 0.000005;
-            var yMax = geo.y + 0.000005;
-            showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
-            var symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, 10, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_CIRCLE, new dojo.Color(color ? color : [255, 87, 34, 5])), new dojo.Color([255, 87, 34, 5.25]));
-            break;
-          case 'polyline':
-            geo = new Polyline(geo);
-            symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color(color ? color : [255, 0, 0]), 3);
-            showExtent = geo.getExtent();
-            break;
-          case 'polygon':
-            geo = new Polygon(geo);
-            symbol = new esri.symbol.SimpleFillSymbol(
-              esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-              new esri.symbol.SimpleLineSymbol(issolid == undefined || issolid == 10 ? esri.symbol.SimpleLineSymbol.STYLE_DASH : esri.symbol.SimpleFillSymbol.STYLE_SOLID, new dojo.Color(color ? color : [255, 0, 0, 0.8]), 3), new dojo.Color([30, 144, 255, 0.2]));
-            showExtent = geo.getExtent();
-            break;
-          case 'extent':
-            geo = new Polygon(geo);
-            symbol = new esri.symbol.SimpleFillSymbol(
-              esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-              new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color(color ? color : [255, 0, 0]), 3), new dojo.Color([255, 87, 34, 0.35]));
-            showExtent = geo.getExtent();
-            break;
-        }
-        if (showExtent !== undefined) {
-          var tempGra = new esri.Graphic(geo, symbol, null, null);
-          MapControl.graphicLayers[gralyr == undefined ? 'gralyr1' : gralyr].add(tempGra);
-          if (isshowExtent == undefined) map.setExtent(showExtent.expand(1.5));
-        }
+  esriLoader
+    .loadModules(["esri/geometry/Point", "esri/geometry/Polyline", "esri/geometry/Polygon"])
+    .then(([Point, Polyline, Polygon]) => {
+      let map = MapControl.map[MapControl.mapId];
+      var symbol;
+      var showExtent;
+      switch (geo.type) {
+        case "point":
+          geo = new Point(geo);
+          var xMin = geo.x - 0.000005;
+          var yMin = geo.y - 0.000005;
+          var xMax = geo.x + 0.000005;
+          var yMax = geo.y + 0.000005;
+          showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
+          var symbol = new esri.symbol.SimpleMarkerSymbol(
+            esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
+            10,
+            new esri.symbol.SimpleLineSymbol(
+              esri.symbol.SimpleLineSymbol.STYLE_CIRCLE,
+              new dojo.Color(color ? color : [255, 87, 34, 5])
+            ),
+            new dojo.Color([255, 87, 34, 5.25])
+          );
+          break;
+        case "polyline":
+          geo = new Polyline(geo);
+          symbol = new esri.symbol.SimpleLineSymbol(
+            esri.symbol.SimpleLineSymbol.STYLE_DASH,
+            new dojo.Color(color ? color : [255, 0, 0]),
+            3
+          );
+          showExtent = geo.getExtent();
+          break;
+        case "polygon":
+          geo = new Polygon(geo);
+          symbol = new esri.symbol.SimpleFillSymbol(
+            esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+            new esri.symbol.SimpleLineSymbol(
+              issolid == undefined || issolid == 10
+                ? esri.symbol.SimpleLineSymbol.STYLE_DASH
+                : esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+              new dojo.Color(color ? color : [255, 0, 0, 0.8]),
+              3
+            ),
+            new dojo.Color([30, 144, 255, 0.2])
+          );
+          showExtent = geo.getExtent();
+          break;
+        case "extent":
+          geo = new Polygon(geo);
+          symbol = new esri.symbol.SimpleFillSymbol(
+            esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+            new esri.symbol.SimpleLineSymbol(
+              esri.symbol.SimpleLineSymbol.STYLE_DASH,
+              new dojo.Color(color ? color : [255, 0, 0]),
+              3
+            ),
+            new dojo.Color([255, 87, 34, 0.35])
+          );
+          showExtent = geo.getExtent();
+          break;
       }
-    ).catch(err => {
-      console.error(err);
+      if (showExtent !== undefined) {
+        var tempGra = new esri.Graphic(geo, symbol, null, null);
+        MapControl.graphicLayers[gralyr == undefined ? "gralyr1" : gralyr].add(tempGra);
+        if (isshowExtent == undefined) map.setExtent(showExtent.expand(1.5));
+      }
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
-
 
 /**
  * Geometry高亮显示
  */
 MapControl.showGeometry = function (geo, isshowExtent, gralyr, color, clear, size, att, extent, outline) {
-  esriLoader.loadModules(['esri/geometry/Point', 'esri/geometry/Polyline', 'esri/geometry/Polygon']).then(([Point, Polyline, Polygon]) => {
-    if (clear == undefined) MapControl.graphicLayers[gralyr == undefined ? 'gralyr3' : gralyr].clear();
-    let map = MapControl.map[MapControl.mapId];
-    var symbol;
-    var showExtent;
-    if (geo.type != undefined && geo.type != '') {
-      switch (geo.type) {
-        case 'point':
-          geo = new Point(geo);
-          var xMin = parseFloat(geo.x) - 0.000005;
-          var yMin = parseFloat(geo.y) - 0.000005;
-          var xMax = parseFloat(geo.x) + 0.000005;
-          var yMax = parseFloat(geo.y) + 0.000005;
-          showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
-          var symbol = null;
-          if (outline && outline == true) {
-            //去掉圆点外边框
-            symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, size == undefined ? 15 : size,
-              new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_NULL, new dojo.Color(color == undefined ? [0, 255, 0, 5] : color)),
-              new dojo.Color(color == undefined ? [0, 255, 0, 5.25] : color));
-          } else {
-            //默认显示
-            symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, size == undefined ? 15 : size,
-              new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_CIRCLE, new dojo.Color(color == undefined ? [0, 255, 0, 5] : color)),
-              new dojo.Color(color == undefined ? [0, 255, 0, 5.25] : color));
-          }
-          break;
-        case 'polyline':
-          geo = new Polyline(geo);
-          symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-            new dojo.Color(color == undefined ? [0, 255, 255] : color), 3);
-          showExtent = geo.getExtent();
-          break;
-        case 'polygon':
-          geo = new Polygon(geo);
-          symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-            new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([0, 255, 255]), 3),
-            new dojo.Color([0, 0, 0, 0.35]));
-          showExtent = geo.getExtent();
-          break;
+  esriLoader
+    .loadModules(["esri/geometry/Point", "esri/geometry/Polyline", "esri/geometry/Polygon"])
+    .then(([Point, Polyline, Polygon]) => {
+      if (clear == undefined) MapControl.graphicLayers[gralyr == undefined ? "gralyr3" : gralyr].clear();
+      let map = MapControl.map[MapControl.mapId];
+      var symbol;
+      var showExtent;
+      if (geo.type != undefined && geo.type != "") {
+        switch (geo.type) {
+          case "point":
+            geo = new Point(geo);
+            var xMin = parseFloat(geo.x) - 0.000005;
+            var yMin = parseFloat(geo.y) - 0.000005;
+            var xMax = parseFloat(geo.x) + 0.000005;
+            var yMax = parseFloat(geo.y) + 0.000005;
+            showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
+            var symbol = null;
+            if (outline && outline == true) {
+              //去掉圆点外边框
+              symbol = new esri.symbol.SimpleMarkerSymbol(
+                esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
+                size == undefined ? 15 : size,
+                new esri.symbol.SimpleLineSymbol(
+                  esri.symbol.SimpleLineSymbol.STYLE_NULL,
+                  new dojo.Color(color == undefined ? [0, 255, 0, 5] : color)
+                ),
+                new dojo.Color(color == undefined ? [0, 255, 0, 5.25] : color)
+              );
+            } else {
+              //默认显示
+              symbol = new esri.symbol.SimpleMarkerSymbol(
+                esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
+                size == undefined ? 15 : size,
+                new esri.symbol.SimpleLineSymbol(
+                  esri.symbol.SimpleLineSymbol.STYLE_CIRCLE,
+                  new dojo.Color(color == undefined ? [0, 255, 0, 5] : color)
+                ),
+                new dojo.Color(color == undefined ? [0, 255, 0, 5.25] : color)
+              );
+            }
+            break;
+          case "polyline":
+            geo = new Polyline(geo);
+            symbol = new esri.symbol.SimpleLineSymbol(
+              esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+              new dojo.Color(color == undefined ? [0, 255, 255] : color),
+              3
+            );
+            showExtent = geo.getExtent();
+            break;
+          case "polygon":
+            geo = new Polygon(geo);
+            symbol = new esri.symbol.SimpleFillSymbol(
+              esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+              new esri.symbol.SimpleLineSymbol(
+                esri.symbol.SimpleLineSymbol.STYLE_DASH,
+                new dojo.Color([0, 255, 255]),
+                3
+              ),
+              new dojo.Color([0, 0, 0, 0.35])
+            );
+            showExtent = geo.getExtent();
+            break;
+        }
       }
-    }
 
-    if (showExtent != undefined) {
-      var tempGra = new esri.Graphic(geo, symbol, null, null);
+      if (showExtent != undefined) {
+        var tempGra = new esri.Graphic(geo, symbol, null, null);
 
-      if (att != undefined) tempGra.setAttributes(att);
-      MapControl.graphicLayers[gralyr == undefined ? 'gralyr3' : gralyr].add(tempGra);
-      if (isshowExtent == undefined)
-        map.setExtent(showExtent.expand(extent == undefined ? 0 : extent));
-    }
-  });
+        if (att != undefined) tempGra.setAttributes(att);
+        MapControl.graphicLayers[gralyr == undefined ? "gralyr3" : gralyr].add(tempGra);
+        if (isshowExtent == undefined) map.setExtent(showExtent.expand(extent == undefined ? 0 : extent));
+      }
+    });
 };
-
 
 // 使用方法：
 // let x_array = [];
@@ -473,69 +531,69 @@ MapControl.setPolylinesExtent = function (x, y, expand = 0) {
     if (a > b) {
       return 1;
     } else if (a < b) {
-      return -1
+      return -1;
     } else {
       return 0;
     }
   }
-  x = x.sort(sequence)
-  y = y.sort(sequence)
-  const map = MapControl.map[MapControl.mapId]
+  x = x.sort(sequence);
+  y = y.sort(sequence);
+  const map = MapControl.map[MapControl.mapId];
   let extent = new esri.geometry.Extent({
-    "xmin": x[0],
-    "ymin": y[0],
-    "xmax": x[x.length - 1],
-    "ymax": y[y.length - 1],
-    "spatialReference": map.spatialReference
+    xmin: x[0],
+    ymin: y[0],
+    xmax: x[x.length - 1],
+    ymax: y[y.length - 1],
+    spatialReference: map.spatialReference,
   });
-  map.setExtent(extent.expand(expand))
-}
+  map.setExtent(extent.expand(expand));
+};
 
 /**
  *地图定位
  */
 MapControl.showExtent = function (geo, iscal) {
-  esriLoader.loadModules(
-    ['esri/geometry/Point', 'esri/geometry/Polyline', 'esri/geometry/Polygon']).then(
-      ([Point, Polyline, Polygon]) => {
-        let map = MapControl.map[MapControl.mapId];
-        var showExtent;
-        if (geo.type == undefined) return;
-        switch (geo.type) {
-          case 'point':
-            geo = new Point(geo);
-            var xMin = geo.x - 0.000005;
-            var yMin = geo.y - 0.000005;
-            var xMax = geo.x + 0.000005;
-            var yMax = geo.y + 0.000005;
-            showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
-            break;
-          case 'polyline':
-            geo = new Polyline(geo);
-            showExtent = geo.getExtent();
-            break;
-          case 'polygon':
-            geo = new Polygon(geo);
-            showExtent = geo.getExtent();
-            break;
-          case 'extent':
-            geo = new Polygon(geo);
-            showExtent = geo.getExtent();
-            break;
-        }
-        if (showExtent !== undefined) {
-          map.setExtent(showExtent.expand(iscal == undefined ? 1.5 : iscal));
-        }
+  esriLoader
+    .loadModules(["esri/geometry/Point", "esri/geometry/Polyline", "esri/geometry/Polygon"])
+    .then(([Point, Polyline, Polygon]) => {
+      let map = MapControl.map[MapControl.mapId];
+      var showExtent;
+      if (geo.type == undefined) return;
+      switch (geo.type) {
+        case "point":
+          geo = new Point(geo);
+          var xMin = geo.x - 0.000005;
+          var yMin = geo.y - 0.000005;
+          var xMax = geo.x + 0.000005;
+          var yMax = geo.y + 0.000005;
+          showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
+          break;
+        case "polyline":
+          geo = new Polyline(geo);
+          showExtent = geo.getExtent();
+          break;
+        case "polygon":
+          geo = new Polygon(geo);
+          showExtent = geo.getExtent();
+          break;
+        case "extent":
+          geo = new Polygon(geo);
+          showExtent = geo.getExtent();
+          break;
       }
-    ).catch(err => {
-      console.error(err);
+      if (showExtent !== undefined) {
+        map.setExtent(showExtent.expand(iscal == undefined ? 1.5 : iscal));
+      }
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 //返回范围面的中心点
 MapControl.getCenterByPolygon = function (geometry) {
   let polygon = MapControl.WktToAgs(geometry);
-  return polygon.getExtent().getCenter()
+  return polygon.getExtent().getCenter();
 };
 
 //当前视角内地图的四角范围
@@ -548,8 +606,8 @@ MapControl.getMapPolygon = function () {
   var rt = extent.xmax + " " + extent.ymax;
   var rb = extent.xmax + " " + extent.ymin;
 
-  let geometry = 'POLYGON ((' + lb + "," + lt + "," + rt + "," + rb + "," + lb + '))';
-  bus.$emit('getMapPolygon', geometry);
+  let geometry = "POLYGON ((" + lb + "," + lt + "," + rt + "," + rb + "," + lb + "))";
+  bus.$emit("getMapPolygon", geometry);
 };
 
 MapControl.SetExtent = function (x, y) {
@@ -574,28 +632,28 @@ MapControl.mapDraw = function (drawtype, isClear) {
     doSpaceDrawEventHandler.remove();
   }
   let toolbar = MapControl.drawToolbar[MapControl.mapId];
-  doSpaceDrawEventHandler = toolbar.on('draw-end', doSpaceDraw);
+  doSpaceDrawEventHandler = toolbar.on("draw-end", doSpaceDraw);
 
-  if (drawtype == 'point') {
+  if (drawtype == "point") {
     toolbar.activate(esri.toolbars.Draw.POINT);
-  } else if (drawtype == 'extent') {
+  } else if (drawtype == "extent") {
     toolbar.activate(esri.toolbars.Draw.EXTENT);
-  } else if (drawtype == 'polygon') {
+  } else if (drawtype == "polygon") {
     toolbar.activate(esri.toolbars.Draw.POLYGON);
-  } else if (drawtype == 'polyline') {
+  } else if (drawtype == "polyline") {
     toolbar.activate(esri.toolbars.Draw.POLYLINE);
-  } else if (drawtype == 'circle') {
+  } else if (drawtype == "circle") {
     toolbar.activate(esri.toolbars.Draw.CIRCLE);
-  } else if (drawtype == 'line') {
+  } else if (drawtype == "line") {
     toolbar.activate(esri.toolbars.Draw.LINE);
   }
   if (isClear == true) {
-    MapControl.graphicLayers['gralyr1'].clear();
+    MapControl.graphicLayers["gralyr1"].clear();
   }
 };
 
 MapControl.clearmapDraw = function () {
-  MapControl.graphicLayers['gralyr1'].clear();
+  MapControl.graphicLayers["gralyr1"].clear();
   if (doSpaceDrawEventHandler != undefined) {
     doSpaceDrawEventHandler.remove();
   }
@@ -603,7 +661,7 @@ MapControl.clearmapDraw = function () {
 
 MapControl.doSpaceDraw = function (gra) {
   doSpaceDraw(gra);
-}
+};
 
 function doSpaceDraw(gra) {
   if (doSpaceDrawEventHandler !== undefined) {
@@ -614,22 +672,19 @@ function doSpaceDraw(gra) {
   //根据图形的类型定义显示样式
   var geo = gra.geometry;
   var symbol;
-  var geom = '';
+  var geom = "";
 
   switch (geo.type) {
-    case 'point':
+    case "point":
       symbol = new esri.symbol.SimpleMarkerSymbol(
         esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
         10,
-        new esri.symbol.SimpleLineSymbol(
-          esri.symbol.SimpleLineSymbol.STYLE_CIRCLE,
-          new dojo.Color([255, 87, 34, 5])
-        ),
+        new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_CIRCLE, new dojo.Color([255, 87, 34, 5])),
         new dojo.Color([255, 87, 34, 5.25])
       );
       geom = transformUtils.PointToWKT(geo);
       break;
-    case 'polyline':
+    case "polyline":
       symbol = new esri.symbol.SimpleLineSymbol(
         esri.symbol.SimpleLineSymbol.STYLE_DASH,
         new dojo.Color([255, 0, 0]),
@@ -641,108 +696,137 @@ function doSpaceDraw(gra) {
       // }
       // geom = 'LINESTRING (' + geom.substring(0, geom.length - 1) + ')';
       break;
-    case 'polygon':
-      symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+    case "polygon":
+      symbol = new esri.symbol.SimpleFillSymbol(
+        esri.symbol.SimpleFillSymbol.STYLE_SOLID,
         new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0, 0.6]), 3),
         new dojo.Color([255, 255, 255, 0.2])
       );
       geom = MapControl.AgsToWkt(geo);
       break;
-    case 'extent':
-      symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+    case "extent":
+      symbol = new esri.symbol.SimpleFillSymbol(
+        esri.symbol.SimpleFillSymbol.STYLE_SOLID,
         new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 3),
         new dojo.Color([255, 140, 0, 0.1])
       );
-      geom = geo.xmin + ' ' + geo.ymin + ',' + geo.xmax + ' ' + geo.ymin + ',' + geo.xmax + ' ' + geo.ymax + ',' + geo.xmin + ' ' + geo.ymax + ',' + geo.xmin + ' ' + geo.ymin;
-      geom = 'POLYGON ((' + geom + '))';
+      geom =
+        geo.xmin +
+        " " +
+        geo.ymin +
+        "," +
+        geo.xmax +
+        " " +
+        geo.ymin +
+        "," +
+        geo.xmax +
+        " " +
+        geo.ymax +
+        "," +
+        geo.xmin +
+        " " +
+        geo.ymax +
+        "," +
+        geo.xmin +
+        " " +
+        geo.ymin;
+      geom = "POLYGON ((" + geom + "))";
       break;
   }
-  bus.$emit('mapDrawresult', geom);
-  bus.$emit('PrintmapDrawresult', {
+  bus.$emit("mapDrawresult", geom);
+  bus.$emit("PrintmapDrawresult", {
     gwkt: geom,
-    gty: geo
+    gty: geo,
   });
   var tempGra = new esri.Graphic(geo, symbol, null, null);
-  MapControl.graphicLayers['gralyr1'].add(tempGra);
-  bus.$emit('mapTempGra', tempGra);
+  MapControl.graphicLayers["gralyr1"].add(tempGra);
+  bus.$emit("mapTempGra", tempGra);
 }
-
 
 MapControl.DrawTool = function (drawtype) {
   if (doSpaceDrawEventHandler != undefined) {
     doSpaceDrawEventHandler.remove();
   }
   let toolbar = MapControl.drawToolbar[MapControl.mapId];
-  doSpaceDrawEventHandler = toolbar.on('draw-end', getGeoms);
+  doSpaceDrawEventHandler = toolbar.on("draw-end", getGeoms);
 
-  if (drawtype == 'point') {
+  if (drawtype == "point") {
     toolbar.activate(esri.toolbars.Draw.POINT);
-  } else if (drawtype == 'extent') {
+  } else if (drawtype == "extent") {
     toolbar.activate(esri.toolbars.Draw.EXTENT);
-  } else if (drawtype == 'polygon') {
+  } else if (drawtype == "polygon") {
     toolbar.activate(esri.toolbars.Draw.POLYGON);
-  } else if (drawtype == 'polyline') {
+  } else if (drawtype == "polyline") {
     toolbar.activate(esri.toolbars.Draw.POLYLINE);
-  } else if (drawtype == 'circle') {
+  } else if (drawtype == "circle") {
     toolbar.activate(esri.toolbars.Draw.CIRCLE);
-  } else if (drawtype == 'line') {
+  } else if (drawtype == "line") {
     toolbar.activate(esri.toolbars.Draw.LINE);
   }
 
   function getGeoms(gra) {
-    esriLoader.loadModules([
-      "esri/tasks/IdentifyTask",
-      "esri/tasks/IdentifyParameters"
-    ])
+    esriLoader
+      .loadModules(["esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters"])
       .then(([IdentifyTask, IdentifyParameters]) => {
         let map = MapControl.map[MapControl.mapId];
         let geo = gra.geometry;
         let symbol = new esri.symbol.SimpleFillSymbol(
           esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-          new esri.symbol.SimpleLineSymbol(
-            esri.symbol.SimpleLineSymbol.STYLE_DASH,
-            new dojo.Color([255, 0, 0]),
-            3
-          ),
+          new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 3),
           new dojo.Color([255, 140, 0, 0.1])
         );
         let geom;
-        if (geo.type == 'point') {
-          let identifyTask = new IdentifyTask(
-            mapconfig.arcgis_url_kxgh
-          );
+        if (geo.type == "point") {
+          let identifyTask = new IdentifyTask(mapconfig.arcgis_url_kxgh);
           let identifyParams = new IdentifyParameters();
           identifyParams.tolerance = 1;
           identifyParams.returnGeometry = true;
-          identifyParams.layerOption =
-            esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
+          identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
           identifyParams.geometry = geo;
           identifyParams.mapExtent = map.extent;
-          identifyTask.execute(identifyParams, results => {
+          identifyTask.execute(identifyParams, (results) => {
             if (results.length > 0) {
               for (let i = 0; i < results.length; i++) {
                 MapControl.showGraphic(results[i].feature.geometry, undefined, "gralyr6");
               }
             }
-
           });
         } else {
           switch (geo.type) {
-            case 'polygon':
+            case "polygon":
               geom = MapControl.AgsToWkt(geo);
               break;
-            case 'extent':
-              geom = geo.xmin + ' ' + geo.ymin + ',' + geo.xmax + ' ' + geo.ymin + ',' + geo.xmax + ' ' + geo.ymax + ',' + geo.xmin + ' ' + geo.ymax + ',' + geo.xmin + ' ' + geo.ymin;
-              geom = 'POLYGON ((' + geom + '))';
+            case "extent":
+              geom =
+                geo.xmin +
+                " " +
+                geo.ymin +
+                "," +
+                geo.xmax +
+                " " +
+                geo.ymin +
+                "," +
+                geo.xmax +
+                " " +
+                geo.ymax +
+                "," +
+                geo.xmin +
+                " " +
+                geo.ymax +
+                "," +
+                geo.xmin +
+                " " +
+                geo.ymin;
+              geom = "POLYGON ((" + geom + "))";
               break;
           }
           var tempGra = new esri.Graphic(geo, symbol, null, null);
-          MapControl.graphicLayers['gralyr6'].add(tempGra);
+          MapControl.graphicLayers["gralyr6"].add(tempGra);
         }
-        toolbar.deactivate()
-        bus.$emit('mapDrawend', geom);
+        toolbar.deactivate();
+        bus.$emit("mapDrawend", geom);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
       });
   }
@@ -754,7 +838,7 @@ MapControl.GetPoint = function (drawtype) {
   }
 
   let toolbar = MapControl.drawToolbar[MapControl.mapId];
-  doSpaceDrawEventHandler = toolbar.on('draw-end', function (gra) {
+  doSpaceDrawEventHandler = toolbar.on("draw-end", function (gra) {
     let map = MapControl.map;
     if (doSpaceDrawEventHandler != undefined) {
       doSpaceDrawEventHandler.remove();
@@ -764,28 +848,24 @@ MapControl.GetPoint = function (drawtype) {
     var geo = gra.geometry;
     var symbol;
     switch (geo.type) {
-      case 'point':
+      case "point":
         symbol = new esri.symbol.SimpleMarkerSymbol(
           esri.symbol.SimpleMarkerSymbol.STYLE_SQUARE,
           5,
-          new esri.symbol.SimpleLineSymbol(
-            esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-            new dojo.Color([255, 0, 0]),
-            1
-          ),
+          new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 1),
           new dojo.Color([0, 255, 0, 0.35])
         );
         break;
     }
-    bus.$emit('GetPoint', geo);
+    bus.$emit("GetPoint", geo);
     var tempGra = new esri.Graphic(geo, symbol, null, null);
-    MapControl.graphicLayers['gralyr1'].add(tempGra);
+    MapControl.graphicLayers["gralyr1"].add(tempGra);
   });
 
-  if (drawtype == 'point') {
+  if (drawtype == "point") {
     toolbar.activate(esri.toolbars.Draw.POINT);
   }
-  MapControl.graphicLayers['gralyr1'].clear();
+  MapControl.graphicLayers["gralyr1"].clear();
 };
 
 //立案绘制
@@ -795,7 +875,7 @@ MapControl.Draw = function (drawtype) {
   }
 
   let toolbar = MapControl.drawToolbar[MapControl.mapId];
-  doSpaceDrawEventHandler = toolbar.on('draw-end', function (gra) {
+  doSpaceDrawEventHandler = toolbar.on("draw-end", function (gra) {
     let map = MapControl.map[MapControl.mapId];
     if (doSpaceDrawEventHandler != undefined) {
       doSpaceDrawEventHandler.remove();
@@ -806,21 +886,17 @@ MapControl.Draw = function (drawtype) {
 
     var symbol = new esri.symbol.SimpleFillSymbol(
       esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-      new esri.symbol.SimpleLineSymbol(
-        esri.symbol.SimpleLineSymbol.STYLE_DASH,
-        new dojo.Color([255, 0, 0]),
-        3
-      ),
+      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 3),
       new dojo.Color([255, 140, 0, 0.35])
     );
-    bus.$emit('GetPolygonFromRemoteServer', geo);
+    bus.$emit("GetPolygonFromRemoteServer", geo);
     var tempGra = new esri.Graphic(geo, symbol, null, null);
-    MapControl.graphicLayers['gralyr1'].add(tempGra);
+    MapControl.graphicLayers["gralyr1"].add(tempGra);
   });
 
   toolbar.activate(esri.toolbars.Draw.POLYGON);
 
-  MapControl.graphicLayers['gralyr1'].clear();
+  MapControl.graphicLayers["gralyr1"].clear();
 };
 
 /**
@@ -833,15 +909,15 @@ MapControl.WktToAgs = function (wkt, spatialReference) {
     let map = MapControl.map[MapControl.mapId];
     var geo;
     if (map && wkt) {
-      if (wkt.indexOf('POINT') >= 0)
+      if (wkt.indexOf("POINT") >= 0)
         geo = transformUtils.WktToPoint(wkt, spatialReference ? spatialReference : map.spatialReference); //点
-      else if (wkt.indexOf('LINESTRING') == 0)
+      else if (wkt.indexOf("LINESTRING") == 0)
         geo = transformUtils.WktToPolyline(wkt, spatialReference ? spatialReference : map.spatialReference); //线
-      else if (wkt.indexOf('MULTILINESTRING') == 0)
+      else if (wkt.indexOf("MULTILINESTRING") == 0)
         geo = transformUtils.WktToMulyiPolyline(wkt, spatialReference ? spatialReference : map.spatialReference); //多线
-      else if (wkt.indexOf('POLYGON') == 0)
+      else if (wkt.indexOf("POLYGON") == 0)
         geo = transformUtils.WktToPolygon(wkt, spatialReference ? spatialReference : map.spatialReference); //面
-      else if (wkt.indexOf('MULTIPOLYGON') == 0) {
+      else if (wkt.indexOf("MULTIPOLYGON") == 0) {
         geo = transformUtils.WktToMULTIPOLYGON(wkt, spatialReference ? spatialReference : map.spatialReference); //多面
       }
     }
@@ -855,11 +931,11 @@ MapControl.WktToAgs = function (wkt, spatialReference) {
 MapControl.AgsToWkt = function (ags) {
   let map = MapControl.map[MapControl.mapId];
   var geo = ags;
-  if (geo.type == 'point') {
+  if (geo.type == "point") {
     geo = transformUtils.PointToWKT(geo); //点
-  } else if (geo.type == 'polyline') {
+  } else if (geo.type == "polyline") {
     geo = transformUtils.LineToWKT(geo); //线
-  } else if (geo.type == 'polygon') {
+  } else if (geo.type == "polygon") {
     geo = transformUtils.PolygonToWKT(geo); //面
   }
   return geo;
@@ -872,29 +948,29 @@ MapControl.AddMarker = function (name) {
   let map = MapControl.map[MapControl.mapId];
   let toolbar = MapControl.drawToolbar[MapControl.mapId];
   toolbar.activate(esri.toolbars.Draw.POINT);
-  MapControl.graphicLayers['gralyr1'].clear();
+  MapControl.graphicLayers["gralyr1"].clear();
   if (domapOnclickEventHandler != undefined) {
     domapOnclickEventHandler.remove();
   }
-  domapOnclickEventHandler = toolbar.on('draw-end', function (gra) {
+  domapOnclickEventHandler = toolbar.on("draw-end", function (gra) {
     if (domapOnclickEventHandler != undefined) {
       domapOnclickEventHandler.remove();
     }
     var geo = gra.geometry;
-    MapControl.GetTxtSymbols(geo, name, 0, 40, '#495060');
-    bus.$emit('AddMarker', geo);
+    MapControl.GetTxtSymbols(geo, name, 0, 40, "#495060");
+    bus.$emit("AddMarker", geo);
     toolbar.deactivate();
   });
 };
 
 MapControl.showMarker = function (geo) {
-  MapControl.graphicLayers['gralyr1'].clear();
+  MapControl.graphicLayers["gralyr1"].clear();
   var iconPath =
-    'M21.4,10.75C21.4,13.8596180857762 20.0672757983134,16.6579617557165 17.9418493492401,18.6050090555209 17.0443221066919,19.427210169498 16.4687497071909,20.1972502374357 15.4999997246083,21.0410002473414 15.1788168986504,21.3207401363281 14.6249997403403,21.947250257981 13.7499997560722,23.3847502748576 13.3436019926217,24.0524037632258 12.876040684451,24.9010880896574 12.4687497791082,25.666000300437 11.1874998021442,28.0722503285736 11.4538843799389,31.2910003676782 10.6874998111339,31.2910003676782 9.9311690792195,31.2910003676782 10.062499822371,28.2910003311315 8.96874984203587,25.7597503015333 8.58471596323839,24.8709861556588 8.03709726822865,23.8066075530583 7.56249986731934,23.1035002715558 6.71874988248939,21.8535002568804 6.01878656603682,21.3001083190566 5.71874990046874,21.0097502469744 4.74999991788621,20.0722502359682 4.15562035443328,19.2270786136257 3.17966875598971,18.2408347051012 1.27570825337479,16.3167951822706 0.0999999999999996,13.670698279192 0.0999999999999996,10.75 0.0999999999999996,4.86816741430205 4.86816741430205,0.0999999999999996 10.75,0.0999999999999996 16.631832585698,0.0999999999999996 21.4,4.86816741430205 21.4,10.75z';
+    "M21.4,10.75C21.4,13.8596180857762 20.0672757983134,16.6579617557165 17.9418493492401,18.6050090555209 17.0443221066919,19.427210169498 16.4687497071909,20.1972502374357 15.4999997246083,21.0410002473414 15.1788168986504,21.3207401363281 14.6249997403403,21.947250257981 13.7499997560722,23.3847502748576 13.3436019926217,24.0524037632258 12.876040684451,24.9010880896574 12.4687497791082,25.666000300437 11.1874998021442,28.0722503285736 11.4538843799389,31.2910003676782 10.6874998111339,31.2910003676782 9.9311690792195,31.2910003676782 10.062499822371,28.2910003311315 8.96874984203587,25.7597503015333 8.58471596323839,24.8709861556588 8.03709726822865,23.8066075530583 7.56249986731934,23.1035002715558 6.71874988248939,21.8535002568804 6.01878656603682,21.3001083190566 5.71874990046874,21.0097502469744 4.74999991788621,20.0722502359682 4.15562035443328,19.2270786136257 3.17966875598971,18.2408347051012 1.27570825337479,16.3167951822706 0.0999999999999996,13.670698279192 0.0999999999999996,10.75 0.0999999999999996,4.86816741430205 4.86816741430205,0.0999999999999996 10.75,0.0999999999999996 16.631832585698,0.0999999999999996 21.4,4.86816741430205 21.4,10.75z";
   var system = new esri.symbol.SimpleMarkerSymbol();
   system.setPath(iconPath);
   system.setSize(30);
-  system.setColor(new esri.Color('#FF0000'));
+  system.setColor(new esri.Color("#FF0000"));
   system.setOffset(0, 15);
 
   var symbol = new esri.symbol.SimpleLineSymbol(
@@ -907,7 +983,7 @@ MapControl.showMarker = function (geo) {
   var graphic = new esri.Graphic(geo, system);
   // var symbol = esri.symbol.PictureMarkerSymbol('../assets/img/tips.png', 23, 30);
   // var tempGra = new esri.Graphic(geo, symbol);
-  MapControl.graphicLayers['gralyr1'].add(graphic);
+  MapControl.graphicLayers["gralyr1"].add(graphic);
 };
 // 距离、面积测量操作
 var doMeasureEventHandler;
@@ -929,13 +1005,13 @@ MapControl.MeasureDraw = function (type) {
   }
   let toolbar = MapControl.drawToolbar[MapControl.mapId];
   let geometryService = MapControl.GeometryService;
-  doMeasureEventHandler = toolbar.on('draw-end', doMeasure);
-  if (type == 'polyline') {
+  doMeasureEventHandler = toolbar.on("draw-end", doMeasure);
+  if (type == "polyline") {
     length = 0;
     lastpt = null;
     toolbar.activate(esri.toolbars.Draw.POLYLINE);
-    setupCustomTool('polyline');
-  } else if (type == 'polygon') {
+    setupCustomTool("polyline");
+  } else if (type == "polygon") {
     toolbar.activate(esri.toolbars.Draw.POLYGON);
   }
 };
@@ -946,39 +1022,32 @@ function doMeasure(gra) {
   let toolbar = MapControl.drawToolbar[MapControl.mapId];
   let geometryService = MapControl.GeometryService;
   var geometry = gra.geometry;
-  esriLoader.loadModules(
-    ['esri/tasks/AreasAndLengthsParameters']).then(
-      ([AreasAndLengthsParameters]) => {
-        switch (geometry.type) {
-          case 'polygon':
-            var symbol = new esri.symbol.SimpleFillSymbol(
-              esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-              new esri.symbol.SimpleLineSymbol(
-                esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-                new dojo.Color([0, 0, 0]),
-                2
-              ),
-              new dojo.Color([255, 0, 0, 0.25])
-            );
-            var areasAndLengthParams = new esri.tasks.AreasAndLengthsParameters();
-            areasAndLengthParams.lengthUnit = esri.tasks.GeometryService.UNIT_FOOT;
-            areasAndLengthParams.areaUnit = esri.tasks.GeometryService.UNIT_METER;
-            geometryService.simplify([geometry], function (simplifiedGeometries) {
-              areasAndLengthParams.polygons = simplifiedGeometries;
-              geometryService.areasAndLengths(
-                areasAndLengthParams,
-                outputAreaAndLength
-              );
-            });
-            centerPoint = geometry.getCentroid();
-            break;
-        }
-        var graphic = new esri.Graphic(geometry, symbol);
-        MapControl.graphicLayers['gralyr1'].add(graphic);
+  esriLoader
+    .loadModules(["esri/tasks/AreasAndLengthsParameters"])
+    .then(([AreasAndLengthsParameters]) => {
+      switch (geometry.type) {
+        case "polygon":
+          var symbol = new esri.symbol.SimpleFillSymbol(
+            esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+            new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 0]), 2),
+            new dojo.Color([255, 0, 0, 0.25])
+          );
+          var areasAndLengthParams = new esri.tasks.AreasAndLengthsParameters();
+          areasAndLengthParams.lengthUnit = esri.tasks.GeometryService.UNIT_FOOT;
+          areasAndLengthParams.areaUnit = esri.tasks.GeometryService.UNIT_METER;
+          geometryService.simplify([geometry], function (simplifiedGeometries) {
+            areasAndLengthParams.polygons = simplifiedGeometries;
+            geometryService.areasAndLengths(areasAndLengthParams, outputAreaAndLength);
+          });
+          centerPoint = geometry.getCentroid();
+          break;
       }
-    ).catch(err => {
-      console.error(err);
+      var graphic = new esri.Graphic(geometry, symbol);
+      MapControl.graphicLayers["gralyr1"].add(graphic);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 var doonLengthsComplete;
 
@@ -987,10 +1056,10 @@ function setupCustomTool(name) {
   if (domapOnclickEventHandler !== undefined) {
     domapOnclickEventHandler.remove();
   }
-  if (name == 'polyline') {
+  if (name == "polyline") {
     let map = MapControl.map[MapControl.mapId];
-    domapOnclickEventHandler = map.on('click', MapclickHandler);
-    map.on('dbclick', stopMeasure);
+    domapOnclickEventHandler = map.on("click", MapclickHandler);
+    map.on("dbclick", stopMeasure);
   }
 }
 
@@ -1004,57 +1073,48 @@ function stopMeasure() {
 function MapclickHandler(e) {
   let map = MapControl.map[MapControl.mapId];
   let geometryService = MapControl.GeometryService;
-  var pt = new esri.geometry.Point(
-    e.mapPoint.x,
-    e.mapPoint.y,
-    map.spatialReference
-  );
-  esriLoader.loadModules(
-    ['esri/tasks/LengthsParameters']).then(
-      ([LengthsParameters]) => {
-        if (lastpt != undefined) {
-          var line = new esri.geometry.Polyline({
-            spatialReference: map.spatialReference
-          });
-          line.addPath([lastpt, pt]);
+  var pt = new esri.geometry.Point(e.mapPoint.x, e.mapPoint.y, map.spatialReference);
+  esriLoader
+    .loadModules(["esri/tasks/LengthsParameters"])
+    .then(([LengthsParameters]) => {
+      if (lastpt != undefined) {
+        var line = new esri.geometry.Polyline({
+          spatialReference: map.spatialReference,
+        });
+        line.addPath([lastpt, pt]);
 
-          var symbol = new esri.symbol.SimpleLineSymbol(
-            esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-            new dojo.Color([255, 0, 0]),
-            2
-          );
-          MapControl.graphicLayers['gralyr1'].add(new esri.Graphic(line, symbol));
-
-          var lengthParams = new esri.tasks.LengthsParameters();
-          lengthParams.lengthUnit = esri.tasks.GeometryService.UNIT_METER;
-          lengthParams.polylines = [line];
-          lengthParams.geodesic = false;
-          lengthParams.calculationType = 'geodesic';
-          lengthParams.polylines[0].spatialReference = map.spatialReference;
-          if (doonLengthsComplete !== undefined)
-            dojo.disconnect(doonLengthsComplete);
-          doonLengthsComplete = dojo.connect(
-            geometryService,
-            'onLengthsComplete',
-            outputDistance
-          );
-          geometryService.lengths(lengthParams);
-        }
-        lastpt = pt;
-        var marksymbol = new esri.symbol.SimpleMarkerSymbol(
-          esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
-          dojox.gfx.px2pt(12),
-          new esri.symbol.SimpleLineSymbol()
-            .setStyle(esri.symbol.SimpleLineSymbol.STYLE_SOLID)
-            .setColor(new dojo.Color([255, 0, 0, 255])),
-          new dojo.Color([0, 0, 0, 0], dojox.gfx.px2pt(1))
+        var symbol = new esri.symbol.SimpleLineSymbol(
+          esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+          new dojo.Color([255, 0, 0]),
+          2
         );
-        var graphic = new esri.Graphic(pt, marksymbol);
-        MapControl.graphicLayers['gralyr1'].add(graphic);
+        MapControl.graphicLayers["gralyr1"].add(new esri.Graphic(line, symbol));
+
+        var lengthParams = new esri.tasks.LengthsParameters();
+        lengthParams.lengthUnit = esri.tasks.GeometryService.UNIT_METER;
+        lengthParams.polylines = [line];
+        lengthParams.geodesic = false;
+        lengthParams.calculationType = "geodesic";
+        lengthParams.polylines[0].spatialReference = map.spatialReference;
+        if (doonLengthsComplete !== undefined) dojo.disconnect(doonLengthsComplete);
+        doonLengthsComplete = dojo.connect(geometryService, "onLengthsComplete", outputDistance);
+        geometryService.lengths(lengthParams);
       }
-    ).catch(err => {
-      console.error(err);
+      lastpt = pt;
+      var marksymbol = new esri.symbol.SimpleMarkerSymbol(
+        esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
+        dojox.gfx.px2pt(12),
+        new esri.symbol.SimpleLineSymbol()
+          .setStyle(esri.symbol.SimpleLineSymbol.STYLE_SOLID)
+          .setColor(new dojo.Color([255, 0, 0, 255])),
+        new dojo.Color([0, 0, 0, 0], dojox.gfx.px2pt(1))
+      );
+      var graphic = new esri.Graphic(pt, marksymbol);
+      MapControl.graphicLayers["gralyr1"].add(graphic);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 }
 
 function outputDistance(evtObj) {
@@ -1074,9 +1134,9 @@ function outputDistance(evtObj) {
   length += evtObj.lengths[0];
   var lengthValue;
   if (length >= 1000) {
-    lengthValue = (length / 1000).toFixed(3) + '公里';
+    lengthValue = (length / 1000).toFixed(3) + "公里";
   } else {
-    lengthValue = length.toFixed(3) + '米';
+    lengthValue = length.toFixed(3) + "米";
   }
 
   // var pmsTextBg = new esri.symbol.PictureMarkerSymbol(tips, 22, 20);
@@ -1088,15 +1148,15 @@ function outputDistance(evtObj) {
   // MapControl.graphicLayers['gralyr1'].add(bgGraphic);//用来衬托文字白底的
 
   var font = new esri.symbol.Font();
-  font.setSize('10pt');
-  font.setFamily('微软雅黑');
+  font.setSize("10pt");
+  font.setFamily("微软雅黑");
   var text = new esri.symbol.TextSymbol(lengthValue);
   text.setFont(font);
   text.setColor(new dojo.Color([0, 0, 0, 255]));
   text.setOffset(40, -20);
 
   var labelGraphic = new esri.Graphic(lastpt, text);
-  MapControl.graphicLayers['gralyr1'].add(labelGraphic);
+  MapControl.graphicLayers["gralyr1"].add(labelGraphic);
 }
 //面积结果
 function outputAreaAndLength(result) {
@@ -1108,149 +1168,125 @@ function outputAreaAndLength(result) {
   var area;
   var areaValue = result.areas[0];
   if (areaValue >= 1000000) {
-    area = '面积：' + (result.areas[0] / 1000000).toFixed(3) + '平方公里';
+    area = "面积：" + (result.areas[0] / 1000000).toFixed(3) + "平方公里";
   } else {
-    area = '面积：' + result.areas[0].toFixed(3) + '平方米';
+    area = "面积：" + result.areas[0].toFixed(3) + "平方米";
   }
-  var font = new esri.symbol.Font(
-    '12pt',
-    esri.symbol.Font.VARIANT_NORMAL,
-    esri.symbol.Font.WEIGHT_BOLD,
-    '黑体'
-  );
-  var textSymbol = new esri.symbol.TextSymbol(
-    area,
-    font,
-    new dojo.Color([0, 0, 0])
-  );
+  var font = new esri.symbol.Font("12pt", esri.symbol.Font.VARIANT_NORMAL, esri.symbol.Font.WEIGHT_BOLD, "黑体");
+  var textSymbol = new esri.symbol.TextSymbol(area, font, new dojo.Color([0, 0, 0]));
   var labelPointGraphic = new esri.Graphic(centerPoint, textSymbol);
-  MapControl.graphicLayers['gralyr1'].add(labelPointGraphic);
+  MapControl.graphicLayers["gralyr1"].add(labelPointGraphic);
   toolbar.deactivate();
 }
 
 // 隐藏地图所有图层
 MapControl.hideLayersAll = function () {
-  if (MapControl.graphicLayers['gralyr1'])
-    MapControl.graphicLayers['gralyr1'].hide();
-  if (MapControl.graphicLayers['gralyr2'])
-    MapControl.graphicLayers['gralyr2'].hide();
-  if (MapControl.graphicLayers['gralyr3'])
-    MapControl.graphicLayers['gralyr3'].hide();
-  if (MapControl.graphicLayers['gralyr4'])
-    MapControl.graphicLayers['gralyr4'].hide();
-  if (MapControl.graphicLayers['gralyr5'])
-    MapControl.graphicLayers['gralyr5'].hide();
-}
+  if (MapControl.graphicLayers["gralyr1"]) MapControl.graphicLayers["gralyr1"].hide();
+  if (MapControl.graphicLayers["gralyr2"]) MapControl.graphicLayers["gralyr2"].hide();
+  if (MapControl.graphicLayers["gralyr3"]) MapControl.graphicLayers["gralyr3"].hide();
+  if (MapControl.graphicLayers["gralyr4"]) MapControl.graphicLayers["gralyr4"].hide();
+  if (MapControl.graphicLayers["gralyr5"]) MapControl.graphicLayers["gralyr5"].hide();
+};
 
 /*图层控制显示*/
 MapControl.SetLayerVisible = function (uservisibleLayers) {
-  esriLoader.loadModules(
-    ['esri/map', 'esri/layers/ArcGISDynamicMapServiceLayer']).then(
-      ([Map, ArcGISDynamicMapServiceLayer]) => {
-        let map = MapControl.map[MapControl.mapId];
-        if (uservisibleLayers) {
-          for (var sitem in uservisibleLayers) {
-            if (uservisibleLayers[sitem].serviceurl) {
-              var sublay = map.getLayer(uservisibleLayers[sitem].serviceurl);
-              if (!sublay) {
-                continue;
-              }
-              if (uservisibleLayers[sitem].haschild == true) {
-                let index = sublay.displayLevels.indexOf(uservisibleLayers[sitem].layerindex);
-                if (uservisibleLayers[sitem].switchs) {
-                  if (index < 0)
-                    sublay.displayLevels.push(uservisibleLayers[sitem].layerindex);
-                } else {
-                  if (index > -1) {
-                    sublay.displayLevels.splice(index, 1);
-                  }
-                }
-                sublay.setVisibleLayers(sublay.displayLevels);
-              } else sublay.setVisibility(uservisibleLayers[sitem].switchs);
+  esriLoader
+    .loadModules(["esri/map", "esri/layers/ArcGISDynamicMapServiceLayer"])
+    .then(([Map, ArcGISDynamicMapServiceLayer]) => {
+      let map = MapControl.map[MapControl.mapId];
+      if (uservisibleLayers) {
+        for (var sitem in uservisibleLayers) {
+          if (uservisibleLayers[sitem].serviceurl) {
+            var sublay = map.getLayer(uservisibleLayers[sitem].serviceurl);
+            if (!sublay) {
+              continue;
             }
+            if (uservisibleLayers[sitem].haschild == true) {
+              let index = sublay.displayLevels.indexOf(uservisibleLayers[sitem].layerindex);
+              if (uservisibleLayers[sitem].switchs) {
+                if (index < 0) sublay.displayLevels.push(uservisibleLayers[sitem].layerindex);
+              } else {
+                if (index > -1) {
+                  sublay.displayLevels.splice(index, 1);
+                }
+              }
+              sublay.setVisibleLayers(sublay.displayLevels);
+            } else sublay.setVisibility(uservisibleLayers[sitem].switchs);
           }
         }
       }
-    ).catch(err => {
-      console.error(err);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /*批量图层加载，一直叠加，如果存在则不操作，*/
 MapControl.SetLayerload = function (uservisibleLayers) {
-  esriLoader.loadModules(
-    [
-      'esri/map',
-      'esri/layers/ArcGISDynamicMapServiceLayer',
-      'esri/layers/ArcGISTiledMapServiceLayer'
-    ]).then(
-      ([Map, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer]) => {
-        let map = MapControl.map[MapControl.mapId];
-        if (uservisibleLayers) {
-          for (var sitem in uservisibleLayers) {
-            var sublay = map.getLayer(uservisibleLayers[sitem].serviceurl);
-            if (sublay == undefined) {
-              if (uservisibleLayers[sitem].servicetype === 'dynamic') {
-                sublay = new esri.layers.ArcGISDynamicMapServiceLayer(
-                  uservisibleLayers[sitem].serviceurl
-                );
-              } else {
-                sublay = new esri.layers.ArcGISTiledMapServiceLayer(
-                  uservisibleLayers[sitem].serviceurl
-                );
-              }
-              sublay.id = uservisibleLayers[sitem].serviceurl;
-              sublay.opacity = uservisibleLayers[sitem].slider / 100;
-              if (uservisibleLayers[sitem].haschild == true) {
-                sublay.displayLevels = [Number(uservisibleLayers[sitem].layerindex)]
+  esriLoader
+    .loadModules(["esri/map", "esri/layers/ArcGISDynamicMapServiceLayer", "esri/layers/ArcGISTiledMapServiceLayer"])
+    .then(([Map, ArcGISDynamicMapServiceLayer, ArcGISTiledMapServiceLayer]) => {
+      let map = MapControl.map[MapControl.mapId];
+      if (uservisibleLayers) {
+        for (var sitem in uservisibleLayers) {
+          var sublay = map.getLayer(uservisibleLayers[sitem].serviceurl);
+          if (sublay == undefined) {
+            if (uservisibleLayers[sitem].servicetype === "dynamic") {
+              sublay = new esri.layers.ArcGISDynamicMapServiceLayer(uservisibleLayers[sitem].serviceurl);
+            } else {
+              sublay = new esri.layers.ArcGISTiledMapServiceLayer(uservisibleLayers[sitem].serviceurl);
+            }
+            sublay.id = uservisibleLayers[sitem].serviceurl;
+            sublay.opacity = uservisibleLayers[sitem].slider / 100;
+            if (uservisibleLayers[sitem].haschild == true) {
+              sublay.displayLevels = [Number(uservisibleLayers[sitem].layerindex)];
+              sublay.setVisibleLayers(sublay.displayLevels);
+            }
+            map.addLayer(sublay);
+          } else {
+            if (uservisibleLayers[sitem].haschild == true) {
+              if (sublay.displayLevels.indexOf(Number(uservisibleLayers[sitem].layerindex)) < 0) {
+                sublay.displayLevels.push(Number(uservisibleLayers[sitem].layerindex));
                 sublay.setVisibleLayers(sublay.displayLevels);
               }
-              map.addLayer(sublay);
-            } else {
-              if (uservisibleLayers[sitem].haschild == true) {
-                if (sublay.displayLevels.indexOf(Number(uservisibleLayers[sitem].layerindex)) < 0) {
-                  sublay.displayLevels.push(Number(uservisibleLayers[sitem].layerindex));
-                  sublay.setVisibleLayers(sublay.displayLevels);
-                }
-              } else
-                sublay.setVisibility(uservisibleLayers[sitem].switchs);
-            }
+            } else sublay.setVisibility(uservisibleLayers[sitem].switchs);
           }
         }
       }
-    ).catch(err => {
-      console.error(err);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /*地图与影像图切换 */
 MapControl.SetLayerbaseload = function (uservisibleLayers) {
-  esriLoader.loadModules(
-    ['esri/map', 'esri/layers/ArcGISTiledMapServiceLayer', 'esri/layers/ArcGISDynamicMapServiceLayer']).then(
-      ([Map, ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer]) => {
-        let map = MapControl.map[MapControl.mapId];
-        console.log(uservisibleLayers)
-        if (!uservisibleLayers) return;
-        uservisibleLayers.forEach(element => {
-          var sublay = map.getLayer(element.url);
-          if (sublay && !element.isshow) {
-            map.removeLayer(sublay); //移除图层
-          } else if (element.isshow == true) {
-            if (element.type == 'tiled') {
-              sublay = new esri.layers.ArcGISTiledMapServiceLayer(element.url);
-            }
-            if (element.type == 'dynamic') {
-              sublay = new esri.layers.ArcGISDynamicMapServiceLayer(element.url);
-            }
-            sublay.id = element.url;
-            sublay.name = element.url;
-            map.addLayer(sublay, 0); //加载图层
+  esriLoader
+    .loadModules(["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISDynamicMapServiceLayer"])
+    .then(([Map, ArcGISTiledMapServiceLayer, ArcGISDynamicMapServiceLayer]) => {
+      let map = MapControl.map[MapControl.mapId];
+      console.log(uservisibleLayers);
+      if (!uservisibleLayers) return;
+      uservisibleLayers.forEach((element) => {
+        var sublay = map.getLayer(element.url);
+        if (sublay && !element.isshow) {
+          map.removeLayer(sublay); //移除图层
+        } else if (element.isshow == true) {
+          if (element.type == "tiled") {
+            sublay = new esri.layers.ArcGISTiledMapServiceLayer(element.url);
           }
-        });
-      }
-    ).catch(err => {
-      console.error(err);
+          if (element.type == "dynamic") {
+            sublay = new esri.layers.ArcGISDynamicMapServiceLayer(element.url);
+          }
+          sublay.id = element.url;
+          sublay.name = element.url;
+          map.addLayer(sublay, 0); //加载图层
+        }
+      });
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /*根据图层ID编号，将图层从地图中移除*/
@@ -1276,8 +1312,7 @@ MapControl.RemoveLayerVisible = function (uservisibleLayers) {
               sublay.setVisibleLayers(sublay.displayLevels);
             }
             if (sublay.displayLevels.length == 0) map.removeLayer(sublay);
-          } else
-            map.removeLayer(sublay);
+          } else map.removeLayer(sublay);
         }
       }
     }
@@ -1287,33 +1322,33 @@ MapControl.RemoveLayerVisible = function (uservisibleLayers) {
 /*图层透明度设置*/
 MapControl.transparency = function (uservisibleLayers) {
   var lay = uservisibleLayers.tmdtransparency / 100;
-  esriLoader.loadModules(
-    [
-      'esri/map',
-      'dojo/on',
-      'dojo/dom',
-      'dojo/_base/fx',
-      'esri/layers/ArcGISTiledMapServiceLayer',
-      'esri/geometry/Extent',
-      'dojo/domReady!'
-    ]).then(
-      ([Map, on, dom, basefx, ArcGISTiledMapServiceLayer, Extent]) => {
-        let map = MapControl.map[MapControl.mapId];
-        var colorfullbasemap = map.getLayer(uservisibleLayers.serverurl);
-        var graybasemapdiv = colorfullbasemap.getNode();
-        basefx
-          .animateProperty({
-            node: graybasemapdiv,
-            duration: 500,
-            properties: {
-              opacity: lay
-            }
-          })
-          .play();
-      }
-    ).catch(err => {
-      console.error(err);
+  esriLoader
+    .loadModules([
+      "esri/map",
+      "dojo/on",
+      "dojo/dom",
+      "dojo/_base/fx",
+      "esri/layers/ArcGISTiledMapServiceLayer",
+      "esri/geometry/Extent",
+      "dojo/domReady!",
+    ])
+    .then(([Map, on, dom, basefx, ArcGISTiledMapServiceLayer, Extent]) => {
+      let map = MapControl.map[MapControl.mapId];
+      var colorfullbasemap = map.getLayer(uservisibleLayers.serverurl);
+      var graybasemapdiv = colorfullbasemap.getNode();
+      basefx
+        .animateProperty({
+          node: graybasemapdiv,
+          duration: 500,
+          properties: {
+            opacity: lay,
+          },
+        })
+        .play();
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 /*地图上弹出框*/
@@ -1332,7 +1367,7 @@ MapControl.topup = function (event) {
   }
 
   if (event.geo) {
-    if (event.geo.type == 'point') {
+    if (event.geo.type == "point") {
       map.infoWindow.show(event.geo);
     } else {
       /*取中心点*/
@@ -1343,20 +1378,20 @@ MapControl.topup = function (event) {
   if (event.geo) {
     var showExtent;
     switch (event.geo.type) {
-      case 'point':
+      case "point":
         var xMin = parseFloat(event.geo.x) - 0.000005;
         var yMin = parseFloat(event.geo.y) - 0.000005;
         var xMax = parseFloat(event.geo.x) + 0.000005;
         var yMax = parseFloat(event.geo.y) + 0.000005;
         showExtent = new esri.geometry.Extent(xMin, yMin, xMax, yMax, map.spatialReference);
         break;
-      case 'polyline':
+      case "polyline":
         showExtent = event.geo.getExtent();
         break;
-      case 'polygon':
+      case "polygon":
         showExtent = event.geo.getExtent();
         break;
-      case 'extent':
+      case "extent":
         showExtent = event.geo.getExtent();
         break;
     }
@@ -1369,22 +1404,23 @@ MapControl.topup = function (event) {
 /*截屏*/
 MapControl.screenshots = function (uservisibleLayers) {
   var app = {};
-  esriLoader.loadModules(
-    [
-      'esri/map',
-      'esri/dijit/Print',
-      'esri/tasks/PrintTask',
-      'esri/tasks/PrintParameters',
-      'esri/tasks/PrintTemplate',
-      'esri/symbols/TextSymbol',
-      'esri/symbols/Font',
-      'esri/graphic',
-      'esri/geometry/Point',
-      'esri/symbols/SimpleMarkerSymbol',
-      'esri/symbols/SimpleLineSymbol',
-      'esri/Color',
-      'dojo/domReady!'
-    ]).then(
+  esriLoader
+    .loadModules([
+      "esri/map",
+      "esri/dijit/Print",
+      "esri/tasks/PrintTask",
+      "esri/tasks/PrintParameters",
+      "esri/tasks/PrintTemplate",
+      "esri/symbols/TextSymbol",
+      "esri/symbols/Font",
+      "esri/graphic",
+      "esri/geometry/Point",
+      "esri/symbols/SimpleMarkerSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/Color",
+      "dojo/domReady!",
+    ])
+    .then(
       ([
         Map,
         Print,
@@ -1397,73 +1433,69 @@ MapControl.screenshots = function (uservisibleLayers) {
         Point,
         SimpleMarkerSymbol,
         SimpleLineSymbol,
-        Color
+        Color,
       ]) => {
         var printUrl =
-          'http://10.10.31.180:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task';
+          "http://10.10.31.180:6080/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task";
         var printTask = new PrintTask(printUrl);
         var template = new PrintTemplate();
         template.exportOptions = {
           width: 800,
           height: 600,
-          dpi: 96
+          dpi: 96,
         };
-        template.format = 'PDF';
-        template.layout = 'MAP_ONLY';
+        template.format = "PDF";
+        template.layout = "MAP_ONLY";
         template.preserveScale = false;
         var params = new PrintParameters();
         params.map = MapControl.map[MapControl.mapId];
         params.template = template;
         printTask.execute(params, function (evt) {
-          window.open(evt.url, '_blank');
+          window.open(evt.url, "_blank");
         });
       }
-    ).catch(err => {
+    )
+    .catch((err) => {
       console.error(err);
-    })
+    });
 };
 
 /*图层控制显示根据属性*/
 MapControl.SetLayerVisibleByProperty = function (uservisibleLayers) {
-  esriLoader.loadModules(
-    ['esri/map', 'esri/layers/ArcGISDynamicMapServiceLayer']).then(
-      ([Map, ArcGISDynamicMapServiceLayer]) => {
-        let map = MapControl.map[MapControl.mapId];
-        try {
-          if (uservisibleLayers) {
-            if (uservisibleLayers.SERVERURL) {
-              var sublay = map.getLayer(uservisibleLayers.SERVERURL);
-              if (!sublay) {
-                sublay = new esri.layers.ArcGISDynamicMapServiceLayer(
-                  uservisibleLayers.SERVERURL
-                );
-                sublay.id = uservisibleLayers.SERVERURL;
-                sublay.name = uservisibleLayers.SERVERURL;
-                map.addLayer(sublay);
-              }
+  esriLoader
+    .loadModules(["esri/map", "esri/layers/ArcGISDynamicMapServiceLayer"])
+    .then(([Map, ArcGISDynamicMapServiceLayer]) => {
+      let map = MapControl.map[MapControl.mapId];
+      try {
+        if (uservisibleLayers) {
+          if (uservisibleLayers.SERVERURL) {
+            var sublay = map.getLayer(uservisibleLayers.SERVERURL);
+            if (!sublay) {
+              sublay = new esri.layers.ArcGISDynamicMapServiceLayer(uservisibleLayers.SERVERURL);
+              sublay.id = uservisibleLayers.SERVERURL;
+              sublay.name = uservisibleLayers.SERVERURL;
+              map.addLayer(sublay);
+            }
 
-              sublay.setVisibility(true);
+            sublay.setVisibility(true);
 
-              if (
-                uservisibleLayers.layerDefint &&
-                uservisibleLayers.layerDefint.length > 0
-              ) {
-                sublay.setLayerDefinitions(uservisibleLayers.layerDefint);
-              }
+            if (uservisibleLayers.layerDefint && uservisibleLayers.layerDefint.length > 0) {
+              sublay.setLayerDefinitions(uservisibleLayers.layerDefint);
             }
           }
-        } catch (e) {
-          console.log(e);
         }
+      } catch (e) {
+        console.log(e);
       }
-    ).catch(err => {
-      console.error(err);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 MapControl.PostionToPolygon = function (geo) {
-  esriLoader.loadModules(
-    ['esri/geometry/Point', 'esri/geometry/Polyline', 'esri/geometry/Polygon'])
+  esriLoader
+    .loadModules(["esri/geometry/Point", "esri/geometry/Polyline", "esri/geometry/Polygon"])
     .then(([Point, Polyline, Polygon]) => {
       let map = MapControl.map[MapControl.mapId];
       var esrgeo = new Polygon(geo);
@@ -1471,19 +1503,20 @@ MapControl.PostionToPolygon = function (geo) {
       if (showExtent != undefined) {
         map.setExtent(showExtent.expand(1.5));
       }
-    }).catch(err => {
-      console.error(err);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 //添加气球标注(X,Y)文字标注偏移量（默认可以认为是0,13）
 MapControl.GetTxtSymbols = function (geo, num, X, Y, color) {
   var iconPath =
-    'M21.4,10.75C21.4,13.8596180857762 20.0672757983134,16.6579617557165 17.9418493492401,18.6050090555209 17.0443221066919,19.427210169498 16.4687497071909,20.1972502374357 15.4999997246083,21.0410002473414 15.1788168986504,21.3207401363281 14.6249997403403,21.947250257981 13.7499997560722,23.3847502748576 13.3436019926217,24.0524037632258 12.876040684451,24.9010880896574 12.4687497791082,25.666000300437 11.1874998021442,28.0722503285736 11.4538843799389,31.2910003676782 10.6874998111339,31.2910003676782 9.9311690792195,31.2910003676782 10.062499822371,28.2910003311315 8.96874984203587,25.7597503015333 8.58471596323839,24.8709861556588 8.03709726822865,23.8066075530583 7.56249986731934,23.1035002715558 6.71874988248939,21.8535002568804 6.01878656603682,21.3001083190566 5.71874990046874,21.0097502469744 4.74999991788621,20.0722502359682 4.15562035443328,19.2270786136257 3.17966875598971,18.2408347051012 1.27570825337479,16.3167951822706 0.0999999999999996,13.670698279192 0.0999999999999996,10.75 0.0999999999999996,4.86816741430205 4.86816741430205,0.0999999999999996 10.75,0.0999999999999996 16.631832585698,0.0999999999999996 21.4,4.86816741430205 21.4,10.75z';
+    "M21.4,10.75C21.4,13.8596180857762 20.0672757983134,16.6579617557165 17.9418493492401,18.6050090555209 17.0443221066919,19.427210169498 16.4687497071909,20.1972502374357 15.4999997246083,21.0410002473414 15.1788168986504,21.3207401363281 14.6249997403403,21.947250257981 13.7499997560722,23.3847502748576 13.3436019926217,24.0524037632258 12.876040684451,24.9010880896574 12.4687497791082,25.666000300437 11.1874998021442,28.0722503285736 11.4538843799389,31.2910003676782 10.6874998111339,31.2910003676782 9.9311690792195,31.2910003676782 10.062499822371,28.2910003311315 8.96874984203587,25.7597503015333 8.58471596323839,24.8709861556588 8.03709726822865,23.8066075530583 7.56249986731934,23.1035002715558 6.71874988248939,21.8535002568804 6.01878656603682,21.3001083190566 5.71874990046874,21.0097502469744 4.74999991788621,20.0722502359682 4.15562035443328,19.2270786136257 3.17966875598971,18.2408347051012 1.27570825337479,16.3167951822706 0.0999999999999996,13.670698279192 0.0999999999999996,10.75 0.0999999999999996,4.86816741430205 4.86816741430205,0.0999999999999996 10.75,0.0999999999999996 16.631832585698,0.0999999999999996 21.4,4.86816741430205 21.4,10.75z";
   var system = new esri.symbol.SimpleMarkerSymbol();
   system.setPath(iconPath);
   system.setSize(30);
-  system.setColor(new esri.Color('#FF0000'));
+  system.setColor(new esri.Color("#FF0000"));
   system.setOffset(0, 15);
 
   var symbol = new esri.symbol.SimpleLineSymbol(
@@ -1495,22 +1528,22 @@ MapControl.GetTxtSymbols = function (geo, num, X, Y, color) {
 
   var graphic = new esri.Graphic(geo, system);
   graphic.setAttributes({
-    id: num
+    id: num,
   });
-  MapControl.graphicLayers['gralyr2'].add(graphic);
-  if (num != '' && num != undefined) {
+  MapControl.graphicLayers["gralyr2"].add(graphic);
+  if (num != "" && num != undefined) {
     var txtSym = new esri.symbol.TextSymbol();
     txtSym.setAlign(esri.symbol.TextSymbol.ALIGN_MIDDLE);
     txtSym.setText(num);
     txtSym.setColor(new esri.Color(color)); //"#f7f7f7"
     txtSym.setOffset(X, Y);
     var font = new esri.symbol.Font();
-    font.setSize('14px');
+    font.setSize("14px");
     font.setWeight(esri.symbol.Font.WEIGHT_BOLD);
-    font.setFamily('微软雅黑');
+    font.setFamily("微软雅黑");
     txtSym.setFont(font);
     var graphic1 = new esri.Graphic(geo, txtSym);
-    MapControl.graphicLayers['gralyr2'].add(graphic1);
+    MapControl.graphicLayers["gralyr2"].add(graphic1);
   }
 };
 
@@ -1522,25 +1555,26 @@ MapControl.GetTxtSymbolsMarker = function (geo, num, X, Y, color) {
   txtSym.setColor(new esri.Color(color)); //"#f7f7f7"
   txtSym.setOffset(X, Y);
   var font = new esri.symbol.Font();
-  font.setSize('14px');
+  font.setSize("14px");
   font.setWeight(esri.symbol.Font.WEIGHT_BOLD);
-  font.setFamily('微软雅黑');
+  font.setFamily("微软雅黑");
   txtSym.setFont(font);
   var graphic1 = new esri.Graphic(geo, txtSym);
-  MapControl.graphicLayers['gralyr2'].add(graphic1);
+  MapControl.graphicLayers["gralyr2"].add(graphic1);
 };
 
 //添加气球标注(X,Y)文字标注偏移量（默认可以认为是0,13）
 MapControl.GetTxtSymbols2Polygon = function (geo, num, X, Y, icon) {
-  esriLoader.loadModules(
-    ['esri/geometry/Point', 'esri/geometry/Polyline', 'esri/geometry/Polygon']).then(([Point, Polyline, Polygon]) => {
+  esriLoader
+    .loadModules(["esri/geometry/Point", "esri/geometry/Polyline", "esri/geometry/Polygon"])
+    .then(([Point, Polyline, Polygon]) => {
       //MapControl.graphicLayers['gralyr1'].clear();
       let map = MapControl.map[MapControl.mapId];
       var symbol;
       var showExtent;
       if (geo) {
         switch (geo.type) {
-          case 'point':
+          case "point":
             geo = new Point(geo);
             var xMin = parseFloat(geo.x) + 0.000005;
             var yMin = parseFloat(geo.y) + 0.000005;
@@ -1557,7 +1591,7 @@ MapControl.GetTxtSymbols2Polygon = function (geo, num, X, Y, icon) {
               new dojo.Color([255, 87, 34, 5.25])
             );
             break;
-          case 'polyline':
+          case "polyline":
             geo = new Polyline(geo);
             symbol = new esri.symbol.SimpleLineSymbol(
               esri.symbol.SimpleLineSymbol.STYLE_DASH,
@@ -1566,7 +1600,7 @@ MapControl.GetTxtSymbols2Polygon = function (geo, num, X, Y, icon) {
             );
             showExtent = geo.getExtent();
             break;
-          case 'polygon':
+          case "polygon":
             geo = new Polygon(geo);
             symbol = new esri.symbol.SimpleFillSymbol(
               esri.symbol.SimpleFillSymbol.STYLE_SOLID,
@@ -1579,15 +1613,11 @@ MapControl.GetTxtSymbols2Polygon = function (geo, num, X, Y, icon) {
             );
             showExtent = geo.getExtent();
             break;
-          case 'extent':
+          case "extent":
             geo = new Polygon(geo);
             symbol = new esri.symbol.SimpleFillSymbol(
               esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-              new esri.symbol.SimpleLineSymbol(
-                esri.symbol.SimpleLineSymbol.STYLE_DASH,
-                new dojo.Color([255, 0, 0]),
-                3
-              ),
+              new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 3),
               new dojo.Color([0, 87, 34, 0.15])
             );
             showExtent = geo.getExtent();
@@ -1595,17 +1625,19 @@ MapControl.GetTxtSymbols2Polygon = function (geo, num, X, Y, icon) {
         }
         if (showExtent != undefined) {
           var tempGra = new esri.Graphic(geo, symbol, null, null);
-          MapControl.graphicLayers['gralyr2'].add(tempGra);
+          MapControl.graphicLayers["gralyr2"].add(tempGra);
           //中间点
-          let pointwkt = 'POINT ( ' + (showExtent.xmax + showExtent.xmin) / 2 + ' ' + (showExtent.ymax + showExtent.ymin) / 2 + ')';
+          let pointwkt =
+            "POINT ( " + (showExtent.xmax + showExtent.xmin) / 2 + " " + (showExtent.ymax + showExtent.ymin) / 2 + ")";
           let point = MapControl.WktToAgs(pointwkt);
-          if (icon == undefined) MapControl.GetTxtSymbols(point, num, X, Y, '#f7f7f7');
-          else MapControl.GetTxtSymbolsMarker(point, num, X, Y, 'black');
+          if (icon == undefined) MapControl.GetTxtSymbols(point, num, X, Y, "#f7f7f7");
+          else MapControl.GetTxtSymbolsMarker(point, num, X, Y, "black");
         }
       }
-    }).catch(err => {
-      console.error(err);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 //通用添加Graphic到地图
@@ -1633,44 +1665,72 @@ MapControl.addGraphic = function ($graphic) {
   let geometry = $graphic.geometry;
   let symbol = $graphic.symbol;
   switch (geometry.type) {
-    case 'point':
+    case "point":
       geometry = new esri.geometry.Point(geometry);
-      if (symbol.type == 'SimpleMarkerSymbol') {
-        symbol = new esri.symbol.SimpleMarkerSymbol(esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE, symbol.size, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_CIRCLE, new dojo.Color(symbol.color)), new dojo.Color(symbol.color));
-      } else if (symbol.type == 'PictureMarkerSymbol') {
-        symbol = new esri.symbol.PictureMarkerSymbol(require('@/assets/img/map/' + symbol.image), symbol.width, symbol.height);
+      if (symbol.type == "SimpleMarkerSymbol") {
+        symbol = new esri.symbol.SimpleMarkerSymbol(
+          esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
+          symbol.size,
+          new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_CIRCLE, new dojo.Color(symbol.color)),
+          new dojo.Color(symbol.color)
+        );
+      } else if (symbol.type == "PictureMarkerSymbol") {
+        symbol = new esri.symbol.PictureMarkerSymbol(
+          require("@/assets/img/map/" + symbol.image),
+          symbol.width,
+          symbol.height
+        );
       }
       break;
-    case 'polyline':
+    case "polyline":
       geometry = new esri.geometry.Polyline(geometry);
-      if (symbol.style == 'dash') { //虚线
-        symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color(symbol.color), symbol.size);
-      } else { //实线
-        symbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color(symbol.color), symbol.size);
+      if (symbol.style == "dash") {
+        //虚线
+        symbol = new esri.symbol.SimpleLineSymbol(
+          esri.symbol.SimpleLineSymbol.STYLE_DASH,
+          new dojo.Color(symbol.color),
+          symbol.size
+        );
+      } else {
+        //实线
+        symbol = new esri.symbol.SimpleLineSymbol(
+          esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+          new dojo.Color(symbol.color),
+          symbol.size
+        );
       }
       break;
-    case 'polygon':
+    case "polygon":
       geometry = new esri.geometry.Polygon(geometry);
-      symbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID, new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color(symbol.dashcolor), symbol.size), new dojo.Color(symbol.color));
+      symbol = new esri.symbol.SimpleFillSymbol(
+        esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+        new esri.symbol.SimpleLineSymbol(
+          esri.symbol.SimpleLineSymbol.STYLE_DASH,
+          new dojo.Color(symbol.dashcolor),
+          symbol.size
+        ),
+        new dojo.Color(symbol.color)
+      );
       break;
-    case 'extent':
+    case "extent":
       geometry = new esri.geometry.Polygon(geometry);
       break;
   }
 
-  if ($graphic.isdeviation == true) { //点位偏移量
+  if ($graphic.isdeviation == true) {
+    //点位偏移量
     symbol.setOffset(0, 15);
   }
 
   let gra = new esri.Graphic(geometry, symbol, null, null);
   if ($graphic.attributes !== null) {
-    gra.setAttributes($graphic.attributes)
+    gra.setAttributes($graphic.attributes);
   }
   if ($graphic.isClear == true) {
-    MapControl.graphicLayers[$graphic.layer].clear()
+    MapControl.graphicLayers[$graphic.layer].clear();
   }
   if ($graphic.InfoTemplate !== undefined) {
-    MapControl.AddPop(gra, $graphic.InfoTemplate)
+    MapControl.AddPop(gra, $graphic.InfoTemplate);
   }
   MapControl.graphicLayers[$graphic.layer].add(gra);
 };
@@ -1696,9 +1756,9 @@ MapControl.addLabel = function (point, content, R, G, B, layer) {
   // text.setOffset(0, 15);
   // var labelGraphic = new esri.Graphic(point, text);
 
-  var font = new esri.symbol.Font()
-  font.setSize('9pt');
-  font.setFamily('微软雅黑');
+  var font = new esri.symbol.Font();
+  font.setSize("9pt");
+  font.setFamily("微软雅黑");
   font.setWeight(esri.symbol.Font.WEIGHT_BOLD);
   var textSymbol = new esri.symbol.TextSymbol(
     content,
@@ -1706,33 +1766,34 @@ MapControl.addLabel = function (point, content, R, G, B, layer) {
     new dojo.Color([R == undefined ? 255 : R, G == undefined ? 255 : G, B == undefined ? 255 : 0])
   );
   var labelPointGraphic = new esri.Graphic(point, textSymbol);
-  MapControl.graphicLayers[layer == undefined ? 'gralyr2' : layer].add(labelPointGraphic);
+  MapControl.graphicLayers[layer == undefined ? "gralyr2" : layer].add(labelPointGraphic);
 };
 
 //添加地图右键菜单
 MapControl.MenuForGraphics = function () {
-  esriLoader.loadModules(
-    [
-      'esri/map',
-      'esri/geometry/Point',
-      'esri/geometry/Polygon',
-      'esri/toolbars/draw',
-      'esri/toolbars/edit',
-      'esri/symbols/SimpleMarkerSymbol',
-      'esri/symbols/SimpleLineSymbol',
-      'esri/symbols/SimpleFillSymbol',
-      'esri/graphic',
-      'esri/geometry/jsonUtils',
-      'esri/Color',
-      'dojo/parser',
-      'dijit/Menu',
-      'dijit/MenuItem',
-      'dijit/MenuSeparator',
-      'dijit/form/Button',
-      'dijit/layout/BorderContainer',
-      'dijit/layout/ContentPane',
-      'dojo/domReady!'
-    ]).then(
+  esriLoader
+    .loadModules([
+      "esri/map",
+      "esri/geometry/Point",
+      "esri/geometry/Polygon",
+      "esri/toolbars/draw",
+      "esri/toolbars/edit",
+      "esri/symbols/SimpleMarkerSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/graphic",
+      "esri/geometry/jsonUtils",
+      "esri/Color",
+      "dojo/parser",
+      "dijit/Menu",
+      "dijit/MenuItem",
+      "dijit/MenuSeparator",
+      "dijit/form/Button",
+      "dijit/layout/BorderContainer",
+      "dijit/layout/ContentPane",
+      "dojo/domReady!",
+    ])
+    .then(
       ([
         Map,
         Point,
@@ -1748,7 +1809,7 @@ MapControl.MenuForGraphics = function () {
         parser,
         Menu,
         MenuItem,
-        MenuSeparator
+        MenuSeparator,
       ]) => {
         let map = MapControl.map[MapControl.mapId];
         let editbar = MapControl.editToolbar[MapControl.mapId];
@@ -1757,66 +1818,63 @@ MapControl.MenuForGraphics = function () {
             if (editbar) {
               editbar.deactivate();
             }
-          }
+          },
         });
         MapControl.MenuForMap = ctxMenuForMap;
         ctxMenuForMap.startup();
         ctxMenuForMap.bindDomNode(map.container);
       }
-    ).catch(err => {
+    )
+    .catch((err) => {
       console.error(err);
-    })
+    });
 };
 
 //添加气泡
 MapControl.AddPop = function (graphic, template) {
-  esriLoader.loadModules(
-    [
-      'esri/dijit/Popup',
-      'esri/dijit/PopupTemplate',
-      'esri/InfoTemplate',
-      'dojo/dom-construct',
-      'dojo/dom',
-      'dojo/on',
-      'dojo/domReady!'
-    ]).then(
-      ([Popup, PopupTemplate, InfoTemplate, domConstruct, dom, on, domAttr]) => {
-        let map = MapControl.map[MapControl.mapId];
-        var infoTemplate = new InfoTemplate();
+  esriLoader
+    .loadModules([
+      "esri/dijit/Popup",
+      "esri/dijit/PopupTemplate",
+      "esri/InfoTemplate",
+      "dojo/dom-construct",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/domReady!",
+    ])
+    .then(([Popup, PopupTemplate, InfoTemplate, domConstruct, dom, on, domAttr]) => {
+      let map = MapControl.map[MapControl.mapId];
+      var infoTemplate = new InfoTemplate();
 
-        infoTemplate.setTitle('巡查人员');
+      infoTemplate.setTitle("巡查人员");
 
-        infoTemplate.setContent(template);
+      infoTemplate.setContent(template);
 
-        graphic.setInfoTemplate(infoTemplate);
-      }
-    ).catch(err => {
-      console.error(err);
+      graphic.setInfoTemplate(infoTemplate);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 //支持多个气泡显示
-MapControl.CreatGraphicsLayerWithMTip = function (
-  info,
-  func,
-  ctemplate,
-  cGraphicslayer
-) {
-  esriLoader.loadModules(
-    [
-      'esri/dijit/Popup',
-      'esri/layers/graphics',
-      'esri/dijit/PopupTemplate',
-      'esri/InfoTemplate',
-      'ncam/PopupExtended',
-      'esri/graphic',
-      'esri/geometry/Point',
-      'esri/symbols/SimpleMarkerSymbol',
-      'dojo/dom-construct',
-      'dojo/_base/lang',
-      'dojo/dom',
-      'dojo/on',
-      'dojo/domReady!'
-    ]).then(
+MapControl.CreatGraphicsLayerWithMTip = function (info, func, ctemplate, cGraphicslayer) {
+  esriLoader
+    .loadModules([
+      "esri/dijit/Popup",
+      "esri/layers/graphics",
+      "esri/dijit/PopupTemplate",
+      "esri/InfoTemplate",
+      "ncam/PopupExtended",
+      "esri/graphic",
+      "esri/geometry/Point",
+      "esri/symbols/SimpleMarkerSymbol",
+      "dojo/dom-construct",
+      "dojo/_base/lang",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/domReady!",
+    ])
+    .then(
       ([
         Popup,
         GraphicsLayer,
@@ -1830,24 +1888,24 @@ MapControl.CreatGraphicsLayerWithMTip = function (
         lang,
         dom,
         on,
-        domAttr
+        domAttr,
       ]) => {
         let map = MapControl.map[MapControl.mapId];
         let data = info;
-        var customGraphics = map.getLayer('customGraphics');
+        var customGraphics = map.getLayer("customGraphics");
         if (customGraphics) {
           map.removeLayer(customGraphics);
         }
         if (!cGraphicslayer) {
           cGraphicslayer = new esri.layers.GraphicsLayer({
-            id: 'customGraphics'
+            id: "customGraphics",
           });
           map.addLayer(cGraphicslayer);
           for (var i = 0, len = data.length; i < len; i++) {
             var d = data[i];
             var p = new Point(d.x, d.y, map.spatialReference);
             var symbol = new esri.symbol.PictureMarkerSymbol(
-              require('@/assets/img/map/' + data[i].gra.symbol.image),
+              require("@/assets/img/map/" + data[i].gra.symbol.image),
               data[i].gra.symbol.width,
               data[i].gra.symbol.height
             );
@@ -1861,15 +1919,15 @@ MapControl.CreatGraphicsLayerWithMTip = function (
                 title: func[j].title,
                 click: function (feature) {
                   $func(feature);
-                }
+                },
               });
             }
             var template = new PopupTemplate({
               title: ctemplate.title,
               fieldInfos: ctemplate.fieldInfos,
               extended: {
-                actions: t_actions
-              }
+                actions: t_actions,
+              },
             });
             graphic.setInfoTemplate(template);
             graphic.infoTemplate.setContent(ctemplate.content);
@@ -1877,19 +1935,20 @@ MapControl.CreatGraphicsLayerWithMTip = function (
           }
         }
 
-        var extendedPopup = new PopupExtended({
-          extended: {
-            themeClass: 'light',
-            draggable: false,
-            defaultWidth: 100,
-            hideOnOffClick: true,
-            multiple: true,
-            smallStyleWidthBreak: 768
+        var extendedPopup = new PopupExtended(
+          {
+            extended: {
+              themeClass: "light",
+              draggable: false,
+              defaultWidth: 100,
+              hideOnOffClick: true,
+              multiple: true,
+              smallStyleWidthBreak: 768,
+            },
+            highlight: true,
+            titleInBody: true,
           },
-          highlight: true,
-          titleInBody: true
-        },
-          dojo.create('div')
+          dojo.create("div")
         );
         extendedPopup.setMap(map);
         map.infoWindow = extendedPopup;
@@ -1900,9 +1959,10 @@ MapControl.CreatGraphicsLayerWithMTip = function (
           map.infoWindow.show(loc);
         }
       }
-    ).catch(err => {
+    )
+    .catch((err) => {
       console.error(err);
-    })
+    });
 };
 
 MapControl.closePopups = function () {
@@ -1916,47 +1976,50 @@ MapControl.closePopups = function () {
 //多面融合成mutlipolygon或者mutlilinestring
 MapControl.mergemultipolygon = function (geometrystr) {
   if (geometrystr) {
-    let value = 'MULTIPOLYGON (';
-    geometrystr.forEach(data => {
-      if (data.geostr.indexOf('LINESTRING') > -1) {
-        value += data.geostr.replace('MULTILINESTRING  ', '').replace('LINESTRING  ', '').replace('((', '(').replace('))', ')') + ',';
-        value = value.replace('MULTIPOLYGON', 'MULTILINESTRING').replace('( (', '((');
+    let value = "MULTIPOLYGON (";
+    geometrystr.forEach((data) => {
+      if (data.geostr.indexOf("LINESTRING") > -1) {
+        value +=
+          data.geostr
+            .replace("MULTILINESTRING  ", "")
+            .replace("LINESTRING  ", "")
+            .replace("((", "(")
+            .replace("))", ")") + ",";
+        value = value.replace("MULTIPOLYGON", "MULTILINESTRING").replace("( (", "((");
       } else
-        value += data.geostr.replace('MULTIPOLYGON ', '').replace('POLYGON ', '').replace('(((', '((').replace(')))', '))') + ',';
+        value += data.geostr.replace("MULTIPOLYGON ", "").replace("POLYGON ", "").replace("(((", "((").replace(")))", "))") + ",";
     });
-    if (value.lastIndexOf(',') == value.length - 1) {
+    if (value.lastIndexOf(",") == value.length - 1) {
       value = value.substring(0, value.length - 1);
     }
-    value += ')';
+    value += ")";
     return value;
-  } else return '';
+  } else return "";
 };
 
 //多面融合成polygon或者mutlilinestring
 MapControl.mergepolygon = function (geometrystr) {
   if (geometrystr) {
-    let value = 'POLYGON (';
-    geometrystr.forEach(data => {
-      if (data.geostr.indexOf('POLYLINE') > -1) {
-        value += data.geostr.replace('POLYLINE (', '').replace('))', ')') + ',';
-        value = value.replace('POLYGON', 'POLYLINE');
-      } else
-        value += data.geostr.replace('POLYGON (', '').replace('))', ')') + ',';
+    let value = "POLYGON (";
+    geometrystr.forEach((data) => {
+      if (data.geostr.indexOf("POLYLINE") > -1) {
+        value += data.geostr.replace("POLYLINE (", "").replace("))", ")") + ",";
+        value = value.replace("POLYGON", "POLYLINE");
+      } else value += data.geostr.replace("POLYGON (", "").replace("))", ")") + ",";
     });
-    if (value.lastIndexOf(',') == value.length - 1) {
+    if (value.lastIndexOf(",") == value.length - 1) {
       value = value.substring(0, value.length - 1);
     }
-    value += ')';
+    value += ")";
     return value;
-  } else return '';
+  } else return "";
 };
 
 //根据多个点 绘制成一个矩形面
 MapControl.polygonByPoint = function (points) {
-  let xPoint = [],
-    yPoint = [];
+  let xPoint = [], yPoint = [];
   for (let i = 0; i < points.length; i++) {
-    let shape1 = points[i].replace('POINT(', '').replace('POINT (', '').replace(')', '').split(' ');
+    let shape1 = points[i].replace("POINT(", "").replace("POINT (", "").replace(")", "").split(" ");
     xPoint.push(parseFloat(shape1[0]));
     yPoint.push(parseFloat(shape1[1]));
   }
@@ -1965,16 +2028,16 @@ MapControl.polygonByPoint = function (points) {
   let xMin = Math.min.apply(null, xPoint) - 15;
   let yMax = Math.max.apply(null, yPoint) + 15;
   let yMin = Math.min.apply(null, yPoint) - 15;
-  let shape = 'POLYGON((' + xMin + ' ' + yMin + ',' + xMax + ' ' + yMin + ',' + xMax + ' ' + yMax + ',' + xMin + ' ' + yMax + ',' + xMin + ' ' + yMin + '))';
+  let shape = "POLYGON((" + xMin + " " + yMin + "," + xMax + " " + yMin + "," + xMax + " " + yMax + "," + xMin + " " + yMax + "," + xMin + " " + yMin + "))";
 
   return shape;
 };
 
 //两点连接成 一条线
 MapControl.linestringByPoint = function (point1, point2) {
-  let shape1 = point1.replace('POINT(', '').replace('POINT (', '').replace(')', '').split(' ')
-  let shape2 = point2.replace('POINT(', '').replace('POINT (', '').replace(')', '').split(' ')
-  let shape = 'LINESTRING (' + shape1[0] + ' ' + shape1[1] + ', ' + shape2[0] + ' ' + shape2[1] + ')'
+  let shape1 = point1.replace("POINT(", "").replace("POINT (", "").replace(")", "").split(" ");
+  let shape2 = point2.replace("POINT(", "").replace("POINT (", "").replace(")", "").split(" ");
+  let shape = "LINESTRING (" + shape1[0] + " " + shape1[1] + ", " + shape2[0] + " " + shape2[1] + ")";
 
   return shape;
 };
@@ -1983,30 +2046,23 @@ MapControl.linestringByPoint = function (point1, point2) {
 MapControl.ShowGeometryBuffer = function (geom, buffer) {
   var distance = buffer;
   var map = MapControl.map[MapControl.mapId];
-  esriLoader.loadModules(
-    [
-      'esri/tasks/BufferParameters',
-      'esri/SpatialReference',
-      'esri/tasks/GeometryService',
-      'esri/geometry/Point',
-      'esri/geometry/Polyline',
-      'esri/geometry/Polygon'
-    ]).then(([
-
-      BufferParameters,
-      SpatialReference,
-      GeometryService,
-      Point,
-      Polyline,
-      Polygon
-    ]) => {
+  esriLoader
+    .loadModules([
+      "esri/tasks/BufferParameters",
+      "esri/SpatialReference",
+      "esri/tasks/GeometryService",
+      "esri/geometry/Point",
+      "esri/geometry/Polyline",
+      "esri/geometry/Polygon",
+    ])
+    .then(([BufferParameters, SpatialReference, GeometryService, Point, Polyline, Polygon]) => {
       var geometryService = new GeometryService(mapconfig.GeometryService);
       var params = new BufferParameters();
-      if (geom.type == 'point') {
+      if (geom.type == "point") {
         geom = new Point(geom);
-      } else if (geom.type == 'polyline') {
+      } else if (geom.type == "polyline") {
         geom = new Polyline(geom);
-      } else if (geom.type == 'polygon') {
+      } else if (geom.type == "polygon") {
         geom = new Polygon(geom);
       }
       params.geometries = [geom];
@@ -2016,24 +2072,21 @@ MapControl.ShowGeometryBuffer = function (geom, buffer) {
       geometryService.buffer(params, function (results) {
         var symbol = new esri.symbol.SimpleFillSymbol(
           esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-          new esri.symbol.SimpleLineSymbol(
-            esri.symbol.SimpleLineSymbol.STYLE_DASH,
-            new dojo.Color([255, 0, 0]),
-            3
-          ),
+          new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_DASH, new dojo.Color([255, 0, 0]), 3),
           new dojo.Color([0, 0, 0, 0.15])
         );
         var graphic = new esri.Graphic(results[0], symbol);
-        MapControl.graphicLayers['gralyr2'].add(graphic);
+        MapControl.graphicLayers["gralyr2"].add(graphic);
         var polygon = MapControl.AgsToWkt(results[0]);
         return polygon;
         // var showExtent = new Polygon(results[0]);
         // var Extent = showExtent.getExtent();
         // map.setExtent(Extent);
       });
-    }).catch(err => {
-      console.error(err);
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 function showPopup(row) {
@@ -2042,7 +2095,7 @@ function showPopup(row) {
     let value = row[item];
     items.push({
       name: item,
-      value: row[item].toFixed(3)
+      value: row[item].toFixed(3),
     });
   }
   MapControl.setMapClear(1);
@@ -2054,349 +2107,379 @@ function showPopup(row) {
 
 //自定义弹出窗口
 MapControl.showInfoWindow = function (mpcenter, listdata, contents) {
-  esriLoader.loadModules(["esri/dijit/Popup",
-    "esri/layers/graphics",
-    "esri/dijit/InfoWindow",
-    "esri/graphic",
-    "esri/geometry/Point",
-    "esri/InfoTemplate",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/Color",
-    "dojo/dom-construct",
-    "dojo/dom",
-    "dojo/on",
-    "dojo/domReady!"
-  ]).then(([Popup, graphics, InfoWinow, graphic, Point, InfoTemplate, SimpleFillSymbol, SimpleLineSymbol, Color,
-    domConstruct, dom, on, domAttr
-  ]) => {
-    let map = MapControl.map[MapControl.mapId];
+  esriLoader
+    .loadModules([
+      "esri/dijit/Popup",
+      "esri/layers/graphics",
+      "esri/dijit/InfoWindow",
+      "esri/graphic",
+      "esri/geometry/Point",
+      "esri/InfoTemplate",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/Color",
+      "dojo/dom-construct",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/domReady!",
+    ])
+    .then(
+      ([
+        Popup,
+        graphics,
+        InfoWinow,
+        graphic,
+        Point,
+        InfoTemplate,
+        SimpleFillSymbol,
+        SimpleLineSymbol,
+        Color,
+        domConstruct,
+        dom,
+        on,
+        domAttr,
+      ]) => {
+        let map = MapControl.map[MapControl.mapId];
 
-    // var highlightSymbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-    //   new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-    //     new Color([255, 0, 0]), 1),
-    //   new Color([125, 125, 125, 0.35]));
-    // var t = "<b>面积: </b>${面积:NumberFormat}平方公里<br/>" + "<b>管控级别: </b>${主体功能}<br/>" + "<b>补偿金额: </b>${补偿金额}万元<br/>" + "<b>红线类型: </b>${类型:NumberFormat}<br/>"+ "<b>责任主体: </b>${区属}政府<br/>"+
-    // "<div style='display:block;float:left;margin-right:29px;'></div>"+
-    // "<div style='display:block;float:right;'><a href='##' onclick='redLine_zyfx_Click(\""+evt.graphic.attributes.名称+"\")' >建设现状</a><i>|</i><a href='##' onclick='shouslfjqpage_hx()'>资金使用情况</a></div>";
-    // var t = "<b>面积: </b>${面积:NumberFormat}平方公里<br/>";<sup class="ivu-badge-count ivu-badge-count-alone" style="box-shadow: 0 0 0 1px transparent;background: transparent;cursor: pointer;" onclick="closePop()">X</sup>
-    map.infoWindow.setTitle('详情');
-    if (contents && contents != '') {
+        // var highlightSymbol = new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
+        //   new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID,
+        //     new Color([255, 0, 0]), 1),
+        //   new Color([125, 125, 125, 0.35]));
+        // var t = "<b>面积: </b>${面积:NumberFormat}平方公里<br/>" + "<b>管控级别: </b>${主体功能}<br/>" + "<b>补偿金额: </b>${补偿金额}万元<br/>" + "<b>红线类型: </b>${类型:NumberFormat}<br/>"+ "<b>责任主体: </b>${区属}政府<br/>"+
+        // "<div style='display:block;float:left;margin-right:29px;'></div>"+
+        // "<div style='display:block;float:right;'><a href='##' onclick='redLine_zyfx_Click(\""+evt.graphic.attributes.名称+"\")' >建设现状</a><i>|</i><a href='##' onclick='shouslfjqpage_hx()'>资金使用情况</a></div>";
+        // var t = "<b>面积: </b>${面积:NumberFormat}平方公里<br/>";<sup class="ivu-badge-count ivu-badge-count-alone" style="box-shadow: 0 0 0 1px transparent;background: transparent;cursor: pointer;" onclick="closePop()">X</sup>
+        map.infoWindow.setTitle("详情");
+        if (contents && contents != "") {
+          map.infoWindow.setContent(contents);
+        } else {
+          // var content = '<div style="color:#333"><p style="color:#fff;position: relative;top: -5px;">详情</p><span class="ivu-badge" style="position: absolute;top:2px;right: 12px; " > <i data-v-394040b0="" class="ivu-icon ivu-icon-ios-close-empty" style="font-size: 26px;color:#FFF;cursor: pointer;"  onclick="closePop()"></i></span>';
+          var content =
+            '<div style="background-color: #fff;overflow:auto;width: 100%;height: 100%;"><table  cellpadding="0" cellspacing="0" border="0" style="width: 100%;height: 100%;"><tbody>';
+          if (listdata && listdata.length > 0) {
+            for (var i = 0; i < listdata.length; i++) {
+              if (listdata[i].name.toLowerCase() == "objectid") {
+                content +=
+                  '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;display: none;"></tr>';
+              } else {
+                content +=
+                  '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;"><td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"><div style="width:80px;white-space: initial;font-weight: 600;padding-left: 5px">' +
+                  listdata[i].name +
+                  "</div></td>";
+                content +=
+                  '<td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"> <div style="overflow: hidden;white-space: wrap;text-overflow: ellipsis;padding-left:5px">' +
+                  listdata[i].value +
+                  "</div></td></tr>";
+              }
 
-      map.infoWindow.setContent(contents);
-    } else {
-      // var content = '<div style="color:#333"><p style="color:#fff;position: relative;top: -5px;">详情</p><span class="ivu-badge" style="position: absolute;top:2px;right: 12px; " > <i data-v-394040b0="" class="ivu-icon ivu-icon-ios-close-empty" style="font-size: 26px;color:#FFF;cursor: pointer;"  onclick="closePop()"></i></span>';
-      var content = '<div style="background-color: #fff;overflow:auto;width: 100%;height: 100%;"><table  cellpadding="0" cellspacing="0" border="0" style="width: 100%;height: 100%;"><tbody>'
-      if (listdata && listdata.length > 0) {
-        for (var i = 0; i < listdata.length; i++) {
-          if (listdata[i].name.toLowerCase() == "objectid") {
-            content += '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;display: none;"></tr>'
-          } else {
-            content += '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;"><td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"><div style="width:80px;white-space: initial;font-weight: 600;padding-left: 5px">' + listdata[i].name + '</div></td>'
-            content += '<td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"> <div style="overflow: hidden;white-space: wrap;text-overflow: ellipsis;padding-left:5px">' + listdata[i].value + '</div></td></tr>'
-          }
-
-          // content += "<b>" + listdata[i].name + ": </b>" + listdata[i].value + "<br/>";
-        }
-      }
-      content += "</tbody></table>"
-      content += "</div></div>"
-      // dojo.string.substitute(),可以处理通配符形式
-      // var highlightGraphic = new esri.Graphic(evt.graphic.geometry, highlightSymbol);
-      // var obj = new Object();
-      // obj.GETTYPE = 'HX';
-      // highlightGraphic.setAttributes(obj);
-      // map.graphics.add(highlightGraphic); // 将图标加入图形中
-
-      //map.infoWindow.setTitle('详情');
-      map.infoWindow.setContent(content);
-    }
-    //alert(mpcenter.x+","+mpcenter.y);
-    var cPoint = new esri.geometry.Point(mpcenter.x, mpcenter.y, map.spatialReference);
-    var loc = map.toScreen(cPoint);
-    map.infoWindow.show(cPoint);
-    map.centerAt(cPoint);
-    //map.centerAndZoom(cPoint,7);
-    //setTimeout(function(){
-
-    //},200)
-
-    var x = document.getElementsByName('hlmonitoringTab');
-    if (x.length > 0) {
-      for (var i = 0; i < x.length; i++) {
-        var obj = x[i];
-        x[i].onclick = function (obj) {
-
-          var z = document.getElementsByName('hlmonitoringTab');
-          for (var j = 0; j < z.length; j++) {
-            z[j].className = "ivu-tabs-tab";
-          }
-          obj.currentTarget.className = "ivu-tabs-tab ivu-tabs-tab-active ivu-tabs-tab-focused";
-
-          var pid = obj.currentTarget.attributes.tab.value;
-          var tabs = ["tab1", "tab2"];
-          for (var j = 0; j < 2; j++) {
-            if (tabs[j] == pid) {
-              document.getElementById(tabs[j]).style.display = "block";
-            } else {
-              document.getElementById(tabs[j]).style.display = "none";
+              // content += "<b>" + listdata[i].name + ": </b>" + listdata[i].value + "<br/>";
             }
           }
+          content += "</tbody></table>";
+          content += "</div></div>";
+          // dojo.string.substitute(),可以处理通配符形式
+          // var highlightGraphic = new esri.Graphic(evt.graphic.geometry, highlightSymbol);
+          // var obj = new Object();
+          // obj.GETTYPE = 'HX';
+          // highlightGraphic.setAttributes(obj);
+          // map.graphics.add(highlightGraphic); // 将图标加入图形中
+
+          //map.infoWindow.setTitle('详情');
+          map.infoWindow.setContent(content);
         }
+        //alert(mpcenter.x+","+mpcenter.y);
+        var cPoint = new esri.geometry.Point(mpcenter.x, mpcenter.y, map.spatialReference);
+        var loc = map.toScreen(cPoint);
+        map.infoWindow.show(cPoint);
+        map.centerAt(cPoint);
+        //map.centerAndZoom(cPoint,7);
+        //setTimeout(function(){
+
+        //},200)
+
+        var x = document.getElementsByName("hlmonitoringTab");
+        if (x.length > 0) {
+          for (var i = 0; i < x.length; i++) {
+            var obj = x[i];
+            x[i].onclick = function (obj) {
+              var z = document.getElementsByName("hlmonitoringTab");
+              for (var j = 0; j < z.length; j++) {
+                z[j].className = "ivu-tabs-tab";
+              }
+              obj.currentTarget.className = "ivu-tabs-tab ivu-tabs-tab-active ivu-tabs-tab-focused";
+
+              var pid = obj.currentTarget.attributes.tab.value;
+              var tabs = ["tab1", "tab2"];
+              for (var j = 0; j < 2; j++) {
+                if (tabs[j] == pid) {
+                  document.getElementById(tabs[j]).style.display = "block";
+                } else {
+                  document.getElementById(tabs[j]).style.display = "none";
+                }
+              }
+            };
+          }
+        }
+
+        window.closePop = function () {
+          map.infoWindow.hide();
+          MapControl.setMapClear(1);
+        };
       }
-    }
-
-    window.closePop = function () {
-      map.infoWindow.hide()
-      MapControl.setMapClear(1)
-    }
-  }).catch(err => {
-    console.error(err);
-  })
-}
-
-function openSheet(name) {
-  let url =
-    mapconfig.webip + "jbgh/sheetjs/sheet.html#" + name;
-  let iWidth = 1150; //弹出窗口的宽度;
-  let iHeight = 650; //弹出窗口的高度;
-  let iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
-  let iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-  window.open(
-    url,
-    "newwindow",
-    "height=" +
-    iHeight +
-    ", width=" +
-    iWidth +
-    ", top=" +
-    iTop +
-    ", left=" +
-    iLeft +
-    ", toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no"
-  );
-}
+    )
+    .catch((err) => {
+      console.error(err);
+    });
+};
 
 //自定义弹出窗口
 MapControl._showInfoWindow = function (mpcenter, listdata, contents) {
-  esriLoader.loadModules(["esri/dijit/Popup",
-    "esri/layers/graphics",
-    "esri/dijit/InfoWindow",
-    "esri/graphic",
-    "esri/geometry/Point",
-    "esri/InfoTemplate",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/SimpleLineSymbol",
-    "esri/Color",
-    "dojo/dom-construct",
-    "dojo/dom",
-    "dojo/on",
-    "dojo/domReady!"
-  ]).then(([Popup, graphics, InfoWinow, graphic, Point, InfoTemplate, SimpleFillSymbol, SimpleLineSymbol, Color,
-    domConstruct, dom, on, domAttr
-  ]) => {
-    let map = MapControl.map[MapControl.mapId];
-    map.infoWindow.setTitle('详情');
-    if (contents && contents != '') {
-      map.infoWindow.setContent(contents);
-    } else {
-      var content = '<div style="background-color: #fff;overflow:auto;"><table  cellpadding="0" cellspacing="0" border="0"><tbody>'
-      if (listdata && listdata.length > 0) {
-        for (var i = 0; i < listdata.length; i++) {
-          if (listdata[i].name.toLowerCase() == "objectid") {
-            content += '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;display: none;"></tr>'
-          } else if (listdata[i].name == '项目名称') {
-            content += '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;"><td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"><div style="width:80px;white-space: initial;font-weight: 600;padding-left: 5px">' + listdata[i].name + '</div></td>'
-            content += '<td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"> <div style="overflow: hidden;white-space: wrap;text-overflow: ellipsis;padding-left:5px"><a href="javacript:void(0);" id="Sheet0" value="">' + listdata[i].value + '</a></div></td></tr>'
-          } else {
-            content += '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;"><td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"><div style="width:80px;white-space: initial;font-weight: 600;padding-left: 5px">' + listdata[i].name + '</div></td>'
-            content += '<td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"> <div style="overflow: hidden;white-space: wrap;text-overflow: ellipsis;padding-left:5px">' + listdata[i].value + '</div></td></tr>'
-          }
-        }
-      }
-      content += "</tbody></table>"
-      content += "</div></div>"
-      map.infoWindow.setContent(content);
-      window.jQuery('#Sheet0').click((ele) => {
-        let url =
-          mapconfig.webip + "jbgh/sheetjs/sheet.html#" + ele.toElement.innerText;
-        let iWidth = 1150; //弹出窗口的宽度;
-        let iHeight = 650; //弹出窗口的高度;
-        let iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
-        let iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
-        window.open(
-          url,
-          ele.toElement.innerText + "项目扫尾一表清",
-          "height=" +
-          iHeight +
-          ", width=" +
-          iWidth +
-          ", top=" +
-          iTop +
-          ", left=" +
-          iLeft +
-          ", toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no"
-        );
-      })
-    }
-
-    var cPoint = new esri.geometry.Point(mpcenter.x, mpcenter.y, map.spatialReference);
-    var loc = map.toScreen(cPoint); //地理坐标转屏幕坐标(toScreen方法)
-    map.infoWindow.show(cPoint);
-    map.centerAt(cPoint);
-    var x = document.getElementsByName('hlmonitoringTab');
-    if (x.length > 0) {
-      for (var i = 0; i < x.length; i++) {
-        var obj = x[i];
-        x[i].onclick = function (obj) {
-
-          var z = document.getElementsByName('hlmonitoringTab');
-          for (var j = 0; j < z.length; j++) {
-            z[j].className = "ivu-tabs-tab";
-          }
-          obj.currentTarget.className = "ivu-tabs-tab ivu-tabs-tab-active ivu-tabs-tab-focused";
-
-          var pid = obj.currentTarget.attributes.tab.value;
-          var tabs = ["tab1", "tab2"];
-          for (var j = 0; j < 2; j++) {
-            if (tabs[j] == pid) {
-              document.getElementById(tabs[j]).style.display = "block";
-            } else {
-              document.getElementById(tabs[j]).style.display = "none";
+  esriLoader
+    .loadModules([
+      "esri/dijit/Popup",
+      "esri/layers/graphics",
+      "esri/dijit/InfoWindow",
+      "esri/graphic",
+      "esri/geometry/Point",
+      "esri/InfoTemplate",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/Color",
+      "dojo/dom-construct",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/domReady!",
+    ])
+    .then(
+      ([
+        Popup,
+        graphics,
+        InfoWinow,
+        graphic,
+        Point,
+        InfoTemplate,
+        SimpleFillSymbol,
+        SimpleLineSymbol,
+        Color,
+        domConstruct,
+        dom,
+        on,
+        domAttr,
+      ]) => {
+        let map = MapControl.map[MapControl.mapId];
+        map.infoWindow.setTitle("详情");
+        if (contents && contents != "") {
+          map.infoWindow.setContent(contents);
+        } else {
+          var content =
+            '<div style="background-color: #fff;overflow:auto;"><table  cellpadding="0" cellspacing="0" border="0"><tbody>';
+          if (listdata && listdata.length > 0) {
+            for (var i = 0; i < listdata.length; i++) {
+              if (listdata[i].name.toLowerCase() == "objectid") {
+                content +=
+                  '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;display: none;"></tr>';
+              } else if (listdata[i].name == "项目名称") {
+                content +=
+                  '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;"><td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"><div style="width:80px;white-space: initial;font-weight: 600;padding-left: 5px">' +
+                  listdata[i].name +
+                  "</div></td>";
+                content +=
+                  '<td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"> <div style="overflow: hidden;white-space: wrap;text-overflow: ellipsis;padding-left:5px"><a href="javacript:void(0);" id="Sheet0" value="">' +
+                  listdata[i].value +
+                  "</a></div></td></tr>";
+              } else {
+                content +=
+                  '<tr style="height:25px; white-space: wrap;overflow: hidden;border:1px solid #f1f1f1;"><td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"><div style="width:80px;white-space: initial;font-weight: 600;padding-left: 5px">' +
+                  listdata[i].name +
+                  "</div></td>";
+                content +=
+                  '<td style="border-right:1px solid #f1f1f1;border-bottom:1px solid #f1f1f1;"> <div style="overflow: hidden;white-space: wrap;text-overflow: ellipsis;padding-left:5px">' +
+                  listdata[i].value +
+                  "</div></td></tr>";
+              }
             }
           }
+          content += "</tbody></table>";
+          content += "</div></div>";
+          map.infoWindow.setContent(content);
+          window.jQuery("#Sheet0").click((ele) => {
+            let url = mapconfig.webip + "jbgh/sheetjs/sheet.html#" + ele.toElement.innerText;
+            let iWidth = 1150; //弹出窗口的宽度;
+            let iHeight = 650; //弹出窗口的高度;
+            let iTop = (window.screen.availHeight - 30 - iHeight) / 2; //获得窗口的垂直位置;
+            let iLeft = (window.screen.availWidth - 10 - iWidth) / 2; //获得窗口的水平位置;
+            window.open(
+              url,
+              ele.toElement.innerText + "项目扫尾一表清",
+              "height=" +
+              iHeight +
+              ", width=" +
+              iWidth +
+              ", top=" +
+              iTop +
+              ", left=" +
+              iLeft +
+              ", toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no"
+            );
+          });
         }
+
+        var cPoint = new esri.geometry.Point(mpcenter.x, mpcenter.y, map.spatialReference);
+        var loc = map.toScreen(cPoint); //地理坐标转屏幕坐标(toScreen方法)
+        map.infoWindow.show(cPoint);
+        map.centerAt(cPoint);
+        var x = document.getElementsByName("hlmonitoringTab");
+        if (x.length > 0) {
+          for (var i = 0; i < x.length; i++) {
+            var obj = x[i];
+            x[i].onclick = function (obj) {
+              var z = document.getElementsByName("hlmonitoringTab");
+              for (var j = 0; j < z.length; j++) {
+                z[j].className = "ivu-tabs-tab";
+              }
+              obj.currentTarget.className = "ivu-tabs-tab ivu-tabs-tab-active ivu-tabs-tab-focused";
+
+              var pid = obj.currentTarget.attributes.tab.value;
+              var tabs = ["tab1", "tab2"];
+              for (var j = 0; j < 2; j++) {
+                if (tabs[j] == pid) {
+                  document.getElementById(tabs[j]).style.display = "block";
+                } else {
+                  document.getElementById(tabs[j]).style.display = "none";
+                }
+              }
+            };
+          }
+        }
+        window.closePop = function () {
+          map.infoWindow.hide();
+          MapControl.setMapClear(1);
+        };
       }
-    }
-    window.closePop = function () {
-      map.infoWindow.hide()
-      MapControl.setMapClear(1)
-    }
-  }).catch(err => {
-    console.error(err);
-  })
-}
+    )
+    .catch((err) => {
+      console.error(err);
+    });
+};
 
 // 拾取
 MapControl.QueryByPoint3 = function (_Self, VisibleLyr, type) {
-  esriLoader.loadModules(['esri/tasks/IdentifyTask', 'esri/tasks/IdentifyParameters']).then(([IdentifyTask, IdentifyParameters]) => {
-    let map = MapControl.map[MapControl.mapId];
-    map.graphics.clear();
-    map.setMapCursor("pointer"); //光标变成小手
+  esriLoader
+    .loadModules(["esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters"])
+    .then(([IdentifyTask, IdentifyParameters]) => {
+      let map = MapControl.map[MapControl.mapId];
+      map.graphics.clear();
+      map.setMapCursor("pointer"); //光标变成小手
 
-    let result = [];
-    MapControl.identifyHandler = map.on('click', function (geo) {
+      let result = [];
+      MapControl.identifyHandler = map.on("click", function (geo) {
+        // 流向单点拾取，溯源多点拾取
+        if (type == "流向") {
+          MapControl.identifyHandler.remove();
+        }
 
-      // 流向单点拾取，溯源多点拾取
-      if (type == "流向") {
-        MapControl.identifyHandler.remove();
-      }
-
-      setTimeout(function () {
-        for (var i = 0; i < VisibleLyr.length; i++) {
-          if (VisibleLyr[i].name != '排水管网') continue;
-          var identifyTask = new esri.tasks.IdentifyTask(
-            VisibleLyr[i].Address
-          );
-          var identifyParams = new esri.tasks.IdentifyParameters();
-          identifyParams.tolerance = 1; //容差值
-          identifyParams.returnGeometry = true;
-          identifyParams.layerIds = VisibleLyr[i].layerIds.toString().replace('[', '').replace(']', '').split(',');
-          identifyParams.layerOption =
-            esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
-          identifyParams.geometry = geo.mapPoint;
-          identifyParams.mapExtent = map.extent;
-          identifyTask.execute(identifyParams, function (results) {
-            if (results.length > 0) {
-              for (let j = 0; j < results.length; j++) {
-                let attributes = results[j].feature.attributes;
-                if (results[j].geometryType.indexOf('Point') > 0 && attributes.wtdh != undefined) {
-                  result.push(attributes);
+        setTimeout(function () {
+          for (var i = 0; i < VisibleLyr.length; i++) {
+            if (VisibleLyr[i].name != "排水管网") continue;
+            var identifyTask = new esri.tasks.IdentifyTask(VisibleLyr[i].Address);
+            var identifyParams = new esri.tasks.IdentifyParameters();
+            identifyParams.tolerance = 1; //容差值
+            identifyParams.returnGeometry = true;
+            identifyParams.layerIds = VisibleLyr[i].layerIds.toString().replace("[", "").replace("]", "").split(",");
+            identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
+            identifyParams.geometry = geo.mapPoint;
+            identifyParams.mapExtent = map.extent;
+            identifyTask.execute(identifyParams, function (results) {
+              if (results.length > 0) {
+                for (let j = 0; j < results.length; j++) {
+                  let attributes = results[j].feature.attributes;
+                  if (results[j].geometryType.indexOf("Point") > 0 && attributes.wtdh != undefined) {
+                    result.push(attributes);
+                  }
                 }
               }
-            }
-            if (result.length > 0) {
-              let geo1 = 'POINT (' + geo.mapPoint.x + ' ' + geo.mapPoint.y + ' )';
-              let wkt1 = MapControl.WktToAgs(geo1)
-              MapControl.GetTxtSymbols(wkt1, type == "流向" ? '起' : '终', 0, 14, '#f7f7f7');
+              if (result.length > 0) {
+                let geo1 = "POINT (" + geo.mapPoint.x + " " + geo.mapPoint.y + " )";
+                let wkt1 = MapControl.WktToAgs(geo1);
+                MapControl.GetTxtSymbols(wkt1, type == "流向" ? "起" : "终", 0, 14, "#f7f7f7");
 
-              map.setMapCursor("default"); //光标恢复默认形状
-              bus.$emit('identify3', result);
-            } else {
-              _Self.$Message.error('未拾取到管点！');
-            }
-          });
-        }
-      }, 1000)
-
+                map.setMapCursor("default"); //光标恢复默认形状
+                bus.$emit("identify3", result);
+              } else {
+                _Self.$Message.error("未拾取到管点！");
+              }
+            });
+          }
+        }, 1000);
+      });
     });
-  })
 };
-
 
 //拾取---根据地图比例尺计算容差值返回范围面
 MapControl.identify = function (isremove) {
   if (MapControl.identifyHandler) MapControl.identifyHandler.remove();
-  esriLoader.loadModules(['esri/geometry/scaleUtils']).then(([scaleUtils]) => {
-    const map = MapControl.map[MapControl.mapId];
-    const scale = scaleUtils.getScale(map);
-    const PPI = 96
-    let Resolution = scale / (PPI / 0.0254)
-    MapControl.identifyHandler = map.on("click", function (geo) {
-      let x = geo.mapPoint.x
-      let y = geo.mapPoint.y
-      let xmin = x - Resolution * 10
-      let xmax = x + Resolution * 10
-      let ymin = y - Resolution * 10
-      let ymax = y + Resolution * 10
-      let geom = 'POLYGON ((' + xmin + ' ' + ymin + ',' + xmax + ' ' + ymin + ',' + xmax + ' ' + ymax + ',' + xmin + ' ' + ymax + ',' + xmin + ' ' + ymin + '))';
-      let geop = 'POINT(' + x + ' ' + y + ')';
-      if (isremove == undefined) MapControl.identifyHandler.remove()
-      bus.$emit('identify', geom); //返回范围面
-      bus.$emit('identifypoint', geop); //返回点
+  esriLoader
+    .loadModules(["esri/geometry/scaleUtils"])
+    .then(([scaleUtils]) => {
+      const map = MapControl.map[MapControl.mapId];
+      const scale = scaleUtils.getScale(map);
+      const PPI = 96;
+      let Resolution = scale / (PPI / 0.0254);
+      MapControl.identifyHandler = map.on("click", function (geo) {
+        let x = geo.mapPoint.x;
+        let y = geo.mapPoint.y;
+        let xmin = x - Resolution * 10;
+        let xmax = x + Resolution * 10;
+        let ymin = y - Resolution * 10;
+        let ymax = y + Resolution * 10;
+        let geom = "POLYGON ((" + xmin + " " + ymin + "," + xmax + " " + ymin + "," + xmax + " " + ymax + "," + xmin + " " + ymax + "," + xmin + " " + ymin + "))";
+        let geop = "POINT(" + x + " " + y + ")";
+        if (isremove == undefined) MapControl.identifyHandler.remove();
+        bus.$emit("identify", geom); //返回范围面
+        bus.$emit("identifypoint", geop); //返回点
+      });
+    })
+    .catch((err) => {
+      console.error(err);
     });
-  }).catch(err => {
-    console.error(err);
-  })
 };
 
 //根据地图比例尺计算容差值返回范围面
 MapControl.identifyNew = function (isremove) {
-  esriLoader.loadModules(
-    ['esri/geometry/scaleUtils', 'esri/geometry/geometryEngine']).then(
-      ([scaleUtils, geometryEngine]) => {
-        const map = MapControl.map[MapControl.mapId];
-        const scale = scaleUtils.getScale(map);
-        const PPI = 96
-        let Resolution = scale / (PPI / 0.0254)
-        MapControl.identifyHandler = map.on("click", function (geo) {
-          const buffer = geometryEngine.geodesicBuffer(geo.mapPoint, 5, "meters", false) //缓冲范围5m
-          let x = geo.mapPoint.x
-          let y = geo.mapPoint.y
+  esriLoader
+    .loadModules(["esri/geometry/scaleUtils", "esri/geometry/geometryEngine"])
+    .then(([scaleUtils, geometryEngine]) => {
+      const map = MapControl.map[MapControl.mapId];
+      const scale = scaleUtils.getScale(map);
+      const PPI = 96;
+      let Resolution = scale / (PPI / 0.0254);
+      MapControl.identifyHandler = map.on("click", function (geo) {
+        const buffer = geometryEngine.geodesicBuffer(geo.mapPoint, 5, "meters", false); //缓冲范围5m
+        let x = geo.mapPoint.x;
+        let y = geo.mapPoint.y;
 
-          //缓冲后转换成范围面
-          let geom = ''
-          for (var i = 0; i < buffer.rings[0].length; i++) {
-            geom = buffer.rings[0][i][0] + ' ' + buffer.rings[0][i][1] + ',' + geom;
-          }
-          geom = geom + buffer.rings[0][0][0] + ' ' + buffer.rings[0][0][1];
-          geom = 'POLYGON((' + geom + '))';
-          let wkt = MapControl.WktToAgs(geom)
-          // MapControl.showGraphic(wkt, undefined, "gralyr4")
+        //缓冲后转换成范围面
+        let geom = "";
+        for (var i = 0; i < buffer.rings[0].length; i++) {
+          geom = buffer.rings[0][i][0] + " " + buffer.rings[0][i][1] + "," + geom;
+        }
+        geom = geom + buffer.rings[0][0][0] + " " + buffer.rings[0][0][1];
+        geom = "POLYGON((" + geom + "))";
+        let wkt = MapControl.WktToAgs(geom);
+        // MapControl.showGraphic(wkt, undefined, "gralyr4")
 
-          let extent = buffer.getExtent();
-          let xmin = extent.xmin;
-          let xmax = extent.xmax;
-          let ymin = extent.ymin;
-          let ymax = extent.ymax;
-          let geometry = 'POLYGON ((' + xmin + ' ' + ymin + ',' + xmax + ' ' + ymin + ',' + xmax + ' ' + ymax + ',' + xmin + ' ' + ymax + ',' + xmin + ' ' + ymin + '))';
-          let geop = 'POINT(' + x + ' ' + y + ')';
-          if (isremove == undefined) MapControl.identifyHandler.remove()
-          bus.$emit('identify', geometry);
-          bus.$emit('identifypoint', geop);
-        });
-      }
-    );
+        let extent = buffer.getExtent();
+        let xmin = extent.xmin;
+        let xmax = extent.xmax;
+        let ymin = extent.ymin;
+        let ymax = extent.ymax;
+        let geometry = "POLYGON ((" + xmin + " " + ymin + "," + xmax + " " + ymin + "," + xmax + " " + ymax + "," + xmin + " " + ymax + "," + xmin + " " + ymin + "))";
+        let geop = "POINT(" + x + " " + y + ")";
+        if (isremove == undefined) MapControl.identifyHandler.remove();
+        bus.$emit("identify", geometry);
+        bus.$emit("identifypoint", geop);
+      });
+    });
 };
 
 MapControl.multipolygonExtent = function (geolist) {
@@ -2437,28 +2520,26 @@ MapControl.multipolygonExtent = function (geolist) {
   }
 };
 
-
 //根据地图比例尺计算容差值返回点坐标
 MapControl.identifypoint = function () {
-  esriLoader.loadModules(
-    ['esri/geometry/scaleUtils']).then(
-      ([scaleUtils]) => {
-        const map = MapControl.map[MapControl.mapId];
-        const scale = scaleUtils.getScale(map);
-        const PPI = 96
-        let Resolution = scale / (PPI / 0.0254)
-        MapControl.identifyHandler = map.on("click", function (geo) {
-          let x = geo.mapPoint.x
-          let y = geo.mapPoint.y
-          let geom = 'POINT  ( ' + x + ' ' + y + ')';
-          MapControl.identifyHandler.remove()
-          bus.$emit('identifypoint', geom);
-        });
-      }
-    )
-    .catch(err => {
-      console.error(err);
+  esriLoader
+    .loadModules(["esri/geometry/scaleUtils"])
+    .then(([scaleUtils]) => {
+      const map = MapControl.map[MapControl.mapId];
+      const scale = scaleUtils.getScale(map);
+      const PPI = 96;
+      let Resolution = scale / (PPI / 0.0254);
+      MapControl.identifyHandler = map.on("click", function (geo) {
+        let x = geo.mapPoint.x;
+        let y = geo.mapPoint.y;
+        let geom = "POINT  ( " + x + " " + y + ")";
+        MapControl.identifyHandler.remove();
+        bus.$emit("identifypoint", geom);
+      });
     })
+    .catch((err) => {
+      console.error(err);
+    });
 };
 
 //拾取已加载的所有服务
@@ -2466,19 +2547,15 @@ MapControl.identifyAllServices = function (_this) {
   MapControl.setMapClear();
   MapControl.identifyHandlerRemove();
   esriLoader
-    .loadModules([
-      "esri/tasks/IdentifyTask",
-      "esri/tasks/IdentifyParameters"
-    ])
+    .loadModules(["esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters"])
     .then(([IdentifyTask, IdentifyParameters]) => {
       let map = MapControl.map[MapControl.mapId];
       var identifyParams = new esri.tasks.IdentifyParameters();
-      _this.$store.state.identifyvalue = [];
+
       MapControl.identifyHandler = map.on("click", function (geo) {
         identifyParams.tolerance = 1;
         identifyParams.returnGeometry = true;
-        identifyParams.layerOption =
-          esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
+        identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
         identifyParams.geometry = geo.mapPoint;
         identifyParams.mapExtent = map.extent;
         let serviceslist = map.layerIds;
@@ -2486,103 +2563,95 @@ MapControl.identifyAllServices = function (_this) {
           new esri.tasks.IdentifyTask(serviceslist[i]).execute(identifyParams, function (results) {
             bus.$emit("identifyAllServices", results);
             if (results.length != 0) {
-              _this.$store.state.identifyvalue = results;
-              _this.$parent.$router.replace({
-                name: 'idenfity',
-                params: {
-                  name: 'idenfity',
-                  menuname: '查询结果'
-                }
-              });
-              _this.$parent.title_name = '查询结果';
+              console.log("查询结果:", results)
             }
           });
         }
       });
     })
-    .catch(err => {
+    .catch((err) => {
       console.error(err);
     });
 };
 
 MapControl.addToolTip = function (infoTem, point) {
-  esriLoader.loadModules(["esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/Font",
-    "esri/symbols/TextSymbol",
-    "esri/geometry/Point",
-    "esri/graphic",
-    "dojo/_base/Color",
-    "dojo/dom",
-    "dojo/on",
-    "dojo/domReady!"
-  ]).then(([SimpleLineSymbol, SimpleMarkerSymbol, SimpleFillSymbol, Font, TextSymbol, Point, Graphic, Color, dom, on]) => {
-    MapControl.graphicLayers['gralyr1'].clear();
-    var fontsize = 14;
-    var radius = 6;
-    infoTem = infoTem + "";
+  esriLoader
+    .loadModules([
+      "esri/symbols/SimpleLineSymbol",
+      "esri/symbols/SimpleMarkerSymbol",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/Font",
+      "esri/symbols/TextSymbol",
+      "esri/geometry/Point",
+      "esri/graphic",
+      "dojo/_base/Color",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/domReady!",
+    ])
+    .then(
+      ([SimpleLineSymbol, SimpleMarkerSymbol, SimpleFillSymbol, Font, TextSymbol, Point, Graphic, Color, dom, on]) => {
+        MapControl.graphicLayers["gralyr1"].clear();
+        var fontsize = 14;
+        var radius = 6;
+        infoTem = infoTem + "";
 
-    var bglineSymbol = new SimpleLineSymbol("solid", new Color([17, 91, 122, 1]), 1);
-    var width = (MapControl.chkstrlen(infoTem)) * 0.6 * (fontsize + 1);
-    var height = fontsize * 1.6;
+        var bglineSymbol = new SimpleLineSymbol("solid", new Color([17, 91, 122, 1]), 1);
+        var width = MapControl.chkstrlen(infoTem) * 0.6 * (fontsize + 1);
+        var height = fontsize * 1.6;
 
-    //设置背景框的大小
-    var path = "M0" + " " + radius + "L0" + " " + (height - radius) + "Q0" + " " + height + " " + radius + " " + height + "L" + (width - radius) + " " + height + "Q" + width + " " + height + " " + width + " " + (height - radius) + "L" + width + " " + radius + "Q" + width + " " + "0" + " " + (width - radius) + " " + "0L" + radius + " " + "0Q0" + " " + "0" + " " + "0" + " " + radius;
-    var bgSymbol = new SimpleMarkerSymbol();
-    bgSymbol.setPath(path);
-    bgSymbol.setColor(new Color([17, 91, 122, 0.7]));
-    bgSymbol.setOutline(bglineSymbol);
+        //设置背景框的大小
+        var path = "M0" + " " + radius + "L0" + " " + (height - radius) + "Q0" + " " + height + " " + radius +
+          " " + height + "L" + (width - radius) + " " + height + "Q" + width + " " + height + " " + width + " " +
+          (height - radius) + "L" + width + " " + radius + "Q" + width + " " + "0" + " " + (width - radius) +
+          " " + "0L" + radius + " " + "0Q0" + " " + "0" + " " + "0" + " " + radius;
+        var bgSymbol = new SimpleMarkerSymbol();
+        bgSymbol.setPath(path);
+        bgSymbol.setColor(new Color([17, 91, 122, 0.7]));
+        bgSymbol.setOutline(bglineSymbol);
 
-    var size = Math.max(height, width);
-    bgSymbol.setSize(size);
-    bgSymbol.xoffset = 60;
-    bgSymbol.yoffset = 0;
-    var bgGraphic = new Graphic(point, bgSymbol);
-    MapControl.graphicLayers['gralyr1'].add(bgGraphic);
+        var size = Math.max(height, width);
+        bgSymbol.setSize(size);
+        bgSymbol.xoffset = 60;
+        bgSymbol.yoffset = 0;
+        var bgGraphic = new Graphic(point, bgSymbol);
+        MapControl.graphicLayers["gralyr1"].add(bgGraphic);
 
-    var font = new Font(fontsize + "px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_LIGHTER);
-    var textSymbol = new TextSymbol(infoTem, font.setWeight(Font.WEIGHT_BOLD), new Color([122, 122, 122, 1]));
-    textSymbol.setOffset(60, -5);
-    textSymbol.setColor(new Color([255, 255, 255, 0.7]));
-    var tempGra = new Graphic(point, textSymbol, null, null);
-    MapControl.graphicLayers['gralyr1'].add(tempGra);
-  });
+        var font = new Font(fontsize + "px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_LIGHTER);
+        var textSymbol = new TextSymbol(infoTem, font.setWeight(Font.WEIGHT_BOLD), new Color([122, 122, 122, 1]));
+        textSymbol.setOffset(60, -5);
+        textSymbol.setColor(new Color([255, 255, 255, 0.7]));
+        var tempGra = new Graphic(point, textSymbol, null, null);
+        MapControl.graphicLayers["gralyr1"].add(tempGra);
+      }
+    );
 };
 
 //获取包含汉字字符串长度
 MapControl.chkstrlen = function (str) {
   var strlen = 0;
   for (var i = 0; i < str.length; i++) {
-    if (str.charCodeAt(i) > 255) //如果是汉字，则字符串长度加2
+    if (str.charCodeAt(i) > 255)
+      //如果是汉字，则字符串长度加2
       strlen += 2;
-    else
-      strlen++;
+    else strlen++;
   }
   return strlen;
-}
+};
 
 //-----------------------------轨迹回放-----------------------------
 
 MapControl.lineSymbol = function () {
-  return new esri.symbol.SimpleLineSymbol(
-    esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-    new dojo.Color("red"),
-    5
-  );
-}
+  return new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color("red"), 5);
+};
 MapControl.pointSymbol = function () {
   return new esri.symbol.SimpleMarkerSymbol(
     esri.symbol.SimpleMarkerSymbol.STYLE_CIRCLE,
     5,
-    new esri.symbol.SimpleLineSymbol(
-      esri.symbol.SimpleLineSymbol.STYLE_SOLID,
-      new dojo.Color([255, 0, 0]),
-      1
-    ),
+    new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0]), 1),
     new dojo.Color([255, 0, 0, 1])
   );
-}
+};
 
 //------------------------------------------多条轨迹播放-----------------------------------------------
 MapControl.carSymbol = {}; //小车图标
@@ -2591,7 +2660,7 @@ MapControl.pointsData = []; //多条轨迹
 MapControl.jieduan = 0; //默认开始第一条轨迹
 
 var timer; //定时器
-var isPause = false; // true：轨迹继续  true：轨迹暂停 
+var isPause = false; // true：轨迹继续  true：轨迹暂停
 
 //显示背景阴影轨迹
 MapControl.showLine2 = function () {
@@ -2604,35 +2673,35 @@ MapControl.showLine2 = function () {
     paths.push(point);
 
     let attr = MapControl.points[j].attributes;
-    if (attr != undefined && attr["photo"] != undefined && attr["photo"] != '') poinsts.push(MapControl.points[j])
+    if (attr != undefined && attr["photo"] != undefined && attr["photo"] != "") poinsts.push(MapControl.points[j]);
   }
   var line = new esri.geometry.Polyline({
-    "paths": [paths]
+    paths: [paths],
   });
   line.spatialReference.wkid = 4326;
   var bglineSymbol = new esri.symbol.SimpleLineSymbol("solid", new dojo.Color([17, 91, 122, 0.4]), 9);
 
   var lineGriphic = new esri.Graphic(line, bglineSymbol);
-  MapControl.graphicLayers['gralyr1'].add(lineGriphic);
+  MapControl.graphicLayers["gralyr1"].add(lineGriphic);
 
   //签到位置点
   for (let i = 0; i < poinsts.length; i++) {
     var obj = {
       geometry: poinsts[i].geometry,
       symbol: {
-        type: 'PictureMarkerSymbol', //SimpleMarkerSymbol 或者 PictureMarkerSymbol
-        image: '签到.png', //图片名称，带文件后缀(类型为PictureMarkerSymbol)
+        type: "PictureMarkerSymbol", //SimpleMarkerSymbol 或者 PictureMarkerSymbol
+        image: "签到.png", //图片名称，带文件后缀(类型为PictureMarkerSymbol)
         height: 28, //图片高度(类型为PictureMarkerSymbol)
-        width: 28 //图片宽度(类型为PictureMarkerSymbol)
+        width: 28, //图片宽度(类型为PictureMarkerSymbol)
       },
       isClear: false, //是否清除当前地图元素
       attributes: poinsts[i], //元素属性(可选)
-      layer: 'gralyr4'
-    }
-    MapControl.addGraphic(obj, row)
+      layer: "gralyr4",
+    };
+    MapControl.addGraphic(obj, row);
     // MapControl.showGeometry(poinsts[i].geometry, undefined, "gralyr4", "#00f500", true, 10, poinsts[i], 0, undefined);
   }
-}
+};
 
 //轨迹播放时点击暂停，存储的一些数据
 let rIndex = 0, //轨迹所在的当前的第几个点位置
@@ -2646,9 +2715,9 @@ MapControl.Stop2 = function () {
   MapControl.Pause(true);
 
   MapControl.jieduan = 0;
-  MapControl.points = []
-  MapControl.pointsData = []
-  rIndex = 0, tmpPoints1 = [], jindex1 = 0, numdif1 = 0;
+  MapControl.points = [];
+  MapControl.pointsData = [];
+  (rIndex = 0), (tmpPoints1 = []), (jindex1 = 0), (numdif1 = 0);
 
   if (timer != null) {
     clearInterval(timer);
@@ -2664,15 +2733,15 @@ MapControl.Stop2 = function () {
         map.getLayer("carLayer").clear();
       }
     }
-  }, 1500)
-}
+  }, 1500);
+};
 MapControl.Pause2 = function (value) {
   isPause = value;
-}
+};
 //轨迹开始
 MapControl.Start2 = function () {
-  console.log(MapControl.points)
-  MapControl.graphicLayers['gralyr5'].clear(); //清除轨迹tip框
+  console.log(MapControl.points);
+  MapControl.graphicLayers["gralyr5"].clear(); //清除轨迹tip框
   MapControl.Pause(false);
   let map = MapControl.map[MapControl.mapId];
 
@@ -2683,13 +2752,13 @@ MapControl.Start2 = function () {
     map.getLayer("carLayer").clear();
   }
 
-  rIndex = 0, tmpPoints1 = [], jindex1 = 0, numdif1 = 0;
+  (rIndex = 0), (tmpPoints1 = []), (jindex1 = 0), (numdif1 = 0);
   if (timer != null) {
     clearInterval(timer);
     timer = null;
   }
   MapControl.timerfun2(rIndex);
-}
+};
 MapControl.timerfun2 = function (rIndex) {
   if (MapControl.points == undefined) return;
   if (rIndex >= MapControl.points.length - 1) {
@@ -2701,7 +2770,7 @@ MapControl.timerfun2 = function (rIndex) {
       MapControl.Start2();
     }
 
-    return
+    return;
   } else {
     // if (isPause) {
     //   return timer = setInterval(function () {
@@ -2715,7 +2784,7 @@ MapControl.timerfun2 = function (rIndex) {
     console.log(rIndex + "," + (1 + rIndex));
     var gra1 = MapControl.points[rIndex];
     var gra2 = MapControl.points[1 + rIndex];
-    var angle = Math.ceil(MapControl.Angle(gra1.geometry.x, gra1.geometry.y, gra2.geometry.x, gra2.geometry.y))
+    var angle = Math.ceil(MapControl.Angle(gra1.geometry.x, gra1.geometry.y, gra2.geometry.x, gra2.geometry.y));
 
     MapControl.carSymbol.setAngle(angle); //设置小车角度
 
@@ -2724,23 +2793,21 @@ MapControl.timerfun2 = function (rIndex) {
 
     //计算两点之间的时间差（秒）
     if (gra1.attributes != undefined && gra2.attributes != undefined) {
-      let sTime = gra1.attributes["timestr"].split(':')
-      let eTime = gra2.attributes["timestr"].split(':')
-      timedif = (Number(eTime[0] * 60) + Number(eTime[1])) - (Number(sTime[0] * 60) + Number(sTime[1])) //两点之间的总秒数
+      let sTime = gra1.attributes["timestr"].split(":");
+      let eTime = gra2.attributes["timestr"].split(":");
+      timedif = Number(eTime[0] * 60) + Number(eTime[1]) - (Number(sTime[0] * 60) + Number(sTime[1])); //两点之间的总秒数
       // numdif = timedif / (tempPoints.length - 2);  //总秒数÷总点数=两点移动的时间差
     }
 
     let tempPoints = [];
-    if (timedif != 0)
-      tempPoints = MapControl.interpolation2(gra1, gra2, timedif);
-    else
-      tempPoints = MapControl.interpolation2(gra1, gra2, 1);
+    if (timedif != 0) tempPoints = MapControl.interpolation2(gra1, gra2, timedif);
+    else tempPoints = MapControl.interpolation2(gra1, gra2, 1);
 
-    console.log("点数：" + timedif) //两点之间要移动的总点数
-    console.log("速度：" + numdif) //两点之间的移动速度
+    console.log("点数：" + timedif); //两点之间要移动的总点数
+    console.log("速度：" + numdif); //两点之间的移动速度
     MapControl.play2(tempPoints, 0, numdif);
   }
-}
+};
 MapControl.play2 = function (tmpPoints, jindex, numdif) {
   let map = MapControl.map[MapControl.mapId];
   if (isPause) {
@@ -2749,22 +2816,21 @@ MapControl.play2 = function (tmpPoints, jindex, numdif) {
     numdif1 = numdif;
 
     //暂停之后不断的调定时查询isPause是否继续播放轨迹
-    return timer = setInterval(function () {
+    return (timer = setInterval(function () {
       if (!isPause) {
-        clearInterval(timer)
+        clearInterval(timer);
         MapControl.play2(tmpPoints1, jindex1, numdif1);
       }
-    }, 1000);
+    }, 1000));
   }
   if (jindex < tmpPoints.length - 1) {
-
     var line = new esri.geometry.Polyline({
-      "paths": [
+      paths: [
         [
           [tmpPoints[jindex].geometry.x, tmpPoints[jindex].geometry.y],
-          [tmpPoints[jindex + 1].geometry.x, tmpPoints[jindex + 1].geometry.y]
-        ]
-      ]
+          [tmpPoints[jindex + 1].geometry.x, tmpPoints[jindex + 1].geometry.y],
+        ],
+      ],
     });
     line.spatialReference.wkid = 4326;
     var lineGriphic = new esri.Graphic(line, MapControl.lineSymbol);
@@ -2785,7 +2851,7 @@ MapControl.play2 = function (tmpPoints, jindex, numdif) {
   } else {
     return MapControl.timerfun2(++rIndex); //一段轨迹播放完后，播放下一段轨迹
   }
-}
+};
 MapControl.interpolation2 = function (graA, graB, speed) {
   let map = MapControl.map[MapControl.mapId];
   var tmp = [],
@@ -2794,8 +2860,7 @@ MapControl.interpolation2 = function (graA, graB, speed) {
   if (speed == undefined) {
     speed = 1;
   }
-  if (graA.attributes != undefined)
-    sTime = graA.attributes["timestr"].split(':')
+  if (graA.attributes != undefined) sTime = graA.attributes["timestr"].split(":");
 
   var count = speed;
   var disX = (graB.geometry.x - graA.geometry.x) / count;
@@ -2807,18 +2872,18 @@ MapControl.interpolation2 = function (graA, graB, speed) {
       var y = parseFloat(graA.geometry.y) + parseFloat(i * disY);
       var gra = new esri.Graphic(new esri.geometry.Point(x, y, map.spatialReference), null);
       if (sTime != null) {
-        let timedif = (Number(sTime[0] * 60) + Number(sTime[1])) + i;
+        let timedif = Number(sTime[0] * 60) + Number(sTime[1]) + i;
         if (timedif > 60) {
           let m = parseInt(timedif / 60);
           let s = Math.ceil(timedif % 60);
-          var ms = (m < 10 ? '0' + m : m) + ":" + (s < 10 ? '0' + s : s)
+          var ms = (m < 10 ? "0" + m : m) + ":" + (s < 10 ? "0" + s : s);
           gra.setAttributes({
-            timestr: ms
+            timestr: ms,
           });
         } else {
-          var ms = "00:" + (timedif < 10 ? '0' + timedif : timedif)
+          var ms = "00:" + (timedif < 10 ? "0" + timedif : timedif);
           gra.setAttributes({
-            timestr: ms
+            timestr: ms,
           });
         }
       }
@@ -2828,7 +2893,7 @@ MapControl.interpolation2 = function (graA, graB, speed) {
   }
   tmp.push(graB); //防止插值出来的最后一个点到不了B点
   return tmp;
-}
+};
 
 //------------------------------------------一条轨迹播放-----------------------------------------------
 var speed1 = 1;
@@ -2842,16 +2907,16 @@ MapControl.showLine = function () {
     paths.push(point);
   }
   var line = new esri.geometry.Polyline({
-    "paths": [paths]
+    paths: [paths],
   });
   var bglineSymbol = new esri.symbol.SimpleLineSymbol("solid", new dojo.Color([17, 91, 122, 0.4]), 9);
 
   var lineGriphic = new esri.Graphic(line, bglineSymbol);
-  MapControl.graphicLayers['gralyr4'].add(lineGriphic);
-}
+  MapControl.graphicLayers["gralyr4"].add(lineGriphic);
+};
 MapControl.Pause = function (value) {
   isPause = value;
-}
+};
 MapControl.Stop = function () {
   let map = MapControl.map[MapControl.mapId];
   if (timer) {
@@ -2863,9 +2928,9 @@ MapControl.Stop = function () {
       if (map.getLayer("carLayer") != undefined) {
         map.getLayer("carLayer").clear();
       }
-    }, 3000)
+    }, 3000);
   }
-}
+};
 MapControl.Start = function () {
   isPause = false;
   let map = MapControl.map[MapControl.mapId];
@@ -2883,35 +2948,34 @@ MapControl.Start = function () {
   timer = setInterval(function () {
     MapControl.timerfun(map);
   }, speed * 3000);
-}
+};
 MapControl.timerfun = function () {
   if (replayIndex == MapControl.points.length - 1) {
     clearInterval(timer);
   } else {
-    if (isPause)
-      return;
+    if (isPause) return;
 
     var gra1 = MapControl.points[replayIndex];
     var gra2 = MapControl.points[++replayIndex];
-    var angle = Math.ceil(MapControl.Angle(gra1.geometry.x, gra1.geometry.y, gra2.geometry.x, gra2.geometry.y))
+    var angle = Math.ceil(MapControl.Angle(gra1.geometry.x, gra1.geometry.y, gra2.geometry.x, gra2.geometry.y));
     MapControl.carSymbol.setAngle(angle); //设置小车角度
 
     var tempPoints = MapControl.interpolation(gra1, gra2, speed1); //document.getElementById("txtSpeed").value);
 
     MapControl.play(tempPoints);
   }
-}
+};
 MapControl.play = function (tmpPoints) {
   let map = MapControl.map[MapControl.mapId];
   var ref = setTimeout(function () {
     if (this.j < tmpPoints.length - 1) {
       var line = new esri.geometry.Polyline({
-        "paths": [
+        paths: [
           [
             [tmpPoints[this.j].geometry.x, tmpPoints[this.j].geometry.y],
-            [tmpPoints[this.j + 1].geometry.x, tmpPoints[this.j + 1].geometry.y]
-          ]
-        ]
+            [tmpPoints[this.j + 1].geometry.x, tmpPoints[this.j + 1].geometry.y],
+          ],
+        ],
       });
       var lineGriphic = new esri.Graphic(line, MapControl.lineSymbol);
       map.getLayer("lineLayer").add(lineGriphic);
@@ -2929,7 +2993,7 @@ MapControl.play = function (tmpPoints) {
       this.j = 0;
     }
   }, 100);
-}
+};
 MapControl.interpolation = function (graA, graB, speed1) {
   let map = MapControl.map[MapControl.mapId];
   var tmp = [];
@@ -2954,71 +3018,83 @@ MapControl.interpolation = function (graA, graB, speed1) {
   }
   tmp.push(graB); //防止插值出来的最后一个点到不了B点
   return tmp;
-}
-
+};
 
 MapControl.addGPSTextSymbol = function (infoTem, point) {
-  esriLoader.loadModules(["esri/symbols/SimpleLineSymbol",
-    "esri/symbols/SimpleMarkerSymbol",
-    "esri/symbols/SimpleFillSymbol",
-    "esri/symbols/Font",
-    "esri/symbols/TextSymbol",
-    "esri/geometry/Point",
-    "esri/graphic",
-    "dojo/_base/Color",
-    "dojo/dom",
-    "dojo/on",
-    "dojo/domReady!"
-  ]).then(([SimpleLineSymbol, SimpleMarkerSymbol, SimpleFillSymbol, Font, TextSymbol, Point, Graphic, Color, dom, on]) => {
-    MapControl.graphicLayers['gralyr5'].clear();
-    var fontsize = 14;
-    var radius = 6;
-    infoTem = infoTem + "";
+  esriLoader
+    .loadModules([
+      "esri/symbols/SimpleLineSymbol",
+      "esri/symbols/SimpleMarkerSymbol",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/Font",
+      "esri/symbols/TextSymbol",
+      "esri/geometry/Point",
+      "esri/graphic",
+      "dojo/_base/Color",
+      "dojo/dom",
+      "dojo/on",
+      "dojo/domReady!",
+    ])
+    .then(
+      ([SimpleLineSymbol, SimpleMarkerSymbol, SimpleFillSymbol, Font, TextSymbol, Point, Graphic, Color, dom, on]) => {
+        MapControl.graphicLayers["gralyr5"].clear();
+        var fontsize = 14;
+        var radius = 6;
+        infoTem = infoTem + "";
 
-    var bglineSymbol = new esri.symbol.SimpleLineSymbol("solid", new dojo.Color([17, 91, 122, 1]), 1);
-    var width = (MapControl.chkstrlen(infoTem)) * 0.6 * (fontsize + 1);
-    var height = fontsize * 1.6;
+        var bglineSymbol = new esri.symbol.SimpleLineSymbol("solid", new dojo.Color([17, 91, 122, 1]), 1);
+        var width = MapControl.chkstrlen(infoTem) * 0.6 * (fontsize + 1);
+        var height = fontsize * 1.6;
 
-    //设置背景框的大小
-    var path = "M0" + " " + radius + "L0" + " " + (height - radius) + "Q0" + " " + height + " " + radius + " " + height + "L" + (width - radius) + " " + height + "Q" + width + " " + height + " " + width + " " + (height - radius) + "L" + width + " " + radius + "Q" + width + " " + "0" + " " + (width - radius) + " " + "0L" + radius + " " + "0Q0" + " " + "0" + " " + "0" + " " + radius;
-    var bgSymbol = new esri.symbol.SimpleMarkerSymbol();
-    bgSymbol.setPath(path);
-    bgSymbol.setColor(new dojo.Color([17, 91, 122, 0.7]));
-    bgSymbol.setOutline(bglineSymbol);
-    var size = Math.max(height, width);
-    bgSymbol.setSize(size);
-    bgSymbol.xoffset = 50;
-    bgSymbol.yoffset = 0;
+        //设置背景框的大小
+        var path = "M0" + " " + radius + "L0" + " " + (height - radius) + "Q0" + " " + height + " " + radius +
+          " " + height + "L" + (width - radius) + " " + height + "Q" + width + " " + height + " " + width + " " +
+          (height - radius) + "L" + width + " " + radius + "Q" + width + " " + "0" + " " + (width - radius) +
+          " " + "0L" + radius + " " + "0Q0" + " " + "0" + " " + "0" + " " + radius;
+        var bgSymbol = new esri.symbol.SimpleMarkerSymbol();
+        bgSymbol.setPath(path);
+        bgSymbol.setColor(new dojo.Color([17, 91, 122, 0.7]));
+        bgSymbol.setOutline(bglineSymbol);
+        var size = Math.max(height, width);
+        bgSymbol.setSize(size);
+        bgSymbol.xoffset = 50;
+        bgSymbol.yoffset = 0;
 
-    var bgGraphic = new Graphic(point, bgSymbol);
-    MapControl.graphicLayers['gralyr5'].add(bgGraphic);
+        var bgGraphic = new Graphic(point, bgSymbol);
+        MapControl.graphicLayers["gralyr5"].add(bgGraphic);
 
-    var font = new Font(fontsize + "px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_LIGHTER);
-    var textSymbol = new esri.symbol.TextSymbol(infoTem, font.setWeight(esri.symbol.Font.WEIGHT_BOLD), new dojo.Color([122, 122, 122, 1]));
-    textSymbol.setOffset(50, -5);
-    textSymbol.setColor(new dojo.Color([255, 255, 255, 0.7]));
-    var tempGra = new esri.Graphic(point, textSymbol, null, null);
-    MapControl.graphicLayers['gralyr5'].add(tempGra);
-  });
+        var font = new Font(fontsize + "px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_LIGHTER);
+        var textSymbol = new esri.symbol.TextSymbol(
+          infoTem,
+          font.setWeight(esri.symbol.Font.WEIGHT_BOLD),
+          new dojo.Color([122, 122, 122, 1])
+        );
+        textSymbol.setOffset(50, -5);
+        textSymbol.setColor(new dojo.Color([255, 255, 255, 0.7]));
+        var tempGra = new esri.Graphic(point, textSymbol, null, null);
+        MapControl.graphicLayers["gralyr5"].add(tempGra);
+      }
+    );
 };
+
 MapControl.Angle = function (startx, starty, endx, endy) {
-  var tan = 0
+  var tan = 0;
   if (endx == startx) {
-    tan = Math.atan(0) * 180 / Math.PI
+    tan = (Math.atan(0) * 180) / Math.PI;
   } else {
-    tan = Math.atan(Math.abs((endy - starty) / (endx - startx))) * 180 / Math.PI
+    tan = (Math.atan(Math.abs((endy - starty) / (endx - startx))) * 180) / Math.PI;
   }
 
-  if (endx >= startx && endy >= starty) { //第一象限
-    return -tan;
-  } else if (endx > startx && endy < starty) { //第四象限
-    return tan;
-  } else if (endx < startx && endy > starty) { //第二象限
-    return tan - 180;
+  if (endx >= startx && endy >= starty) {
+    return -tan; //第一象限
+  } else if (endx > startx && endy < starty) {
+    return tan;    //第四象限
+  } else if (endx < startx && endy > starty) {
+    return tan - 180; //第二象限
   } else {
     return 180 - tan; //第三象限
   }
-}
+};
 
 MapControl.hjjInfo = function (item) {
   MapControl.popupinfo.hide(); //隐藏地图弹窗
@@ -3034,8 +3110,7 @@ MapControl.hjjInfo = function (item) {
 
   let map = MapControl.map[MapControl.mapId];
   var geo = new esri.geometry.Point(item.xcoor, item.ycoor, MapControl.map.spatialReference);
-  let info =
-    `<div >
+  let info = `<div >
 			<ul>
 				<li>
 					<div style="display: inline-block;width: 65px;">材质:</div>
@@ -3067,10 +3142,8 @@ MapControl.hjjInfo = function (item) {
     template: info,
     data() {
       return {
-        item: {
-
-        },
-      }
+        item: {},
+      };
     },
     methods: {
       getdata() {
@@ -3079,7 +3152,7 @@ MapControl.hjjInfo = function (item) {
     },
     mounted() {
       this.getdata();
-    }
+    },
   });
   let component = new infoContent().$mount();
 
@@ -3091,38 +3164,36 @@ MapControl.hjjInfo = function (item) {
     MapControl.popupinfo.show(geo);
     map.reposition();
   }, 500);
-}
+};
 
 // 地图弹出框--只有一个
 MapControl.GetTxtSymbolsByPopupinfo = function (title, list, geo) {
   let map = MapControl.map[MapControl.mapId];
-  var htmlmain = ''
+  var htmlmain = "";
   for (let i in list) {
     htmlmain += `<tr style="color: #FFF;">
 						<td style="width: 40%;">${i}</td>
 						<td style="width: 60%;">${list[i]}</td>
-					  </tr>`
+					  </tr>`;
   }
-  var htmlS = '';
-  htmlS =
-    `<div style="width: 100%;">
+  var htmlS = "";
+  htmlS = `<div style="width: 100%;">
 				<table border="0" cellspacing="0" style="table-layout: fixed;text-align: left;width: 100%">
 				${htmlmain}
 				</table>
 			</div>`;
 
-
   var apHtml = "<span style='font-size: 14px;font-weight: bold;'>" + title + "</span>";
   MapControl.popupinfo.setTitle(apHtml);
-  MapControl.popupinfo.setContent(htmlS)
+  MapControl.popupinfo.setContent(htmlS);
   MapControl.popupinfo.show(geo);
   map.reposition();
-  document.getElementsByClassName('contentPane')[0].style.backgroundColor = '#006699';
-  document.getElementsByClassName('actionsPane')[0].style.backgroundColor = '#006699';
-  document.getElementsByClassName('outerPointer')[0].style.backgroundColor = '#006699';
-  document.getElementsByClassName('pointer')[0].style.backgroundColor = '#006699';
-  document.getElementsByClassName('titlePane')[0].style.backgroundColor = '#234a65';
-  document.getElementsByClassName('esriPopupWrapper')[0].style.boxShadow = 'none';
+  document.getElementsByClassName("contentPane")[0].style.backgroundColor = "#006699";
+  document.getElementsByClassName("actionsPane")[0].style.backgroundColor = "#006699";
+  document.getElementsByClassName("outerPointer")[0].style.backgroundColor = "#006699";
+  document.getElementsByClassName("pointer")[0].style.backgroundColor = "#006699";
+  document.getElementsByClassName("titlePane")[0].style.backgroundColor = "#234a65";
+  document.getElementsByClassName("esriPopupWrapper")[0].style.boxShadow = "none";
 };
 // 隐藏地图弹窗
 MapControl.hidePopupinfo = function () {
@@ -3131,7 +3202,6 @@ MapControl.hidePopupinfo = function () {
   }
 };
 
-
 //------------------------------------------------------map分屏-----------------------------------------------------------
 MapControl.mapArr = {}; //分屏地图 对象
 MapControl.isSync = {}; //判断地图是否同步 联动
@@ -3139,43 +3209,44 @@ MapControl.ExtentChanges = {}; //分屏地图 联动事件
 
 //创建地图
 MapControl.CreateMapView = function (domNode, domId, options, basemapurl) {
-  return esriLoader.loadModules(
-    [
-      "esri/map",
-      "esri/layers/ArcGISTiledMapServiceLayer",
-      "esri/layers/ArcGISDynamicMapServiceLayer",
-    ],
-    options
-  ).then(
-    ([
-      Map,
-      ArcGISTiledMapServiceLayer, //切片
-      ArcGISDynamicMapServiceLayer, //矢量
-    ]) => {
-      let map = new Map(domNode, {
-        logo: false,
-        slider: false
-      });
+  return esriLoader
+    .loadModules(
+      ["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISDynamicMapServiceLayer"],
+      options
+    )
+    .then(
+      ([
+        Map,
+        ArcGISTiledMapServiceLayer, //切片
+        ArcGISDynamicMapServiceLayer, //矢量
+      ]) => {
+        let map = new Map(domNode, {
+          logo: false,
+          slider: false,
+        });
 
-      const basemaplayer = new esri.layers.ArcGISTiledMapServiceLayer(
-        basemapurl
-      );
-      basemaplayer.id = basemapurl;
-      map.addLayer(basemaplayer); //添加底图
+        const basemaplayer = new esri.layers.ArcGISTiledMapServiceLayer(basemapurl);
+        basemaplayer.id = basemapurl;
+        map.addLayer(basemaplayer); //添加底图
 
-      let graphicLayer1 = new esri.layers.GraphicsLayer();
-      graphicLayer1.id = domId + "_graphicLayer";
-      map.addLayer(graphicLayer1);
-      MapControl.graphicLayers[graphicLayer1.id] = graphicLayer1;
+        let graphicLayer1 = new esri.layers.GraphicsLayer();
+        graphicLayer1.id = domId + "_graphicLayer";
+        map.addLayer(graphicLayer1);
+        MapControl.graphicLayers[graphicLayer1.id] = graphicLayer1;
 
-      return map;
-    }
-  )
+        return map;
+      }
+    );
 };
 
 //获取鼠标指针所在地图对象
 MapControl.getMap = function (that) {
-  if ((JSON.stringify(MapControl.mapArr) == "{}") || MapControl.mapArr == "" || MapControl.mapArr == undefined || MapControl.mapArr == null) {
+  if (
+    JSON.stringify(MapControl.mapArr) == "{}" ||
+    MapControl.mapArr == "" ||
+    MapControl.mapArr == undefined ||
+    MapControl.mapArr == null
+  ) {
     return MapControl.map[MapControl.mapId];
   } else {
     for (let key in MapControl.mapArr) {
@@ -3186,7 +3257,6 @@ MapControl.getMap = function (that) {
   }
 };
 
-
 //分屏联动
 MapControl.ExtentChange = function (extent, items) {
   for (let key in MapControl.mapArr) {
@@ -3195,9 +3265,9 @@ MapControl.ExtentChange = function (extent, items) {
 
     let map = MapControl.mapArr[key];
 
-    esriLoader.loadModules(
-      ['esri/geometry/Extent']).then((
-        [Extent]) => {
+    esriLoader
+      .loadModules(["esri/geometry/Extent"])
+      .then(([Extent]) => {
         let mapExtent = new esri.geometry.Extent(
           extent.xmin,
           extent.ymin,
@@ -3206,9 +3276,10 @@ MapControl.ExtentChange = function (extent, items) {
           map.spatialReference
         );
         map.setExtent(mapExtent);
-      }).catch(err => {
-        console.error(err);
       })
+      .catch((err) => {
+        console.error(err);
+      });
   }
 };
 
@@ -3221,10 +3292,8 @@ MapControl.RemoveLayerAll = function (isRemove = true) {
     for (let i = 1; i < layerIds.length; i++) {
       var layer = map.getLayer(layerIds[i]);
       if (layer) {
-        if (isRemove)
-          map.removeLayer(layer); //移除图层
-        else
-          layer.setVisibility(false); //隐藏图层
+        if (isRemove) map.removeLayer(layer); //移除图层
+        else layer.setVisibility(false); //隐藏图层
       }
     }
   }

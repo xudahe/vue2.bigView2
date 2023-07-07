@@ -7,7 +7,7 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+
 import application4 from "@/components/application/index4.vue"
 import application3 from "@/components/application/index3.vue"
 import application2 from "@/components/application/index2.vue"
@@ -22,37 +22,49 @@ export default {
 		application1
 	},
 	computed: {
-        ...mapGetters(["templates"])
-    },
+		theme() {
+			return this.$store.state.theme.themeName;
+		}
+	},
+	watch: {
+		theme: {
+			handler: function (newVal) {
+				this.setCmpt();
+			},
+			deep: true
+		},
+	},
 	data() {
 		return {
 			classname: "application1",
 		};
 	},
 	methods: {
-
-	},
-	mounted() {
-		switch (this.templates) {
-			case '001':
-				this.classname = 'application1';
-				break;
-			case '002':
-				this.classname = 'application2';
-				break;
-			case '003':
-				this.classname = 'application3';
-				break;
-			case '004':
-				this.classname = 'application4';
-				break;
-			default:
-				this.classname = 'application1';
-				break;
+		setCmpt() {
+			switch (this.theme) {
+				case '001':
+					this.classname = 'application1';
+					break;
+				case '002':
+					this.classname = 'application2';
+					break;
+				case '003':
+					this.classname = 'application3';
+					break;
+				case '004':
+					this.classname = 'application4';
+					break;
+				default:
+					this.classname = 'application1';
+					break;
+			}
 		}
 	},
+	mounted() {
+		this.setCmpt();
+	},
 	created() {
-		this._getLess("/view/application.less");
+
 	},
 	beforeDestroy() {
 	},

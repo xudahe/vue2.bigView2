@@ -1,5 +1,5 @@
 <template>
-	<div class="homeMiddleTop" style="width: 100%;height: 100%;position: relative;">
+	<div class="homeMiddleTop" style="width: 100%;height: 100%;position: relative;overflow: hidden;">
 		<div class="mapBg1">
 			<img src="@/assets/template/004/img/home/地图背景环（倾斜放倒做逆时针更加缓慢旋转效果）.png" style="width: 100%;height: 100%;"
 				class="imgAllGifAnti" />
@@ -153,7 +153,7 @@ export default {
 				this.timer[a] = null;
 			}
 			this.timer = [];
-			
+
 			var _this = this;
 			if (_this.oldflag == name) {
 				return;
@@ -170,7 +170,13 @@ export default {
 						if (num == _this.titleImg.length) {
 							num = 0;
 						}
-						_this.titleclick(_this.titleImg[num].name, num, false)
+
+						try {
+							_this.titleclick(_this.titleImg[num].name, num, false)
+						} catch (error) {
+
+						}
+
 					}, 8000))
 				}
 
@@ -220,15 +226,19 @@ export default {
 	mounted() {
 		var _this = this;
 		var num = 6;
-		_this.titleclick(_this.titleImg[num].name, num, true)
-		_this.timer.push(setInterval(() => {
-			num++;
-			if (num == _this.titleImg.length) {
-				num = 0;
-			}
-			_this.titleclick(_this.titleImg[num].name, num, false)
-		}, 8000))
 
+		try {
+			_this.titleclick(_this.titleImg[num].name, num, true)
+			_this.timer.push(setInterval(() => {
+				num++;
+				if (num == _this.titleImg.length) {
+					num = 0;
+				}
+				_this.titleclick(_this.titleImg[num].name, num, false)
+			}, 8000))
+		} catch (error) {
+
+		}
 	},
 	beforeDestroy() {
 		for (let a = 0; a < this.timer.length; a++) {

@@ -10,6 +10,7 @@ import '@/global/css/IviewUI.less'
 import '@/global/css/index.css'
 import '@/global/css/animation.css'
 import '@/global/css/button.css'
+import '@/global/css/theme.less'
 // 引入css样式初始化
 import 'normalize.css/normalize.css'
 // 引入第三方图标库：https://www.thinkcmf.com/font/search.html，例如：<i class="fa fa-minus"></i>
@@ -31,11 +32,6 @@ import axios from '@/api/axios/index'
 // 结合 promise 封装原生ajax
 import http from '@/api/axios/http'
 Vue.use(http)
-
-// mixins可以把多个组件共用的配置提取成一个混入对象(便于维护、共用部分抽取出来、同时提高代码复用)
-// 定义全局混入
-import theme from '@/api/mixins/theme'
-Vue.mixin(theme)
 
 // 阻止显示生产模式的消息
 Vue.config.productionTip = false

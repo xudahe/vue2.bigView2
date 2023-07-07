@@ -39,7 +39,7 @@ export default {
         };
     },
     created() {
-        this._getLess('/view/homepage.less');
+        
     },
     methods: {
 

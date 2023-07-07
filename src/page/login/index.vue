@@ -13,25 +13,30 @@
                     style="width: 4.56rem;height: 4.96rem; margin: auto;display: flex;position: absolute;left: calc((100% - 4.56rem) / 2);top: calc((100% - 5.16rem) / 2);">
                     <div class="loginBg">
                         <div
-                            style="text-align: center;width: 82%;height: 0.63rem;margin: 0 auto;background-size: 100% 100%;padding-top: 0.3rem;margin-top: 0.14rem;">
-                            <span
-                                style="color:#02FFFC;font-size: 0.24rem;margin-top: 0rem;width: 1.57rem;letter-spacing: 4px;">账号登录</span>
+                            style="text-align: center;height: 0.63rem;margin: 0 auto;padding-top: 0.3rem;margin-top: 0.14rem;">
+                            <span style="color:#02FFFC;font-size: 0.24rem;margin-top: 0rem;letter-spacing: 4px;">账号登录</span>
                         </div>
-                        <div
-                            style="text-align: center;width: 82%;height: 0.63rem;margin: 0 auto;background-size: 100% 100%;padding: 5px;margin-top: 0.4rem;padding-left: 0;">
+                        <div style="text-align: center;width: 82%;height: 0.63rem;margin: 0 auto;margin-top: 0.4rem;">
+                            <div style="width: 0rem;float: left;height: 100%;line-height: 0.49rem;margin-left: 0rem;">
+                                <img src="@/assets/template/004/img/login/皮肤.png"
+                                    style="vertical-align: middle;height: 0.38rem;position: absolute;margin: 0.05rem 0.05rem 0;" />
+                            </div>
+
+                            <input v-model="inputValue0" class='tableCell' readonly
+                                onfocus="this.removeAttribute('readonly');" placeholder="请输入主题编号"
+                                style='display: inline-block;' />
+                        </div>
+                        <div style="text-align: center;width: 82%;height: 0.63rem;margin: 0 auto;margin-top: 0.2rem;">
                             <div style="width: 0rem;float: left;height: 100%;line-height: 0.49rem;margin-left: 0rem;">
                                 <img src="@/assets/template/004/img/login/用户1.webp"
                                     style="vertical-align: middle;height: 0.48rem;position: absolute;" />
                             </div>
 
                             <input v-model="inputValue1" class='tableCell' readonly
-                                onfocus="this.removeAttribute('readonly');" placeholder="请输入登录账号" @on-focus='usernameYz'
-                                @on-blur='codeYz' style='display: inline-block;' />
-                            <span ref='userNameV'
-                                style="position: absolute;right: 12%;color: red;font-size: 16px;line-height: 0.49rem;"></span>
+                                onfocus="this.removeAttribute('readonly');" placeholder="请输入登录账号" @on-blur='usernameYz'
+                                style='display: inline-block;' />
                         </div>
-                        <div
-                            style="text-align: center;width: 82%;height: 0.63rem;margin: 0 auto;background-size: 100% 100%;padding: 5px;margin-top: 0.4rem;padding-left: 0;">
+                        <div style="text-align: center;width: 82%;height: 0.63rem;margin: 0 auto;margin-top: 0.2rem;">
                             <div style="width: 0rem;float: left;height: 100%;line-height: 0.49rem;margin-left: 0rem;">
                                 <img src="@/assets/template/004/img/login/密码1.webp"
                                     style="vertical-align: middle;height: 0.48rem;position: absolute;" />
@@ -40,14 +45,13 @@
                             <input v-model="inputValue2" type="password" class='tableCell' readonly
                                 onfocus="this.removeAttribute('readonly');" placeholder="请输入您的密码" @on-blur='passwordYz'
                                 style='display: inline-block;' />
-                            <span ref='passwordV'
-                                style="position: absolute;right: 12%;color: red;font-size: 16px;line-height: 0.49rem;"></span>
                         </div>
 
                         <div class="checkbox">
-                            <Checkbox v-model="checkboxValue1" label="自动登录" style='font-size: 0.16rem;' size="small">
+                            <Checkbox v-model="checkboxValue1" label="自动登录" style='font-size: 0.16rem;margin-right:0px;'
+                                size="small">
                                 <span
-                                    style="color:#90BCE0;font-size: 0.16rem;margin-top: 0rem;width: 1.57rem;letter-spacing: 1.5px;">记住密码</span>
+                                    style="color:#90BCE0;font-size: 0.16rem;letter-spacing: 1.5px;margin-right:0px;">记住密码</span>
                             </Checkbox>
                         </div>
 
@@ -60,7 +64,7 @@
             </div>
 
         </div>
-        <div id="bottom" class="bottoms">
+        <div id="footer" class="footer">
             <span>技术支持：XXXXXXXXXX</span>
         </div>
     </div>
@@ -80,6 +84,7 @@ export default {
     data() {
         return {
             titleWeb: '灌南县排水管网GIS平台',
+            inputValue0: '001',
             inputValue1: '',
             inputValue2: '',
             checkboxValue1: false,
@@ -104,6 +109,7 @@ export default {
             }
         },
         handleSubmit() {
+            var themename = this.inputValue0;
             var username = this.inputValue1;
             var password = this.inputValue2;
 
@@ -117,57 +123,48 @@ export default {
                 this.$router.push({
                     name: 'loading',
                     params: {
+                        themename: themename,
                         username: username,
                         password: password
                     }
                 });
             } else if (this.inputValue1 == "") {
-                this.$refs.userNameV.innerHTML = '用户名不能为空';
+                this.$Message.warning("用户名不能为空")
             } else if (this.inputValue2 == "") {
-                this.$refs.passwordV.innerHTML = '密码不能为空';
+                this.$Message.warning("密码不能为空")
             }
         },
         resetSubmit() {
+            this.inputValue0 = "001"
             this.inputValue1 = "";
             this.inputValue2 = "";
             this.checkboxValue1 = false;
         },
-        codeYz() { //用户名验证
-            var username = this.inputValue1;
-            var password = this.inputValue2;
-            if (this.inputValue1 != '') {
-                //调用接口进行 账号验证
-            } else {
-                this.$refs.userNameV.innerHTML = '用户名不能为空';
-            }
+        usernameYz() { //用户名验证
+
         },
-        usernameYz() {
-            this.$refs.userNameV.innerHTML = '';
-        },
-        passwordYz() {
-            if (this.inputValue2 == '') {
-                this.$refs.passwordV.innerHTML = '密码不能为空';
-            } else {
-                this.$refs.passwordV.innerHTML = '';
-            }
+        passwordYz() { //密码验证
+
         },
     },
     mounted() {
+        this.$store.commit("SET_THEME_NAME", "");
+        this.$store.commit("SET_THEME_GRAY", "");
     },
     beforeDestroy() {
 
     }
 };
 </script>
-<style lang="scss">
+<style lang="less">
 .loginTitle {
     font-family: 'ruizizhenyan';
     text-align: left;
-    background-image: linear-gradient(to bottom, #ffffff 0%, #e6fbff 35%, #066d85 68%, #04282e 100%);
+    background-image: linear-gradient(to bottom, #ffffff 0%, #e6fbff 35%, #00cfff 68%, #04282e 100%);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    font-size: 0.36rem;
+    font-size: 0.42rem;
     line-height: 0.80rem;
     text-align: center;
     top: 0.05rem;
@@ -267,10 +264,6 @@ body {
     outline: 0;
 }
 
-.checkbox .Checkbox {
-    margin-left: 5px;
-}
-
 /*复选框*/
 
 .checkbox .at-checkbox__label {
@@ -284,32 +277,26 @@ body {
     text-align: right;
     width: 82%;
     margin: 0 auto;
-    margin-top: 0.4rem;
+    margin-top: 0rem;
 }
 
 
-.bottoms {
+.footer {
     text-align: center;
     margin: 0 auto;
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0px;
-    color: #fcfcfc;
-    font-size: 14px;
+    font-size: 0.16rem;
 
     height: 0.7rem;
     width: 19.2rem;
 }
 
-.bottoms span {
+.footer span {
     font-size: 14px;
-    color: #BFD7F0;
-    height: 0.7rem;
+    color: #6494c7;
     line-height: 0.7rem
-}
-
-.bottom span {
-    color: #848585;
 }
 </style>

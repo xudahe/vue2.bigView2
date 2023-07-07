@@ -31,14 +31,6 @@ export default [{
     component: () => import('@/page/layout/index'),
     children: []
   },
-  {
-    path: '/lock',
-    name: '锁屏页',
-    component: () => import('@/page/lock/index'),
-    meta: {
-      title: "锁屏页"
-    }
-  },
   // {
   //   path: '/404',
   //   component: () => import('@/components/error-page/404'),

@@ -18,18 +18,28 @@
 // resolved: 已经完成，表示得到了我们想要的结果，可以继续往下执行
 // rejected: 也表示得到结果，但是由于结果并非我们所愿，因此拒绝执行(用catch捕获异常)
 
-import axios from 'axios' //ajax请求
-import qs from 'qs'
-import Vue from 'vue'
+// get、delete 只支持 params 传参
+// post、put、patch 同时支持  data 和 params
 
-import store from "../../store"
-import router from '../../router/index'
-import apiSetting from "./apiSetting"
+// post请求常见的数据格式（content-type）
+//   Content-Type: application/json ： 请求体中的数据会以json字符串的形式发送到后端
+//   Content-Type: application/x-www-form-urlencoded：请求体中的数据会以普通表单形式（键值对）发送到后端
+//   Content-Type: multipart/form-data： 它会将请求体的数据处理为一条消息，以标签为单元，用分隔符分开。既可以上传键值对，也可以上传文件。
+
+import axios from "axios"; //ajax请求
+import qs from "qs";
+import Vue from "vue";
+
+import store from "@/store";
+import router from "@/router/index";
+import apiSetting from "@/api/axios/apiSetting.js";
+import modate from "@/api/date";
+import { setStore, getStore } from "@/utils/storage";
 
 axios.defaults.withCredentials = true; //跨域请求，允许保存cookie
-axios.defaults.timeout = 3000;
+axios.defaults.timeout = 30000; //请求延时
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   axios.defaults.baseURL = AppConfig.baseUrl_Pro; //生产环境接口地址
 } else {
   // 开发环境在vue.config.js 文件的devServer配置
@@ -37,222 +47,219 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 //添加request请求拦截器
-axios.interceptors.request.use(config => {
-  var curTime = new Date()
-  var expiretime = new Date(Date.parse(store.state.login.tokenExpire))
-
-  // 判断是否存在token，如果存在的话，则每个http header都加上token
-  if (store.state.login.accessToken && (curTime < expiretime && store.state.login.tokenExpire)) {
-    config.headers.Authorization = "Bearer " + store.state.login.accessToken;
-  }
-
-  saveRefreshtime();
-
-  return config
-}, error => {
-  return Promise.reject(error)
-})
-
-//添加response响应拦截器
-axios.interceptors.response.use(response => {
-  if (!!window.ActiveXObject || "ActiveXObject" in window) {
-    response.data = JSON.parse(response.request.responseText)
-  }
-  return response
-}, error => {
-
-  // 超时请求处理
-  var originalRequest = error.config;
-  if (error.code == 'ECONNABORTED' && error.message.indexOf('timeout') != -1 && !originalRequest._retry) {
-
-    Vue.prototype.$message({
-      message: '请求超时！',
-      type: 'error'
+axios.interceptors.request.use(
+  (config) => {
+    var tokenExpire = getStore({
+      name: "tokenExpire",
     });
 
-    originalRequest._retry = true
-    return null;
-  }
-
-  if (error && error.response) {
-    switch (error.response.status) {
-      case 400:
-        error.message = '错误请求';
-        break;
-      case 401:
-        var curTime = new Date()
-        var refreshtime = new Date(Date.parse(window.localStorage.refreshtime))
-        // 在用户操作的活跃期内
-        if (window.localStorage.refreshtime && (curTime <= refreshtime)) {
-          // 直接将整个请求 return 出去，不然的话，请求会晚于当前请求，无法达到刷新操作 
-          return httpServer(apiSetting.refreshToken, {
-            token: window.localStorage.accessToken
-          }).then(res => {
-              if (res.success == true) {
-                Vue.prototype.$message({
-                  message: 'refreshToken success! loading data...',
-                  type: 'success'
-                });
-
-                store.commit("SET_ACCESS_TOKEN", res.token);
-
-                var curTime = new Date();
-                var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + res.expires_in));
-                store.commit("SET_TOKEN_EXPIRE", expiredate);
-
-                error.config.__isRetryRequest = true;
-                error.config.headers.Authorization = 'Bearer ' + res.token;
-                return axios(error.config); //这里就是重新进行一次请求， error.config 包含了当前请求的所有信息             
-              } else {
-                ToLogin()
-              }
-            },
-            error => {
-              ToLogin()
-            }
-          );
-        } else {
-          // 返回 401，并且不知用户操作活跃期内 清除token信息并跳转到登录页面
-          error.message = '未授权，请重新登录';
-          ToLogin()
-        }
-        break;
-      case 403: //无权限
-        error.message = '拒绝访问，请重新登录';
-        ToLogin();
-        break;
-      case 404:
-        error.message = '请求错误,未找到该资源';
-        break;
-      case 405:
-        error.message = '请求hhtp方法未允许';
-        break;
-      case 408:
-        error.message = '请求超时';
-        break;
-      case 415:
-        error.message = '参数没有指定Body还是Query';
-        break;
-      case 429: //ip限流
-        error.message = '刷新次数过多，请稍事休息重试';
-        break;
-      case 500:
-        error.message = '服务器端出错';
-        break;
-      case 501:
-        error.message = '网络未实现';
-        break;
-      case 502:
-        error.message = '网络错误';
-        break;
-      case 503:
-        error.message = '服务不可用';
-        break;
-      case 504:
-        error.message = '网络超时';
-        break;
-      case 505:
-        error.message = 'http版本不支持该请求';
-        break;
-      default:
-        error.message = `未知错误${error.response.status}`;
+    if (tokenExpire) {
+      var curTime = new Date();
+      var tokenExpire_in = new Date(Date.parse(tokenExpire));
+      if (curTime > tokenExpire_in) console.log(`accessToken 令牌已过期！`);
+      else console.log(`accessToken 令牌将在 ${modate.formatDate(tokenExpire_in, true)} 过期！`);
     }
-  } else {
-    error.message = "连接到服务器失败";
+
+    // 判断是否存在token，如果存在的话，则每个http header都加上token
+    if (store.state.login.accessToken) {
+      config.headers.Authorization = "Bearer " + store.state.login.accessToken;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
   }
+);
 
-  Vue.prototype.$message({
-    message: error.message,
-    type: 'error'
-  });
+//添加response响应拦截器
+axios.interceptors.response.use(
+  (response) => {
+    if (!!window.ActiveXObject || "ActiveXObject" in window) {
+      response.data = JSON.parse(response.request.responseText);
+    }
+    return response;
+  },
+  (error) => {
+    // 超时请求处理
+    var originalRequest = error.config;
+    if (error.code == "ECONNABORTED" && error.message.indexOf("timeout") != -1 && !originalRequest._retry) {
+      Vue.prototype.$message({
+        message: "请求超时！",
+        type: "error",
+      });
 
-  return Promise.reject(error);
-})
+      originalRequest._retry = true;
+      return null;
+    }
+
+    if (error && error.response) {
+      switch (error.response.status) {
+        case 400:
+          error.message = "错误请求";
+          break;
+        case 401:
+          // 直接将整个请求 return 出去，不然的话，请求会晚于当前请求，无法达到刷新操作
+          if (!isRefreshing) {
+            isRefreshing = true;
+
+            return requestFreshToken({
+              method: apiSetting.refreshToken.method,
+              url: apiSetting.refreshToken.url,
+              params: {
+                token: getStore({ name: "accessToken", }),
+              },
+            })
+              .then((res) => {
+                if (res.data.success) {
+                  Vue.prototype.$message({
+                    message: "refreshToken success! loading data...",
+                    type: "success",
+                  });
+
+                  var curTime = new Date();
+                  var expiredate = new Date(curTime.setSeconds(curTime.getSeconds() + res.data.response.expires_in));
+
+                  store.commit("SET_TOKEN_EXPIRE", expiredate);
+                  store.commit("SET_ACCESS_TOKEN", res.data.response.token);
+
+                  //已经刷新了token，将所有队列中的请求进行重试
+                  requests.forEach((cb) => cb(res.data.response.token));
+                  // 重试完了别忘了清空这个队列
+                  requests = [];
+
+                  error.config.__isRetryRequest = true;
+                  error.config.headers.Authorization = "Bearer " + res.data.response.token;
+                  return axios(error.config); //之前失败的请求重新进行请求一次， error.config包含了当前请求的所有信息
+                } else {
+                  error.message = "未授权，请重新登录";
+                  ToLogin();
+                }
+              })
+              .catch(() => {
+                error.message = "未授权，请重新登录";
+                ToLogin();
+              })
+              .finally(() => {
+                //完成之后在关闭状态
+                isRefreshing = false;
+              });
+          } else {
+            // 正在刷新token，返回一个未执行resolve的promise
+            return new Promise((resolve) => {
+              // 将resolve放进队列，用一个函数形式来保存，等token刷新后直接执行
+              requests.push((token) => {
+                error.config.__isRetryRequest = true;
+                error.config.headers.Authorization = "Bearer " + token;
+                resolve(axios(error.config));
+              });
+            });
+          }
+          break;
+        case 403: //无权限
+          error.message = "拒绝访问，请重新登录";
+          ToLogin();
+          break;
+        case 404:
+          error.message = "请求错误,未找到该资源";
+          break;
+        case 405:
+          error.message = "请求hhtp方法未允许";
+          break;
+        case 415:
+          error.message = "参数没有指定Body还是Query";
+          break;
+        case 429: //ip限流
+          error.message = "刷新次数过多，请稍事休息重试";
+          break;
+        case 500:
+          error.message = "服务器端出错";
+          break;
+        default:
+          error.message = `未知错误${error.response.status}`;
+      }
+    } else {
+      error.message = "连接到服务器失败";
+    }
+
+    Vue.prototype.$message({
+      message: error.message,
+      type: "error",
+    });
+
+    return Promise.reject(error);
+  }
+);
 
 //自定义请求头
 const httpServer = (opts, data) => {
   opts.method = opts.method.toLowerCase(); //把字符串转换为小写
 
-  let Public = { //公共参数
-  }
+  let Public = {
+    //公共参数
+  };
   let paramsORdata = Object.assign(Public, data);
 
-  let httpDefaultOpts = { //http默认配置  
+  let httpDefaultOpts = {
+    //http默认配置
     method: opts.method,
     url: opts.url,
-    timeout: 300000, //响应时间
-  }
+  };
 
   //params是添加到url的请求字符串中的，用于get请求。 data是添加到请求体（body）中的， 用于post请求。
 
-  if (opts.method == 'get' || opts.method == 'delete') {
-    httpDefaultOpts.params = paramsORdata
-  } else if (opts.method == 'post') {
+  if (opts.method == "get" || opts.method == "delete") {
+    httpDefaultOpts.params = paramsORdata;
+  } else if (opts.method == "post_form") {
+    httpDefaultOpts.method = "post";
     httpDefaultOpts.headers = {
-      "Content-Type": "application/x-www-form-urlencoded;"
-    }
-    httpDefaultOpts.data = qs.stringify(paramsORdata) //使用qs.stringify序列化成字符串
-  } else if (opts.method == 'file') {
-    httpDefaultOpts.method = 'post'
+      "Content-Type": "application/x-www-form-urlencoded;",
+    };
+    httpDefaultOpts.data = qs.stringify(paramsORdata); //使用qs.stringify序列化成字符串
+  } else if (opts.method == "post_file") {
+    httpDefaultOpts.method = "post";
     httpDefaultOpts.headers = {
-      "Content-Type": "multipart/form-data;"
-    }
-    httpDefaultOpts.data = paramsORdata
-  } else if (opts.method == 'other' || opts.method == 'put') {
-    httpDefaultOpts.method = opts.method == 'other' ? 'post' : 'put'
+      "Content-Type": "multipart/form-data;",
+    };
+    httpDefaultOpts.data = paramsORdata;
+  } else if (opts.method == "post_json" || opts.method == "put") {
+    httpDefaultOpts.method = opts.method == "post_json" ? "post" : "put";
     httpDefaultOpts.headers = {
-      "Accept": "application/json, text/javascript, */*; q=0.01",
-      "Content-Type": "application/json; charset=UTF-8"
-    }
-    httpDefaultOpts.data = paramsORdata
+      "Content-Type": "application/json; charset=UTF-8",
+    };
+    httpDefaultOpts.data = paramsORdata;
   }
 
   let promise = new Promise(function (resolve, reject) {
     axios(httpDefaultOpts)
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((res) => {
-        reject(res)
-      })
-  })
-  return promise
-}
+        reject(res);
+      });
+  });
+  return promise;
+};
 
-/**
- * 刷新token失败,清除token信息并跳转到登录页面
- * @param {*} params 
- */
-const ToLogin = params => {
+// 清除token信息并跳转到登录页面
+const ToLogin = (params) => {
   store.dispatch("LogOut").then(() => {
     router.replace({
       path: "/login",
       query: {
-        redirect: router.currentRoute.fullPath
-      }
+        redirect: router.currentRoute.fullPath,
+      },
     });
   });
 };
 
-/**
- * 当执行操作时更新刷新时间，这个的作用主要是记录当前用户的操作活跃期，当在这个活跃期内，就可以滑动更新，如果超过了这个时期，就跳转到登录页
- * @param {*} params 
- */
-export const saveRefreshtime = params => {
-  let nowtime = new Date();
-  let lastRefreshtime = window.localStorage.refreshtime ? new Date(window.localStorage.refreshtime) : new Date(-1); //最后刷新时间，当用户操作的时候，实时更新最后的刷新时间，保证用户活跃时间一直有效
-  let expiretime = new Date(Date.parse(window.localStorage.tokenExpire))
-
-  //refreshCount 滑动系数：就是你自定义的用户的停止活跃时间段，比如你想用户最大的休眠时间是20分钟，用户可以最多20分钟内不进行操作，
-  //如果20分钟后，再操作，就跳转到登录页，如果20分钟内，继续操作，那继续更新时间，休眠时间还是以当前时间 + 20分钟。
-  let refreshCount = 20;
-  if (lastRefreshtime >= nowtime) {
-    lastRefreshtime = nowtime > expiretime ? nowtime : expiretime;
-    lastRefreshtime.setMinutes(lastRefreshtime.getMinutes() + refreshCount);
-    window.localStorage.refreshtime = lastRefreshtime;
-  } else {
-    window.localStorage.refreshtime = new Date(-1);
-  }
-};
-
-export default httpServer
+// 是否正在刷新的标记
+var isRefreshing = false;
+// 重试队列，每一项将是一个待执行的函数形式
+var requests = [];
+var requestFreshToken = axios.create({
+  baseURL: axios.defaults.baseURL,
+  timeout: axios.defaults.timeout,
+});
+export default httpServer;

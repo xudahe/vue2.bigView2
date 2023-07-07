@@ -1,5 +1,5 @@
 <template>
-    <div class="header" style="z-index: 9;position: relative;">
+    <div class="header" style="z-index: 99;position: relative;">
         <div class="left-div" style="width:33.3%;float: left;height: 100%;">
             <div class="leftTool">
                 <div style="padding-left:0.1rem;color:rgb(75 236 214);">
@@ -35,15 +35,16 @@
             <div class="rightTool">
                 <ul class="right-menu" style="display: inline-block;vertical-align: middle;">
                     <li class="eui-nav-item">
-                        <Dropdown trigger="click" style="" @on-click='accountSwitches'>
+                        <Dropdown trigger="hover" style="" @on-click='accountSwitches'>
                             <span style="cursor: pointer;color: #fff">
                                 <img :src="require('@/assets/template/004/img/login/头像.png')" class="logo-img" />
                                 <span>{{ loginName }}</span>
-                                <Icon type="arrow-down-b"></Icon>
+                                <!-- <Icon type="arrow-down-b"></Icon> -->
                             </span>
                             <DropdownMenu slot="list" style="color: #ffffff">
                                 <Dropdown-item name="密码修改">密码修改</Dropdown-item>
                                 <Dropdown-item name="平台切换">平台切换</Dropdown-item>
+                                <Dropdown-item name="主题切换">主题切换</Dropdown-item>
                                 <Dropdown-item name="退出登录">退出登录</Dropdown-item>
                             </DropdownMenu>
                         </Dropdown>
@@ -55,11 +56,12 @@
 </template>
   
 <script>
+import bus from "@/eventBus.js";
 
-import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
 
 export default {
     name: "index1",
+    components: {},
     data() {
         return {
             loginName: '管理员',
@@ -156,6 +158,8 @@ export default {
             });
         },
         accountSwitches(name) {
+            let _this = this;
+
             switch (name) {
                 case "密码修改":
 
@@ -164,6 +168,9 @@ export default {
                     this.$router.push({
                         name: 'platform'
                     });
+                    break;
+                case "主题切换":
+                    bus.$emit("topTheme", true);
                     break;
                 case "退出登录":
                     this.$Modal.confirm({
@@ -174,7 +181,7 @@ export default {
                         onOk: function () {
                             // 正常跳转
                             this.$store.dispatch("LogOut").then(() => {
-                                this.$router.push({ path: "/login" });
+                                _this.$router.push({ path: "/login" });
                             });
                         },
                         onCancel: function () {
@@ -193,7 +200,7 @@ export default {
         this.getSysList();
     },
     created() {
-        this._getLess("/header/index.less");
+
     },
 }
 </script>

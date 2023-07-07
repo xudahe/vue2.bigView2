@@ -60,7 +60,8 @@ export default {
     }
   },
   created() {
-    this._getLess("/app.less");
+    this.$store.commit("SET_THEME_GRAY", this.$store.state.theme.themeGray);
+    this.$store.commit("SET_THEME_NAME", this.$store.state.theme.themeName);
   },
   //生命周期函数--实例销毁之前调用
   beforeDestroy() {
@@ -95,4 +96,10 @@ export default {
  */
 </script>
 
-<style lang="scss"></style>
+<style lang="less">
+#app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+</style>

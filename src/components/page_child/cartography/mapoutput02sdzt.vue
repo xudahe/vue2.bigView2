@@ -1,7 +1,7 @@
 
 <!--拴点制图--> 
-<style lang="scss">
-.mapoutput09sdzt {
+<style lang="less">
+.mapoutput02sdzt {
   content: '';
   background-color: rgba(230, 230, 230, 0.5);
   backdrop-filter: blur(5px);
@@ -9,7 +9,7 @@
 </style>
 
 <template>
-  <div class="mapoutput09sdzt" style="padding: 5px;">
+  <div class="mapoutput02sdzt" style="padding: 5px;">
     <div class="MyHeader" style="margin: 0 0 10px 5px;">
       <label style="margin-Top:8px;">拴点输出:</label>
       <Icon v-for="(item, index) in iconList" :key="index" :color="selectIcon == item.value ? 'blue' : ''"
@@ -50,6 +50,7 @@ export default {
         { type: 'md-pin', title: '管点', value: 'point' },
         { type: 'logo-yahoo', title: '连线', value: 'line' },
         { type: 'md-undo', title: '撤销', value: 'rest' },
+        { type: 'md-redo', title: '恢复', value: 'redo' },
         { type: 'md-trash', title: '清除', value: 'clear' },
       ],
       columns: [
@@ -71,6 +72,8 @@ export default {
 
       later_point: [], //终点
       later_lines: [], //线条
+
+      redo_point: [],//撤销后保存的数据，用以恢复
     };
   },
   computed: {
@@ -236,7 +239,7 @@ export default {
           });
 
           break;
-        case "rest": //撤销
+        case "undo": //撤销
           if (MapControl.graphicLayers["gralyr2"] != undefined) {
             MapControl.graphicLayers["gralyr2"].clear();
           }
@@ -245,10 +248,34 @@ export default {
           let wkt = MapControl.WktToAgs(_this.initial_point)
           _this.showGraphic(wkt, 0, "gralyr2", "#ff0000", 12);
 
-          _this.later_point = _this.later_point.splice(0, _this.later_point.length - 1);
-          // _this.later_lines = _this.later_lines.splice(0, _this.later_lines.length - 1);
+          //删除并返回数组的最后一个元素
+          let a1 = _this.later_point.pop();
 
-          console.log(_this.later_point)
+          _this.redo_point.push(a1);
+
+          if (_this.later_point.length > 0) {
+            for (let i = 0; i < _this.later_point.length; i++) {
+
+              // //点
+              //let wkt1 = MapControl.WktToAgs(_this.later_point[i]);
+              // MapControl.showGraphic(wkt1, true, 'gralyr2')
+
+              //显示量距
+              _this.outputDistance(_this.initial_point, _this.later_point[i]);
+
+              //连接线
+              let shape2 = _this.LINESTRING(_this.initial_point, _this.later_point[i])
+              let wkt2 = MapControl.WktToAgs(shape2);
+              _this.showGraphic(wkt2, 0, "gralyr2", "#ff0000");
+            }
+          }
+          break;
+        case "redo": //恢复
+          //初始点位点
+          let a2 = _this.redo_point.pop(); //删除并返回数组的最后一个元素
+
+          if (a2 == undefined) return;
+          else _this.later_point.push(a2);
 
           if (_this.later_point.length > 0) {
             for (let i = 0; i < _this.later_point.length; i++) {

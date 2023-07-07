@@ -181,6 +181,7 @@ export default {
                 this.titleLeftName = item.menuname;
                 this.componentNameLeft = item.classname;
             } else if (item.note == '弹窗') {
+                this.pageWidth = 0;
                 this.dialog.show = this.isdialog = true;
                 this.dialog.title.text = item.menuname;
                 setTimeout(() => {
@@ -252,7 +253,7 @@ export default {
         })
     },
     created() {
-        this._getLess("/view/application.less");
+        
     },
     beforeDestroy() {
         bus.$off("detailclose")
