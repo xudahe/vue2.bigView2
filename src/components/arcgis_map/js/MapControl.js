@@ -3096,6 +3096,25 @@ MapControl.Angle = function (startx, starty, endx, endy) {
   }
 };
 
+MapControl.Angle_s = function (startx, starty, endx, endy) {
+	var tan = 0
+	if (endx == startx) {
+		tan = Math.atan(0) * 180 / Math.PI
+	} else {
+		tan = Math.atan(Math.abs((endy - starty) / (endx - startx))) * 180 / Math.PI
+		console.log(tan);
+	}
+
+	if (endx >= startx && endy >= starty) {
+		return { value: -tan, qua: "一" };//第一象限
+	} else if (endx > startx && endy < starty) {
+		return { value: tan, qua: "四" };//第四象限
+	} else if (endx < startx && endy > starty) {
+		return { value: tan - 180, qua: "二" };//第二象限
+	} else {
+		return { value: 180 - tan, qua: "三" }; //第三象限
+	}
+}
 MapControl.hjjInfo = function (item) {
   MapControl.popupinfo.hide(); //隐藏地图弹窗
 

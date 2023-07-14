@@ -62,7 +62,6 @@
 
 <script>
 import bus from "@/eventBus.js";
-import apiSetting from "@/api/axios/apiSetting";
 import vDialog from "@/components/dialog/dialog.vue"
 import newMap from "@/components/arcgis_map/index.vue"
 export default {

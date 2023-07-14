@@ -32,7 +32,7 @@ import Vue from "vue";
 
 import store from "@/store";
 import router from "@/router/index";
-import apiSetting from "@/api/axios/apiSetting.js";
+import apiSetting from "@/api/apiSetting.js";
 import modate from "@/api/date";
 import { setStore, getStore } from "@/utils/storage";
 
@@ -40,10 +40,10 @@ axios.defaults.withCredentials = true; //跨域请求，允许保存cookie
 axios.defaults.timeout = 30000; //请求延时
 
 if (process.env.NODE_ENV === "production") {
-  axios.defaults.baseURL = AppConfig.baseUrl_Pro; //生产环境接口地址
+  axios.defaults.baseURL = website.baseUrl_Pro; //生产环境接口地址
 } else {
   // 开发环境在vue.config.js 文件的devServer配置
-  // axios.defaults.baseURL = AppConfig.baseUrl_Dev;
+  // axios.defaults.baseURL = website.baseUrl_Dev;
 }
 
 //添加request请求拦截器

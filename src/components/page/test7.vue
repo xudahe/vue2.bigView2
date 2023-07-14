@@ -109,8 +109,7 @@
                         </div>
                         <Table stripe :columns="partsColumns" :data="partsData" :height="tableheight">
                         </Table>
-                        <div class="row at-row flex-end"
-                            style="right: 0.1rem; width: 100%; text-align: right;margin-top: 0.1rem;">
+                        <div style="right: 0.1rem; width: 100%; text-align: right;margin-top: 0.1rem;">
                             <Page show-total :current="page.currentPage" :total="page.total" :page-size="page.pageSize"
                                 @on-change="pageChange" size="small">
                             </Page>

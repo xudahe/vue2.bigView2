@@ -33,7 +33,7 @@
 <script>
 import vDialog from "@/components/dialog/dialog.vue"
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
-import apiSetting from '@/api/axios/apiSetting.js';
+import apiSetting from '@/api/apiSetting.js';
 import bus from "@/eventBus.js";
 
 export default {

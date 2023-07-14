@@ -204,7 +204,7 @@
       <div class="app-right-top" style="position: absolute;right: 0.14rem;top: 0.28rem;z-index: 1;">
         <div class="toolbars">
           <i-button type="text" size="small" @click="expandcoll" :title="istoolvis ? '收缩' : '展开'"
-            style="font-size:0.196778rem;width:100%">
+            style="font-size:0.2rem;width:100%">
             <Icon type="ios-arrow-up" v-show="istoolvis"></Icon>
             <Icon type="ios-arrow-down" v-show="!istoolvis"></Icon>
           </i-button>
@@ -213,22 +213,22 @@
           <Button-group vertical style="width:100%">
             <i-button size="small" type="text" icon="ios-map-outline" title="图层" @click="layertools"
               class="toolbar_ico toolbar_icos">
-              <span style="display:block">图层</span>
+              <span style="margin-left: -4px;">图层</span>
             </i-button>
             <i-button size="small" type="text" icon="ios-information-circle-outline" title="拾取" @click="identify"
               class="toolbar_ico toolbar_icos">
-              <span style="display:block">拾取</span>
+              <span style="margin-left: -4px;">拾取</span>
             </i-button>
             <i-button size="small" type="text" icon="ios-bookmark" title="书签" @click="bookmark"
               class="toolbar_ico toolbar_icos">
-              <span style="display:block">书签</span>
+              <span style="margin-left: -4px;">书签</span>
             </i-button>
             <i-button size="small" type="text" icon="ios-pint" @click="clear" title="清除" class="toolbar_ico toolbar_icos">
-              <span style="display:block">清除</span>
+              <span style="margin-left: -4px;">清除</span>
             </i-button>
           </Button-group>
 
-          <Dropdown title="辅助分析" trigger="click" @on-click="toolbar" placement="left">
+          <Dropdown title="辅助分析" trigger="hover" @on-click="toolbar" placement="left">
             <i-button type="text" size="small" class="Dropdowns_button Dropdowns_buttons">
               <Icon type="md-arrow-dropleft" class="jiantou" />
               <Icon type="md-git-merge"></Icon>
@@ -253,7 +253,7 @@
             </DropdownMenu>
           </Dropdown>
 
-          <Dropdown title="工具箱" trigger="click" @on-click="toolbarGjx" placement="left">
+          <Dropdown title="工具箱" trigger="hover" @on-click="toolbarGjx" placement="left">
             <i-button type="text" size="small" class="Dropdowns_button Dropdowns_buttons">
               <Icon type="md-arrow-dropleft" class="jiantou" />
               <Icon type="ios-albums"></Icon>

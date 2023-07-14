@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import apiSetting from "@/api/axios/apiSetting.js"
+import apiSetting from "@/api/apiSetting.js"
 export default {
   name: "app",
   components: {},

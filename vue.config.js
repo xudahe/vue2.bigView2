@@ -90,22 +90,22 @@ module.exports = defineConfig({
       const plugins = [];
       // 代码压缩
       plugins.push(
-          new UglifyJsPlugin({
-            uglifyOptions: {
-              output: { // 删除注释
-                comments: false
-              },
-              compress: {
-                //warnings: false, // 若打包错误，则注释这行
-                drop_console: true, //清除 debugger 语句
-                drop_debugger: false, //清除console语句
-                pure_funcs: ["console.log"]
-              }
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            output: { // 删除注释
+              comments: false
             },
-            sourceMap: false,
-            parallel: true
-          })
-        ),
+            compress: {
+              //warnings: false, // 若打包错误，则注释这行
+              drop_console: true, //清除 debugger 语句
+              drop_debugger: false, //清除console语句
+              pure_funcs: ["console.log"]
+            }
+          },
+          sourceMap: false,
+          parallel: true
+        })
+      ),
         //代码压缩打包
         plugins.push(
           new CompressionWebpackPlugin({
@@ -192,6 +192,28 @@ module.exports = defineConfig({
       config.plugins.delete('prefetch')
       config.plugins.delete('preload')
     }
+  },
+  css: {
+    loaderOptions: {
+      postcss: {
+        postcssOptions: {
+          plugins: [
+            require('postcss-pxtorem')({
+              //rootValue设置比例 需要与index.html中的autoRootFontSize一致
+
+              rootValue: 100, // 设置比例是 100px = 1rem，开头大写的Px 不转换 => height: 100Px, (注意：内联样式不转换)
+              unitPrecision: 5, // 计算结果保留 5 位小数
+              selectorBlackList: ['.no-rem', 'no-rem'], // 要忽略的选择器并保留为px。
+              propList: ['*'], // 可以从px更改为rem的属性  感叹号开头的不转换 比如['*', '!border']
+              replace: true, // 转换成 rem 以后，不保留原来的 px 单位属性
+              mediaQuery: true, // 允许在媒体查询中转换px。
+              minPixelValue: 0, // 设置要替换的最小像素值。
+              exclude: /node_modules/i // 排除 node_modules 文件(node_modules 内文件禁止转换)
+            }),
+          ]
+        }
+      }
+    },
   },
 
   //配置代理服务器来解决跨域问题

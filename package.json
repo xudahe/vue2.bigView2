@@ -17,6 +17,7 @@
     "moment": "^2.29.4",
     "normalize.css": "^8.0.1",
     "nprogress": "^0.2.0",
+    "postcss-pxtorem": "^6.0.0",
     "qs": "^6.11.1",
     "v-viewer": "^1.6.4",
     "view-design": "^4.7.0",

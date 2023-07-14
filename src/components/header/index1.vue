@@ -33,12 +33,12 @@
                 </div>
             </div>
             <div class="rightTool">
-                <ul class="right-menu" style="display: inline-block;vertical-align: middle;">
+                <ul class="right-menu">
                     <li class="eui-nav-item">
                         <Dropdown trigger="hover" style="" @on-click='accountSwitches'>
                             <span style="cursor: pointer;color: #fff">
                                 <img :src="require('@/assets/template/004/img/login/头像.png')" class="logo-img" />
-                                <span>{{ loginName }}</span>
+                                <span  style="color: #19d2ff;">{{ loginName }}</span>
                                 <!-- <Icon type="arrow-down-b"></Icon> -->
                             </span>
                             <DropdownMenu slot="list" style="color: #ffffff">

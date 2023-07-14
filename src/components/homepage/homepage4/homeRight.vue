@@ -17,7 +17,6 @@
 
 <script>
 import bus from "@/eventBus.js";
-import apiSetting from "@/api/axios/apiSetting.js";
 
 export default {
 	components: {

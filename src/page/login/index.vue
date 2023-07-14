@@ -72,7 +72,6 @@
 
 <script>
 import Cookies from 'js-cookie';
-import apiSetting from "@/api/axios/apiSetting";
 import { isNull } from "@/utils/validate.js"
 
 export default {

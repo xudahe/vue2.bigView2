@@ -14,10 +14,11 @@
 
 <script>
 import Cookies from 'js-cookie';
-import apiSetting from "@/api/axios/apiSetting";
+import apiSetting from "@/api/apiSetting";
 import bus from '@/eventBus.js';
 import { isNull } from "@/utils/validate";
 
+var publicPath = process.env.BASE_URL;
 export default {
     name: "loading",
     components: {},
@@ -36,7 +37,7 @@ export default {
         let username = this.$route.params.username;
         let password = this.$route.params.password;
 
-        loadScripts(['./AppSetting.js']).then((e) => {
+        loadScripts([`${publicPath}config/loading.js`]).then((e) => {
             _this.text = '登录成功!!!';
 
             //后期从接口获取theme值

@@ -30,7 +30,7 @@
                 <Dropdown trigger="hover" style="" @on-click="accountSwitches">
                     <span style="cursor: pointer;color: #fff;font-size: 0.18rem;">
                         <img src="@/assets/template/004/img/login/头像.png" class="logo-img" />
-                        <span style="padding-left: 0.1rem;color: #19d2ff;">{{ loginName }}</span>
+                        <span style="color: #19d2ff;">{{ loginName }}</span>
                         <!-- <Icon type="arrow-down-b"></Icon> -->
                     </span>
                     <DropdownMenu slot="list" style="color: #ffffff">

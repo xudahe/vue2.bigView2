@@ -37,7 +37,7 @@
           </template>
         </Collapse>
       </div>
-      <div class="row at-row flex-end" style="padding-top: 0.1rem;">
+      <div style="padding-top: 0.1rem;">
         <Page simple show-total :current="page.current" :total="page.total" @on-change="changePage" size="small" style="padding-right: 0.1rem;float: right;"></Page>
         <span style="color:#fff;font-size: 0.12rem;padding-left: 0.1rem;">共{{page.total}}条</span>
       </div>

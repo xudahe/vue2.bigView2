@@ -319,21 +319,71 @@ export default {
         lengthValue = length.toFixed(1) + '米';
       }
 
-      var pmsTextBg = new esri.symbol.PictureMarkerSymbol(require("@/assets/img/map/tips.png"), 22, 20);
-      pmsTextBg.setOffset(40, -15);
-      pmsTextBg.setWidth(lengthValue.length * 10);
-      var bgGraphic = new esri.Graphic(geometry, pmsTextBg);
-      MapControl.graphicLayers['gralyr2'].add(bgGraphic);
+      let angle_s = MapControl.Angle_s(shape1[0], shape1[1], shape2[0], shape2[1]);
+      var angle = Math.ceil(angle_s.value);
+
+      //偏移量(+4或-4) 需要根据起始点(0,0)是位于左上角还是右下角等情况，进行具体计算
+      //以下方法是起始点(0,0)位于左上角的情况。
+
+      let x_x1 = shape2[0], y_y1 = shape2[1], x_x2 = shape2[0], y_y2 = shape2[1], set_x = 0, set_y = 0;
+      if (angle_s.qua == '一') {
+        x_x2 = parseFloat(shape1[0]) + parseFloat(x / 2) - 4;
+        y_y2 = parseFloat(shape1[1]) + parseFloat(y / 2) + 4;
+
+        x_x1 = x_x2 - 4;
+        y_y1 = y_y2 + 4;
+      }
+      if (angle_s.qua == '二') {
+        x_x2 = parseFloat(shape1[0]) - parseFloat(x / 2) + 4;
+        y_y2 = parseFloat(shape1[1]) + parseFloat(y / 2) + 4;
+
+        x_x1 = x_x2 + 4;
+        y_y1 = y_y2 + 4;
+
+        angle = Math.ceil(angle_s.value) + 180;
+      }
+      if (angle_s.qua == '三') {
+        x_x2 = parseFloat(shape1[0]) - parseFloat(x / 2) - 4;
+        y_y2 = parseFloat(shape1[1]) - parseFloat(y / 2) + 4;
+
+        x_x1 = x_x2 - 4;
+        y_y1 = y_y2 + 4;
+
+        angle = Math.ceil(angle_s.value) + 180;
+      }
+      if (angle_s.qua == '四') {
+        x_x2 = parseFloat(shape1[0]) + parseFloat(x / 2) + 4;
+        y_y2 = parseFloat(shape1[1]) - parseFloat(y / 2) + 4;
+
+        x_x1 = x_x2 + 4;
+        y_y1 = y_y2 + 4;
+      }
+
+      let sh_2 = 'POINT (' + x_x2 + ' ' + y_y2 + ' )';
+      let sh_geo2 = MapControl.WktToAgs(sh_2);
+
+      let sh_1 = 'POINT (' + x_x1 + ' ' + y_y1 + ' )';
+      let sh_geo1 = MapControl.WktToAgs(sh_1);
+
+      // var pmsTextBg = new esri.symbol.PictureMarkerSymbol(require("../../../public/img/map/tips.png"), 22, 20);
+      // pmsTextBg.setAngle(angle);
+      // pmsTextBg.setOffset(set_x, set_y);
+      // pmsTextBg.setWidth(lengthValue.length * 10 + 10);
+      // var bgGraphic = new esri.Graphic(sh_geo1, pmsTextBg);
+      // MapControl.graphicLayers['gralyr2'].add(bgGraphic);
 
       var font = new esri.symbol.Font();
-      font.setSize('11pt');
+      font.setSize('18pt');
       font.setFamily('微软雅黑');
+      font.setWeight(esri.symbol.Font.WEIGHT_BOLD);
       var text = new esri.symbol.TextSymbol(lengthValue);
+      text.setAlign(esri.symbol.TextSymbol.ALIGN_MIDDLE);
+      text.setAngle(angle);
       text.setFont(font);
       text.setColor(new dojo.Color([0, 0, 0, 255]));
-      text.setOffset(40, -20);
+      text.setOffset(set_x, set_y);
 
-      var labelGraphic = new esri.Graphic(geometry, text);
+      var labelGraphic = new esri.Graphic(sh_geo2, text);
       MapControl.graphicLayers['gralyr2'].add(labelGraphic);
     },
     //两点连接成 一条线

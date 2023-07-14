@@ -6,7 +6,7 @@
           style="padding:0.05rem;margin-bottom: 0.05rem;cursor:pointer;position: relative;" @click="goto(item, index)"
           v-for="(item, index) in tableList" :key="index" :id="index">
           <div style="display: inline-block;width:100%; height: 0.2rem;">
-            <div class="row at-row no-gutter" style="width: 32px;float: left;position: relative;">
+            <div class="no-gutter">
               <div class="circle" />
               <label
                 style="font-size: 0.12rem;position: absolute; top:0%;left:20%; color:white; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
@@ -16,7 +16,7 @@
                 v-else>{{ index + 1 }}</label>
             </div>
             <label style="font-family: '微软雅黑';float: left; font-size: 0.12rem;color: #fff;font-weight: bolder;">{{
-                item.title
+              item.title
             }}</label>
             <i class="icon icon-map-pin" style="float:right;color: #2d8cf0;"></i>
           </div>
@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <div class="row at-row flex-end" style="padding-top: 0.1rem;">
+      <div style="padding-top: 0.1rem;">
         <Page simple show-total :current="page.current" :total="page.total" @on-change="changePage" size="small"
           style="padding-right: 0.1rem;float: right;"></Page>
         <span style="color:#fff;font-size: 0.12rem;padding-left: 0.1rem;">共{{ page.total }}条</span>
@@ -63,7 +63,7 @@ import bus from "@/eventBus.js";
 import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
 
 export default {
-  name:'test1',
+  name: 'test1',
   components: {},
   data() {
     return {
@@ -170,6 +170,13 @@ export default {
 
 <style lang="less">
 .test1 {
+
+  .no-gutter {
+    width: 32px;
+    float: left;
+    position: relative;
+  }
+
   .circle {
     margin-left: 5px;
     width: 18px;

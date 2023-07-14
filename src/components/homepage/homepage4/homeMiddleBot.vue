@@ -9,7 +9,7 @@
 
 <script>
 import bus from "@/eventBus.js";
-import apiSetting from "@/api/axios/apiSetting.js";
+import apiSetting from "@/api/apiSetting.js";
 
 export default {
 	components: {

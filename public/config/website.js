@@ -2,7 +2,7 @@
  * 配置文件，在index.html文件中引用
  */
 
-var AppConfig = {
+var website = {
     /**
      * 生产环境接口地址
      */
