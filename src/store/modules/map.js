@@ -2,7 +2,7 @@ import { setStore, getStore } from "@/utils/storage";
 
 export default {
   state: {
-    GISToken: "YGzF1pSSi5awB-d-QumbDCmRA8853m99hh55iYn6Vzmf7XNv_d2py9SyIcy_AwtmvHh4C0oNlKTdFMAqbxPGpQ..", //底图的token
+    GISToken: getStore({ name: 'GISToken' }) || "YGzF1pSSi5awB-d-QumbDCmRA8853m99hh55iYn6Vzmf7XNv_d2py9SyIcy_AwtmvHh4C0oNlKTdFMAqbxPGpQ..", //底图的token
     mapload: false, //监听地图是否加载完成
     mapscale: -1, //监听地图比例尺
 

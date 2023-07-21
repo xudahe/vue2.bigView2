@@ -36,7 +36,7 @@
         <div class="appCompontsContLeftDiv">
           <div class="titleCont titleContImg">
             <div class="titleContText">{{ titleLeftName }}</div>
-            <div class="titleRight">
+            <div class="titleCloseRight">
               <Icon class="closeIcon" type="ios-close-circle-outline" @click="detailclose('leftMenu')" />
             </div>
           </div>
@@ -51,7 +51,7 @@
         <div class="appCompontsScreenDiv">
           <div class="titleCont titleContImgT" style="width:100%">
             <div class="titleContText">{{ titleScreenName }}</div>
-            <div class="titleRight">
+            <div class="titleCloseRight">
               <Icon class="closeIcon" type="ios-close-circle-outline" @click="detailclose('screendetail')" />
             </div>
           </div>
@@ -74,7 +74,7 @@
           <div class="appCompontsContDetailDiv">
             <div class="titleCont titleContImg" :style="{ borderBottom: botmShow ? '1px solid #0161ba' : 'none' }">
               <div class="titleContText">{{ titleBotmName }}</div>
-              <div class="titleRight">
+              <div class="titleCloseRight" :style="{ top: botmShow ? '10%' : '0%' }">
                 <Tooltip :content="botmShow ? '收缩' : '展开'" placement="right" style="height: 100%;">
                   <Icon class="closeIcon" :type="botmShow ? 'ios-arrow-dropdown' : 'ios-arrow-dropup'"
                     @click="detailShow('botmdetail', !botmShow)" />
@@ -93,8 +93,8 @@
       <div class="appCompontsContLeft fade-in-left" :style="{ width: pageWidth + 'rem' }" v-if="showDetailRight">
         <div class="appCompontsContLeftDiv">
           <div class="titleCont titleContImg">
-            <div class="titleContText">{{ titleRightName }}</div>
-            <div class="titleRight">
+            <div class="titleContText">{{ titleCloseRightName }}</div>
+            <div class="titleCloseRight">
               <Icon class="closeIcon" type="ios-close-circle-outline" @click="detailclose('rightdetail')" />
             </div>
           </div>
@@ -112,8 +112,8 @@
   
 <script>
 import bus from "@/eventBus.js";
-import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
-import arcgisMap from "@/components/arcgis_map/index.vue";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl.js";
+import arcgisMap from "@/components/arcgis_3x_map/index.vue";
 import vDialog from "@/components/dialog/dialog.vue";
 
 export default {
@@ -163,7 +163,7 @@ export default {
       //详情框头部名称
       titleLeftName: "",
       titleBotmName: "",
-      titleRightName: "",
+      titleCloseRightName: "",
       titleScreenName: "",
 
       leftDetailData: {},
@@ -217,7 +217,7 @@ export default {
           this.mapWidth = 'calc(100% - ' + (this.pageWidth + 0.2) + 'rem)';
           this.mapPadding = '0.1rem 0 0.1rem 0.1rem';
           this.rightDetailData = item;
-          this.titleRightName = item.menuname;
+          this.titleCloseRightName = item.menuname;
           this.componentRight = item.classname;
           this.componentLeft = item.classname;
           break;
@@ -262,7 +262,7 @@ export default {
     initial() {
       this.titleLeftName = "";
       this.titleBotmName = "";
-      this.titleRightName = "";
+      this.titleCloseRightName = "";
       this.titleScreenName = "";
       this.dialog.title.text = "";
 
@@ -291,6 +291,7 @@ export default {
         this.showDetailScreen = false;
       }
       else if (type == "rightdetail") {
+        this.pageWidth = 0;
         this.mapWidth = 'calc(100% - ' + (this.pageWidth + 0.2) + 'rem)';
         this.showDetailRight = false;
       } else if (type == "dialogdetail") {
@@ -321,6 +322,7 @@ export default {
         { id: 7, classname: "test", menuname: "二级菜单", img: "", systemid: 32, note: "半屏" },
         { id: 8, classname: "test6", menuname: "二级菜单", img: "", systemid: 32, note: "弹出窗" },
         { id: 9, classname: "test4", menuname: "二级菜单", img: "", systemid: 32, note: "弹出窗" },
+        { id: 10, classname: "test7", menuname: "二级菜单", img: "", systemid: 32, note: "全屏" },
       ]
       for (let l = 0; l < children.length; l++) {
         _this.menuData.push({
@@ -399,7 +401,7 @@ export default {
       _this.showDetailRight = true;
       _this.rightDetailData = item;
       _this.componentRight = componentName;
-      _this.titleRightName = title;
+      _this.titleCloseRightName = title;
 
       _this.mapWidth = 'calc(100% - ' + (_this.pageWidth * 2 + 0.2 * 2) + 'rem)';
       if (_this.showDetailLeft) {

@@ -102,7 +102,7 @@ var staticRenderFns = [];
 
 import { loadModules } from "esri-loader";
 import EventBus from "@/eventBus";
-import { MapControl } from "@/components/arcgis_map/js/MapControl";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl";
 
 var esExports = { render: render, staticRenderFns: staticRenderFns };
 export default {

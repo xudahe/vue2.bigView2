@@ -2378,39 +2378,39 @@ MapControl.QueryByPoint3 = function (_Self, VisibleLyr, type) {
           MapControl.identifyHandler.remove();
         }
 
-        setTimeout(function () {
-          for (var i = 0; i < VisibleLyr.length; i++) {
-            if (VisibleLyr[i].name != "排水管网") continue;
-            var identifyTask = new esri.tasks.IdentifyTask(VisibleLyr[i].Address);
-            var identifyParams = new esri.tasks.IdentifyParameters();
-            identifyParams.tolerance = 1; //容差值
-            identifyParams.returnGeometry = true;
-            identifyParams.layerIds = VisibleLyr[i].layerIds.toString().replace("[", "").replace("]", "").split(",");
-            identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
-            identifyParams.geometry = geo.mapPoint;
-            identifyParams.mapExtent = map.extent;
-            identifyTask.execute(identifyParams, function (results) {
-              if (results.length > 0) {
-                for (let j = 0; j < results.length; j++) {
-                  let attributes = results[j].feature.attributes;
-                  if (results[j].geometryType.indexOf("Point") > 0 && attributes.wtdh != undefined) {
-                    result.push(attributes);
-                  }
+        var identifyParams = new esri.tasks.IdentifyParameters();
+        identifyParams.tolerance = 1; //容差值
+        identifyParams.returnGeometry = true;
+        // identifyParams.layerIds = [0, 1, 2];
+        identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
+        identifyParams.geometry = geo.mapPoint;
+        identifyParams.mapExtent = map.extent;
+        identifyParams.width = map.width;
+        identifyParams.height = map.height;
+
+        for (var i = 0; i < VisibleLyr.length; i++) {
+          var identifyTask = new esri.tasks.IdentifyTask(VisibleLyr[i].url);
+          identifyTask.execute(identifyParams, function (results) {
+            if (results.length > 0) {
+              for (let j = 0; j < results.length; j++) {
+                let attributes = results[j].feature.attributes;
+                if (results[j].geometryType.indexOf("Point") > 0 && attributes.wtdh != undefined) {
+                  result.push(attributes);
                 }
               }
-              if (result.length > 0) {
-                let geo1 = "POINT (" + geo.mapPoint.x + " " + geo.mapPoint.y + " )";
-                let wkt1 = MapControl.WktToAgs(geo1);
-                MapControl.GetTxtSymbols(wkt1, type == "流向" ? "起" : "终", 0, 14, "#f7f7f7");
+            }
+            if (result.length > 0) {
+              let geo1 = "POINT (" + geo.mapPoint.x + " " + geo.mapPoint.y + " )";
+              let wkt1 = MapControl.WktToAgs(geo1);
+              MapControl.GetTxtSymbols(wkt1, type == "流向" ? "起" : "终", 0, 14, "#f7f7f7");
 
-                map.setMapCursor("default"); //光标恢复默认形状
-                bus.$emit("identify3", result);
-              } else {
-                _Self.$Message.error("未拾取到管点！");
-              }
-            });
-          }
-        }, 1000);
+              map.setMapCursor("default"); //光标恢复默认形状
+              bus.$emit("identify3", result);
+            } else {
+              _Self.$Message.error("未拾取到管点！");
+            }
+          });
+        }
       });
     });
 };
@@ -3097,23 +3097,23 @@ MapControl.Angle = function (startx, starty, endx, endy) {
 };
 
 MapControl.Angle_s = function (startx, starty, endx, endy) {
-	var tan = 0
-	if (endx == startx) {
-		tan = Math.atan(0) * 180 / Math.PI
-	} else {
-		tan = Math.atan(Math.abs((endy - starty) / (endx - startx))) * 180 / Math.PI
-		console.log(tan);
-	}
+  var tan = 0
+  if (endx == startx) {
+    tan = Math.atan(0) * 180 / Math.PI
+  } else {
+    tan = Math.atan(Math.abs((endy - starty) / (endx - startx))) * 180 / Math.PI
+    console.log(tan);
+  }
 
-	if (endx >= startx && endy >= starty) {
-		return { value: -tan, qua: "一" };//第一象限
-	} else if (endx > startx && endy < starty) {
-		return { value: tan, qua: "四" };//第四象限
-	} else if (endx < startx && endy > starty) {
-		return { value: tan - 180, qua: "二" };//第二象限
-	} else {
-		return { value: 180 - tan, qua: "三" }; //第三象限
-	}
+  if (endx >= startx && endy >= starty) {
+    return { value: -tan, qua: "一" };//第一象限
+  } else if (endx > startx && endy < starty) {
+    return { value: tan, qua: "四" };//第四象限
+  } else if (endx < startx && endy > starty) {
+    return { value: tan - 180, qua: "二" };//第二象限
+  } else {
+    return { value: 180 - tan, qua: "三" }; //第三象限
+  }
 }
 MapControl.hjjInfo = function (item) {
   MapControl.popupinfo.hide(); //隐藏地图弹窗
@@ -3227,25 +3227,38 @@ MapControl.isSync = {}; //判断地图是否同步 联动
 MapControl.ExtentChanges = {}; //分屏地图 联动事件
 
 //创建地图
-MapControl.CreateMapView = function (domNode, domId, options, basemapurl) {
+MapControl.CreateMapView = function (domNode, domId, options, basemap) {
   return esriLoader
-    .loadModules(
-      ["esri/map", "esri/layers/ArcGISTiledMapServiceLayer", "esri/layers/ArcGISDynamicMapServiceLayer"],
-      options
-    )
+    .loadModules([
+      "esri/map",
+      "esri/layers/ArcGISTiledMapServiceLayer",
+      "esri/layers/ArcGISDynamicMapServiceLayer",
+      "esri/layers/ArcGISImageServiceLayer",
+    ], options)
     .then(
       ([
         Map,
         ArcGISTiledMapServiceLayer, //切片
         ArcGISDynamicMapServiceLayer, //矢量
+        ArcGISImageServiceLayer, //图片
       ]) => {
         let map = new Map(domNode, {
           logo: false,
           slider: false,
         });
 
-        const basemaplayer = new esri.layers.ArcGISTiledMapServiceLayer(basemapurl);
-        basemaplayer.id = basemapurl;
+        let basemaplayer = null;
+        if (basemap.type == 'Tiled') {
+          basemaplayer = new ArcGISTiledMapServiceLayer(basemap.url);  //切片
+        }
+        else if (basemap.type == 'Dynamic') {
+          basemaplayer = new ArcGISDynamicMapServiceLayer(basemap.url);  //矢量
+        }
+        else if (basemap.type == 'Image') {
+          basemaplayer = new ArcGISImageServiceLayer(basemap.url);  //图片
+        }
+
+        basemaplayer.id = basemap.url;
         map.addLayer(basemaplayer); //添加底图
 
         let graphicLayer1 = new esri.layers.GraphicsLayer();
@@ -3258,8 +3271,8 @@ MapControl.CreateMapView = function (domNode, domId, options, basemapurl) {
     );
 };
 
-//获取鼠标指针所在地图对象
-MapControl.getMap = function (that) {
+//获取当前鼠标指针所在地图对象
+MapControl.getMouseMap = function (that) {
   if (
     JSON.stringify(MapControl.mapArr) == "{}" ||
     MapControl.mapArr == "" ||

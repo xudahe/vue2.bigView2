@@ -19,7 +19,7 @@
         </div>
         <div class="right-div"
             style="font-size: 0.17rem;float: left;padding-left: 0.8rem;right: 1.6rem;position: absolute;">
-            <div style="padding-right: 0.2rem;float:right;color:rgb(25, 210, 255);padding-top: 0.25rem;" id="showTime">
+            <div style="padding-right: 0.2rem;float:right;color:rgb(25, 210, 255);font-weight: bold;padding-top: 0.25rem;" id="showTime">
             </div>
             <div
                 style="width: 2px;height: 0.35rem;background: #5AF1F7;right:0rem;position: absolute;top: 0.205rem;border-radius: 0.05rem;">

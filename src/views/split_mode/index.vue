@@ -17,8 +17,8 @@
 
 <script>
 import bus from "@/eventBus";
-import mapconfig from "@/components/arcgis_map/js/mapconfig";
-import { MapControl } from "@/components/arcgis_map/js/MapControl";
+import mapconfig from "@/components/arcgis_3x_map/js/mapconfig";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl";
 
 import SplitToolbar from "@/views/split_mode/SplitToolbar";
 import SplitScreen from "@/views/split_mode/SplitScreen";

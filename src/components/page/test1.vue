@@ -2,50 +2,34 @@
   <div style="height:100%;width:100%;" class="test1 bgActive collapse simple_page">
     <div style="padding: 0.05rem;height: 100%;">
       <div style="overflow: auto;height: calc(100% - 0.4rem);" class="borderdiv">
-        <div :class="index == selectId ? 'bgActiveT' : 'bgActiveF bgActive'"
-          style="padding:0.05rem;margin-bottom: 0.05rem;cursor:pointer;position: relative;" @click="goto(item, index)"
-          v-for="(item, index) in tableList" :key="index" :id="index">
-          <div style="display: inline-block;width:100%; height: 0.2rem;">
-            <div class="no-gutter">
-              <div class="circle" />
-              <label
-                style="font-size: 0.12rem;position: absolute; top:0%;left:20%; color:white; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
-                v-if="index + 1 == 10">{{ index + 1 }}</label>
-              <label
-                style="font-size: 0.12rem;position: absolute; top:0%;left: 32%; color:white; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
-                v-else>{{ index + 1 }}</label>
+        <div style="overflow: auto;height: 100%;" class="pointQyery_div borderdiv">
+          <div :key="'coll' + index" v-for="(item, index) in tableList" @click="goto(item, index)"
+            style="margin-bottom: 0.1rem;cursor: pointer;padding: 0.1rem 0;"
+            :class="index == selectId ? 'bgActiveT' : 'bgActiveF'">
+            <div style="height: 30px;line-height: 30px;padding-left: 0.1rem;">
+              <div class="dialogtitles" :title="item.name">{{ item.名称 }}</div>
+              <!-- <div style="float: right;margin-right: 0.1rem;" :style="{ color: item.状态 == '0' ? 'red' : '#00ff37' }">
+                {{ item.状态 == '0' ? '关闭' : '运行' }}
+              </div> -->
             </div>
-            <label style="font-family: '微软雅黑';float: left; font-size: 0.12rem;color: #fff;font-weight: bolder;">{{
-              item.title
-            }}</label>
-            <i class="icon icon-map-pin" style="float:right;color: #2d8cf0;"></i>
-          </div>
-          <!-- <div style="display: inline-block;position: relative;vertical-align: middle;text-align: center;">
-            <div style="width: 0.35rem;height: 0.35rem;border-radius: 50%;background-color: #135e73;"></div>
-            <div style="width: 0.25rem;height: 0.25rem;border-radius: 50%;background-color: rgb(0,152,152);position: absolute;top: 0.05rem;left: 0.05rem;"></div>
-            <div style="text-align: center;width: 100%;line-height: 0.35rem;position: absolute;top: 0;left: 0;color: #fff;font-size: 0.16rem;">
-              {{index+1}}
-            </div>
-          </div> -->
-          <div style="float: left;cursor: pointer;">
-            <img :src="require('@/assets/img/暂无图片.png')" v-viewer style="width: 0.5rem;height: 0.55rem;" />
-          </div>
-          <div style="display: inline-block;cursor: pointer;width: calc(100% - 0.7rem);padding-left: 0.05rem;">
-            <Row type="flex" align="middle" style="height: 100%;">
-              <Col span="24">
-              <span class="resultLable">字段名称：</span>
-              <span :title="item.title" class="rsultValue">{{ item.title }}</span>
+            <Row style="margin-top: 0.1rem;">
+              <Col :span="12" class="midDiv">
+              <div class="midlabel">瞬时流量：</div>
+              <div class="midvalue">{{ item.瞬时流量 }} m³/h</div>
               </Col>
-              <Col span="24">
-              <span class="resultLable">字段名称：</span>
-              <span :title="item.title" class="rsultValue">{{ item.title }}</span>
+              <Col :span="12" class="midDiv">
+              <div class="midlabel">前池液位：</div>
+              <div class="midvalue">{{ item.前池液位 }} m</div>
               </Col>
-              <Col span="24">
-              <span class="resultLable">字段名称：</span>
-              <span :title="item.title" class="rsultValue">{{ item.title }}</span>
+              <Col :span="24" class="midDiv">
+              <div class="midlabel">更新时间：</div>
+              <div class="midvalue">{{ item.更新时间 }}</div>
               </Col>
             </Row>
           </div>
+          <div class="borderdiv"
+            style="color:#fff;font-size: 0.16rem;vertical-align:middle;text-align: center;margin-top: 0.3rem;"
+            v-show="tableList.length == 0">未查到数据</div>
         </div>
       </div>
 
@@ -60,7 +44,7 @@
 
 <script>
 import bus from "@/eventBus.js";
-import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl.js";
 
 export default {
   name: 'test1',
@@ -72,18 +56,19 @@ export default {
         current: 1, //当前页码
         total: 0,
         pageList: [
-          { id: 1, title: "某某1", x: "118.75596318", y: "32.04079632" },
-          { id: 2, title: "某某2", x: "118.80705517", y: "32.10048969" },
-          { id: 3, title: "某某3", x: "118.80566318", y: "32.10449283" },
-          { id: 4, title: "某某4", x: "118.80070507", y: "32.10006197" },
-          { id: 5, title: "某某5", x: "118.79423849", y: "32.09702295" },
-          { id: 6, title: "某某6", x: "118.89153772", y: "32.05832442" },
-          { id: 7, title: "某某7", x: "118.89252052", y: "32.05729316" }
+          { id: 1, 名称: "第一污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.56725078 + ' ' + 31.86439618 + ' )' },
+          { id: 2, 名称: "第二污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.50900393 + ' ' + 31.88058599 + ' )' },
+          { id: 3, 名称: "第三污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.58104364 + ' ' + 31.89622211 + ' )' },
+          { id: 4, 名称: "乐余片区污水处理厂", 瞬时流量: "1406106", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.69277791 + ' ' + 31.91568027 + ' )' },
+          { id: 5, 名称: "锦丰片区污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.60801190 + ' ' + 31.93865659 + ' )' },
+          { id: 6, 名称: "城南污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.55808153 + ' ' + 31.82806306 + ' )' },
+          { id: 7, 名称: "塘桥片区污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.60843196 + ' ' + 31.81217365 + ' )' },
+          { id: 8, 名称: "金港片区污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.41325767 + ' ' + 31.93841953 + ' )' },
+          { id: 9, 名称: "常明沙区污水处理厂", 瞬时流量: "14061.06", 前池液位: "4.79", 更新时间: "2023-02-22 10:58:57", shape: 'POINT (' + 120.76748367 + ' ' + 31.86266532 + ' )' },
         ]
       },
       selectId: -1, //已选择的编号
 
-      titlename: "缩略图",
       tableList: []
     };
   },
@@ -168,48 +153,39 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .test1 {
 
-  .no-gutter {
-    width: 32px;
-    float: left;
-    position: relative;
-  }
-
-  .circle {
-    margin-left: 5px;
-    width: 18px;
-    height: 18px;
-    border-radius: 9px;
-    background: red;
-    vertical-align: bottom;
-  }
-
-  .resultLable {
-    font-size: 0.12rem;
-    color: rgba(255, 255, 255, 0.5);
-    display: block;
-    width: 0.6rem;
-    overflow: hidden;
-    white-space: nowrap;
-    float: left;
-    text-align: left;
-    padding-left: 0.05rem;
-  }
-
-  .rsultValue {
-    font-size: 0.12rem;
+  .dialogtitles {
+    font-size: 0.21rem;
     color: #fff;
-    margin-left: 5px;
-    display: block;
-    float: left;
-    text-align: left;
-
-    width: 0.8rem;
+    width: 3.8rem;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    // position: absolute;
+    font-weight: bold;
+    float: left;
+  }
+
+  .midDiv {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    padding-left: 0.1rem;
+
+
+    .midlabel {
+      font-size: 0.15rem;
+      display: inline-block;
+      color: #40d2ff;
+    }
+
+    .midvalue {
+      font-size: 0.16rem;
+      display: contents;
+      color: #ffffff;
+    }
   }
 }
 </style>

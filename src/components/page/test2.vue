@@ -4,32 +4,23 @@
 
       <div style="overflow: auto;height: calc(100% - 0.4rem);" class="borderdiv">
         <Collapse accordion>
-          <template v-for="(item,index) in tableList">
-            <Panel style="margin:0.05rem;font-size: 0.12rem;font-weight: bold;" :key="index" :name="item.title+index">
-              {{item.title}} &nbsp;&nbsp;
+          <template v-for="(item, index) in tableList">
+            <Panel style="margin:0.05rem;font-size: 0.12rem;font-weight: bold;" :key="index" :name="item.title + index">
+              {{ item.title }} &nbsp;&nbsp;
               <div style="float:right;margin-right:0.1rem;font-size: 0.12rem;">
                 <span>3(台)</span>
               </div>
-              <div slot="content" v-for="(itema,indev) in item.children" :key='indev'>
-                <div style="cursor:pointer;overflow: hidden;position: relative;padding-left: 0.05rem;" @click='expandlist(indev,itema,index)' :class="indev+'a'+index==selectId?'bgActiveT':'bgActiveF'">
-                  <div style="float: left;cursor: pointer;">
-                    <img :src='require("@/assets/img/暂无图片.png")' v-viewer style="width: 0.5rem;height: 0.55rem;" />
+              <div slot="content" v-for="(itema, indev) in item.children" :key='indev'>
+                <div style="cursor:pointer;overflow: hidden;position: relative;padding-left: 0.05rem;"
+                  @click='expandlist(indev, itema, index)'
+                  :class="indev + 'a' + index == selectId ? 'bgActiveT' : 'bgActiveF'">
+                  <div class="midDiv">
+                    <div class="midlabel">泵站类型：</div>
+                    <div class="midvalue">{{ item.类型 }}</div>
                   </div>
-                  <div style="display: inline-block;cursor: pointer;width: calc(100% - 0.7rem);padding-left: 0.05rem;">
-                    <Row type="flex" align="middle" style="height: 100%;">
-                      <Col span="24">
-                      <span class="resultLable">字段名称</span>
-                      <span :title="itema.name" class="rsultValue">{{itema.name}}</span>
-                      </Col>
-                      <Col span="24">
-                      <span class="resultLable">字段名称：</span>
-                      <span :title="itema.name" class="rsultValue">{{itema.name}}</span>
-                      </Col>
-                      <Col span="24">
-                      <span class="resultLable">字段名称</span>
-                      <span :title="itema.name" class="rsultValue">{{itema.name}}</span>
-                      </Col>
-                    </Row>
+                  <div class="midDiv">
+                    <div class="midlabel">运行时间：</div>
+                    <div class="midvalue">{{ item.运行时间 }}</div>
                   </div>
                 </div>
               </div>
@@ -38,8 +29,9 @@
         </Collapse>
       </div>
       <div style="padding-top: 0.1rem;">
-        <Page simple show-total :current="page.current" :total="page.total" @on-change="changePage" size="small" style="padding-right: 0.1rem;float: right;"></Page>
-        <span style="color:#fff;font-size: 0.12rem;padding-left: 0.1rem;">共{{page.total}}条</span>
+        <Page simple show-total :current="page.current" :total="page.total" @on-change="changePage" size="small"
+          style="padding-right: 0.1rem;float: right;"></Page>
+        <span style="color:#fff;font-size: 0.12rem;padding-left: 0.1rem;">共{{ page.total }}条</span>
       </div>
     </div>
   </div>
@@ -49,7 +41,7 @@
 import bus from "@/eventBus.js";
 
 export default {
-  name:'test2',
+  name: 'test2',
   components: {
 
   },
@@ -60,13 +52,13 @@ export default {
         current: 1, //当前页码
         total: 0,
         pageList: [
-          { title: "某某1", children: [{ name: "某某1" }] },
-          { title: "某某2", children: [{ name: "某某2" }] },
-          { title: "某某3", children: [{ name: "某某3" }] },
-          { title: "某某4", children: [{ name: "某某4" }] },
-          { title: "某某5", children: [{ name: "某某5" }] },
-          { title: "某某6", children: [{ name: "某某6" }] },
-          { title: "某某7", children: [{ name: "某某7" }] },
+          { title: "某某1", children: [{ name: "某某1", 类型: "雨水泵站", 运行时间: "2023-02-22 10:58:57", }] },
+          { title: "某某2", children: [{ name: "某某2", 类型: "污水泵站", 运行时间: "2023-02-22 10:58:57", }] },
+          { title: "某某3", children: [{ name: "某某3", 类型: "引水泵站", 运行时间: "2023-02-22 10:58:57", }] },
+          { title: "某某4", children: [{ name: "某某4", 类型: "雨水泵站", 运行时间: "2023-02-22 10:58:57", }] },
+          { title: "某某5", children: [{ name: "某某5", 类型: "雨水泵站", 运行时间: "2023-02-22 10:58:57", }] },
+          { title: "某某6", children: [{ name: "某某6", 类型: "雨水泵站", 运行时间: "2023-02-22 10:58:57", }] },
+          { title: "某某7", children: [{ name: "某某7", 类型: "雨水泵站", 运行时间: "2023-02-22 10:58:57", }] },
         ],
       },
       selectId: '', //已选择的编号
@@ -92,7 +84,7 @@ export default {
         }
       }
 
-      bus.$emit("rightDetail","",item,item.name)
+      bus.$emit("rightDetail", "", item, item.name)
     },
     changePage(index) {
       this.page.current = index;
@@ -128,32 +120,25 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .test2 {
-  .resultLable {
-    font-size: 0.12rem;
-    color: rgba(255, 255, 255, 0.5);
-    display: block;
-    width: 0.6rem;
-    overflow: hidden;
-    white-space: nowrap;
-    float: left;
-    text-align: left;
-    padding-left: 0.05rem;
-  }
+  .midDiv {
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 0.2rem;
 
-  .rsultValue {
-    font-size: 0.12rem;
-    color: #fff;
-    margin-left: 5px;
-    display: block;
-    float: left;
-    text-align: left;
+    .midlabel {
+      font-size: 0.15rem;
+      display: inline-block;
+      color: #40d2ff;
+    }
 
-    width: 0.8rem;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    .midvalue {
+      font-size: 0.16rem;
+      display: contents;
+      color: #ffffff;
+    }
   }
 }
 </style>

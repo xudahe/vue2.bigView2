@@ -63,7 +63,7 @@
 <script>
 import bus from "@/eventBus.js";
 import vDialog from "@/components/dialog/dialog.vue"
-import newMap from "@/components/arcgis_map/index.vue"
+import newMap from "@/components/arcgis_3x_map/index.vue"
 export default {
     name: "application4",
     components: {

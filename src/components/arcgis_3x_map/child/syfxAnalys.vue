@@ -4,25 +4,59 @@
   background-color: #ff6600 !important;
   color: #fff;
 }
+
+//start--------------流向溯源css动画--------------
+.svgbox {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+  z-index: 1;
+}
+
+.flow {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: flow 50s linear infinite;
+}
+
+@keyframes flow {
+  from {
+    stroke-dasharray: 10, 5;
+  }
+
+  to {
+    stroke-dasharray: 40, 5;
+  }
+}
+
+//end--------------流向溯源css动画--------------
 </style>
 
 <template>
-  <div>
-    <v-dialog ref="dialog" v-model="dialog.show" :title="dialog.title" :buttons="dialog.buttons" :bodyshow="dialog.bodyshow" @input="close">
+  <div ref="syfxAnalys">
+    <v-dialog ref="dialog" v-model="dialog.show" :title="dialog.title" :buttons="dialog.buttons"
+      :bodyshow="dialog.bodyshow" @input="close">
       <div style="width: auto;min-height:50px;max-height:auto;overflow:overlay;">
         <Row style="width: auto;margin: 10px;color:#fff">
           <Col span="24">
+          <Button type="info" @click="selectpolygon" style="margin-right: 20px;" :disabled="disabled1">绘制</Button>
           <Button type="info" @click="selectpoint" style="margin-right: 20px;" :disabled="disabled">拾取</Button>
-          <Button v-if="name == '溯源'" type="info" @click="analysis" style="margin-right: 20px;">分析</Button>
-          <Button type="error" @click="clear">重置</Button>
-          <span style="width: 200px;height: 32px;float: right;text-align: center;line-height: 32px;">{{'一共经过'+page.total+'条管线'}}</span>
+          <Button type="info" @click="analysis" style="margin-right: 20px;" :disabled="disabled11">分析</Button>
+          <Button type="error" @click="clear">清除</Button>
+          <span v-show="page.total > 0"
+            style="width: auto;height: 32px;float: right;text-align: center;line-height: 32px;margin-left: 10px;">
+            {{ '一共经过' + page.total + '条管线' }}</span>
           </Col>
         </Row>
-        <Row v-show="page.total>0" style="width:500px;">
+        <Row v-show="page.total > 0" style="width:500px;">
           <Col span="24" style="padding: 10px;padding-top:0px">
           <div class="flowtoanaly_table">
-            <Table border stripe :columns="columns" highlight-row :data="tableData" @on-row-click='selectitem' :height='page.total>5?200:0'></Table>
-            <Page :total="page.total" :page-size="page.PageSize" :current="page.currentPage" @on-change="updatePage" ref="page" style="float: right;margin-top: 5px;"></Page>
+            <Table border stripe :columns="columns" highlight-row :data="tableData" @on-row-click='selectitem'
+              :height='page.total > 5 ? 200 : 0'></Table>
+            <Page :total="page.total" :page-size="page.PageSize" :current="page.currentPage" @on-change="updatePage"
+              ref="page" style="float: right;margin-top: 5px;"></Page>
           </div>
           </Col>
         </Row>
@@ -31,10 +65,12 @@
   </div>
 </template>
 <script>
+
 import vDialog from "@/components/dialog/dialog.vue"
-import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl.js";
 import apiSetting from '@/api/apiSetting.js';
 import bus from "@/eventBus.js";
+
 
 export default {
   components: { vDialog },
@@ -44,7 +80,7 @@ export default {
         show: true,
         title: {
           text: "",
-          className: "xa-bg-blue"
+          className: "xa-bg-blue" //标题样式类名，包含`background`、`color`即可
         },
         bodyshow: true
       },
@@ -55,6 +91,8 @@ export default {
         total: 0
       },
       disabled: false,
+      disabled1: false,
+      disabled11: true,
       columns: [
         {
           key: "序号",
@@ -62,11 +100,27 @@ export default {
           align: "center",
           width: 65,
         },
+
         {
-          key: "类别",
           title: "管线类别",
+          key: "类别",
           align: "center",
           width: 100,
+          // render: (h, params) => {
+          //   let value = params.row.类别;
+          //   switch (params.row.类别) {
+          //     case 1:
+          //       value = "雨水管";
+          //       break;
+          //     case 2:
+          //       value = "污水管";
+          //       break;
+          //     case 3:
+          //       value = "合流管";
+          //       break;
+          //   }
+          //   return h("span", value);
+          // }
         },
         {
           key: "管径",
@@ -92,7 +146,7 @@ export default {
           align: "center",
           width: 100,
         },
-         {
+        {
           title: "要素代码",
           key: "要素代码",
           align: "center",
@@ -100,11 +154,11 @@ export default {
         },
       ],
       tableData: [],
-      mapconfigLayer:[],// this.$store.state.user.userinfo.ServerUrl,
+      mapconfigLayer: [], // this.$store.state.user.userinfo.ServerUrl,
 
       name: "",
-      mapDragEvent: {},
-      mapChangeEvent: {},
+      mapDragEvent: null,
+      mapChangeEvent: null,
 
       wtdh: "",
     };
@@ -118,7 +172,7 @@ export default {
 
       this.name = name;
       this.dialog.show = true
-      this.$refs.dialog.retresizeTool()
+      this.$refs.dialog.retresize()
       if (name == "流向") {
         this.dialog.title.text = "流向分析"
       }
@@ -129,40 +183,85 @@ export default {
     selectpoint() {
       this.clear()
       this.disabled = true;
+      this.disabled11 = false;
       let VisibleLyr = this.GetVisibleMapServers();
       var _this = this;
       MapControl.QueryByPoint3(_this, VisibleLyr, this.name);
-      bus.$on('identify3', this.identify3);
+      bus.$off("identify3").$on('identify3', this.identify3);
     },
-    //获取可见地图服务
+    selectpolygon() {
+      this.clear()
+      this.disabled = false;
+      this.disabled1 = true;
+      bus.$on("mapDrawresult", this.CheckGeometryString);
+      MapControl.mapDraw("extent", true);
+    },
+    CheckGeometryString(value) {
+      var _Self = this;
+      let VisibleLyr = _Self.GetVisibleMapServers();
+      if (!value) {
+        this.$Message.error("绘制出的范围面有误,请重新绘制！");
+      }
+
+      esriLoader.loadModules(['esri/tasks/IdentifyTask', 'esri/tasks/IdentifyParameters']).then(([IdentifyTask, IdentifyParameters]) => {
+        let map = MapControl.map[MapControl.mapId];
+        // map.graphics.clear();
+        map.setMapCursor("pointer");
+
+        let result = [];
+        let wkt1 = MapControl.WktToAgs(value.gwkt)
+
+        var identifyParams = new esri.tasks.IdentifyParameters();
+        identifyParams.tolerance = 1;
+        identifyParams.returnGeometry = true;
+        identifyParams.layerIds = VisibleLyr[i].layerIds.toString().replace('[', '').replace(']', '').split(',');
+        identifyParams.layerOption = esri.tasks.IdentifyParameters.LAYER_OPTION_ALL;
+        identifyParams.geometry = wkt1;
+        identifyParams.mapExtent = map.extent;
+
+        for (var i = 0; i < VisibleLyr.length; i++) {
+          var identifyTask = new esri.tasks.IdentifyTask(VisibleLyr[i].url);
+          identifyTask.execute(identifyParams, function (results) {
+            let flag = false;
+            if (results.length > 0) {
+              for (let j = 0; j < results.length; j++) {
+                let attributes = results[j].feature.attributes;
+
+                if (results[j].geometryType.indexOf('Point') > 0 && attributes.wtdh != undefined) {
+                  flag = true;
+                  if (_Self.name == '流向' && result.length == 0) {
+                    result.push(attributes);
+                    MapControl.GetTxtSymbols(results[j].feature.geometry, '起', 0, 14, '#f7f7f7');
+                  } else if (_Self.name == '溯源') {
+                    result.push(attributes);
+                    MapControl.GetTxtSymbols(results[j].feature.geometry, '终', 0, 14, '#f7f7f7');
+                  }
+                }
+              }
+            }
+            if (!flag) {
+              _Self.$Message.error('未拾取到管点数据！');
+            } else {
+              map.setMapCursor("default");
+              _Self.identify3(result)
+            }
+          });
+        }
+
+      })
+
+    },
+    //获取可见地图服务(当前打开的图层服务)
     GetVisibleMapServers() {
-      let id = this.$store.state.user.serviceId;
-      let index = 0;
-      for (let i = 0; i < this.mapconfigLayer.length; i++) {
-        let event = this.mapconfigLayer[i];
-        if (event.id == id) {
-          index = i;
+      let map = MapContfup.layerIds, layerUrls = [];
+      for (let i = 0; i < layerIds.length; i++) {
+        var sublay = map.getLayer(layerIds[i]);
+        if (sublay != undefined) {
+          layerUrls.push({ url: sublay.url })
         }
       }
-      let MapLayers = this.mapconfigLayer[index];
-      let VisibleLyr = [];
-      this.Loop(MapLayers, VisibleLyr);
-      return VisibleLyr;
-    },
-    Loop(MapLayers, Record) {
-      for (let i = 0; i < MapLayers.children.length; i++) {
-        let _layer = MapLayers.children[i];
-        if (
-          _layer.serviceurl != undefined &&
-          _layer.serviceurl != ""
-        ) {
-          let lyr = [];
-          lyr.name = _layer.servicename;
-          lyr.Address = _layer.serviceurl;
-          lyr.layerIds = _layer.identlyids;
-          Record.push(lyr);
-        }
-      }
+      console.log(layerUrls)
+      return layerUrls;
     },
     updatePage(index) {
       this.page.currentPage = index;
@@ -172,20 +271,20 @@ export default {
     },
     identify3(results) {
       if (results.length > 0) {
+        this.disabled11 = false;
         this.wtdh = '';
         if (this.name == "流向") {
-          this.wtdh = results[0].nodeid;
-          this.analysis();
-        }
-        if (this.name == "溯源") {
+          this.wtdh = results[0].wtdh;
+          // this.analysis();
+        } else if (this.name == "溯源") {
           results.forEach(item => {
-            this.wtdh += '|' + item.nodeid;
+            this.wtdh += '|' + item.wtdh;
           });
         }
       }
     },
     analysis() {
-      bus.$emit('newmapcontrols_spinShow', true);
+      bus.$emit('map_spinShow', true);
 
       let _self = this;
       _self.tableData = [];
@@ -193,22 +292,26 @@ export default {
       _self.page.total = 0;
 
       if (this.wtdh == "") {
-        this.disabled = false;
-        bus.$emit('newmapcontrols_spinShow', false);
+        this.disabled = this.disabled1 = false;
+        bus.$emit('map_spinShow', false);
         return;
       };
+      return;
 
-      this.$http(ApiSetting.FlowTracing, {
+      this.$http(apiSetting.FlowTracing, {
         wtdh: this.wtdh,
-        Tracing: this.name == '流向' ? false : true
+        Tracing: _self.name == '流向' ? false : true
       }).then(
         res => {
-          this.disabled = false;
-          bus.$emit('newmapcontrols_spinShow', false);
+          this.disabled = this.disabled1 = false;
+          this.disabled11 = true;
+          bus.$emit('map_spinShow', false);
 
           let map = MapControl.map[MapControl.mapId];
           map.setMapCursor("default");
-          MapControl.identifyHandler.remove();
+          if (MapControl.identifyHandler !== undefined) {
+            MapControl.identifyHandler.remove();
+          }
 
           if (res.data.success == true) {
             this.isclear = true;
@@ -236,23 +339,19 @@ export default {
 
             // MapControl.setPolylinesExtent(x_array, y_array);
             _self.AnimationFlow(source, 0, 0);
-            this.mapDragEvent = map.on("mouse-drag", function (e) {
+            _self.mapDragEvent = map.on("mouse-drag", function (e) {
               _self.AnimationFlow(source, e.movementX, e.movementY);
             });
-            this.mapChangeEvent = map.on("extent-change", function (e) {
+            _self.mapChangeEvent = map.on("extent-change", function (e) {
               _self.AnimationFlow(source, 0, 0);
             });
-
-            bus.$off("identify3");
           } else {
-            // _self.$Message.error(res.data.source);
-            // _self.selectpoint();
+
           }
         },
         error => {
-          this.disabled = false;
-          bus.$emit('newmapcontrols_spinShow', false);
-          // _self.$Message.error(error);
+          this.disabled = this.disabled1 = false;
+          bus.$emit('map_spinShow', false);
         }
       )
     },
@@ -291,16 +390,16 @@ export default {
             [screenPoint1.x + x, screenPoint1.y + y],
             [screenPoint2.x + x, screenPoint2.y + y]
           ]);
-          if (data[i].类别 == 1) line.stroke({
+          if (data[i].类别 == '雨水') line.stroke({
             color: "#0070ff",
             width: 5
           });
-          else if (data[i].类别 == 2)
+          else if (data[i].类别 == '污水')
             line.stroke({
               color: "#a83800",
               width: 5
             });
-          else if (data[i].类别 == 3)
+          else if (data[i].类别 == '合流')
             line.stroke({
               color: "#a900e6",
               width: 5
@@ -315,16 +414,16 @@ export default {
             [screenPoint2.x + x, screenPoint2.y + y],
             [screenPoint1.x + x, screenPoint1.y + y]
           ]);
-          if (data[i].类别 == 1) line.stroke({
+          if (data[i].类别 == '雨水') line.stroke({
             color: "#0070ff",
             width: 5
           });
-          else if (data[i].类别 == 2)
+          else if (data[i].类别 == '污水')
             line.stroke({
               color: "#a83800",
               width: 5
             });
-          else if (data[i].类别 == 3)
+          else if (data[i].类别 == '合流')
             line.stroke({
               color: "#a900e6",
               width: 5
@@ -348,34 +447,30 @@ export default {
       map.setExtent(showExtent.expand(0));
     },
     clear() {
+      let _this = this;
+
       this.wtdh = ""
       this.tableData = []
       this.page.pageList = [];
       this.page.total = 0;
 
-      this.disabled = false;
-
-      // if (MapControl.identifyHandler !== undefined) {
-      //   MapControl.identifyHandler.remove();
-      // }
+      this.disabled = this.disabled1 = false;
+      this.disabled11 = true;
 
       if (document.getElementById("svgbox") !== null) {
         document.getElementById("svgbox").innerHTML = "";
       }
-      let map = MapControl.map[MapControl.mapId];
 
       try {
-        map.on("mouse-drag", function (e) { });
-        map.on("extent-change", function (e) { });
-        this.mapChangeEvent.remove();
-        this.mapDragEvent.remove();
-
-        this.mapDragEvent = map.on("mouse-drag", function (e) { });
-        this.mapChangeEvent = map.on("extent-change", function (e) { });
+        // _this.mapids.on("mouse-drag", function (e) { });
+        // _this.mapids.on("extent-change", function (e) { });
+        _this.mapChangeEvent.remove();
+        _this.mapDragEvent.remove();
+        _this.mapChangeEvent.on("mouse-drag", function (e) { });
+        _this.mapDragEvent.on("extent-change", function (e) { });
       } catch (e) { }
 
-      bus.$emit('newmapcontrols_spinShow', false);
-      bus.$off("identify3");
+      bus.$emit('map_spinShow', false);
       MapControl.setMapClear();
     },
     close() {

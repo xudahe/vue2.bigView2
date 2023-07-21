@@ -1,6 +1,6 @@
 <template>
   <div style="z-index: 4;position: absolute;bottom: 0px;left: 10px;">
-    <div style="float:left;width: 500px;" ref="bottom_label"></div>
+    <div style="float:left;min-width: 500px;" ref="bottom_label"></div>
   </div>
 </template>
 <script>

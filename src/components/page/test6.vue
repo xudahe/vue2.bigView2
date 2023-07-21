@@ -68,7 +68,7 @@
 
 <script>
 
-import { MapControl } from "@/components/arcgis_map/js/MapControl";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl";
 import EventBus from "@/eventBus";
 import DragPop from "@/api/mixins/dragPop";
 import ArrBase from "@/api/mixins/arrBase";
@@ -761,7 +761,7 @@ export default {
 .compare-right-toolbar {
   height: 30px;
   line-height: 29px;
-  padding-left: 70px;
+  text-align: center;
 }
 
 .compare-right-layout {

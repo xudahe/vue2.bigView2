@@ -1,3 +1,6 @@
+
+//以下路由会添加到layout主界面的子路由
+
 export default [{
   path: "/platform",
   name: "platform",
@@ -18,8 +21,8 @@ export default [{
   path: "/application",
   name: "application",
   meta: {
-    title: "运营"
+    title: "总览"
   },
   component: () => import('@/views/home/application'),
   children: []
-}, ]
+},]

@@ -31,7 +31,7 @@
 </template>
 <script>
 
-import { MapControl } from "@/components/arcgis_map/js/MapControl.js";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl.js";
 import bus from '@/eventBus.js';
 
 import * as esriLoader from 'esri-loader';

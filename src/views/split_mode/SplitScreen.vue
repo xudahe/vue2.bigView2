@@ -45,8 +45,8 @@
 <script>
 import { loadModules, loadCss } from "esri-loader";
 import bus from "@/eventBus";
-import mapconfig from "@/components/arcgis_map/js/mapconfig";
-import { MapControl } from "@/components/arcgis_map/js/MapControl";
+import mapconfig from "@/components/arcgis_3x_map/js/mapconfig";
+import { MapControl } from "@/components/arcgis_3x_map/js/MapControl";
 
 export default {
   props: {
@@ -76,7 +76,7 @@ export default {
     this.$nextTick(() => {
       //延迟加载地图，防止卡死
       setTimeout(() => {
-        // this.createView();
+        this.createView();
       }, this.screenIndex * 1000);
     })
   },
@@ -110,12 +110,19 @@ export default {
       const domNode = document.getElementById(this.domId);
 
       const options = {
-        url: "http://10.10.12.71:90/arcgis_js_api/library/3.27/3.27/init.js"
+        url: 'https://js.arcgis.com/3.27/init.js', //指定的arcgis api版本地址
+        css: true,
       };
 
-      const basemapurl = "http://10.10.10.48:6080/arcgis/rest/services/2018%E5%8D%97%E4%BA%AC%E5%9F%BA%E7%A1%80%E5%BA%95%E5%9B%BEWGS84/MapServer";
+      const basemap = {
+        type: "Tiled", //切片
+        url: "http://10.10.10.48:6080/arcgis/rest/services/2018%E5%8D%97%E4%BA%AC%E5%9F%BA%E7%A1%80%E5%BA%95%E5%9B%BEWGS84/MapServer"
+      };
 
-      MapControl.CreateMapView(domNode, _this.domId, options, basemapurl)
+      loadCss("https://js.arcgis.com/3.27/esri/css/esri.css");
+      loadCss("https://js.arcgis.com/3.27/dijit/themes/claro/claro.css");
+
+      MapControl.CreateMapView(domNode, _this.domId, options, basemap)
         .then((map) => {
           _this.view = map;
 
@@ -151,14 +158,14 @@ export default {
                 "latestWkid": 4326
               }
             } //地图初始化范围;
-            let mapExtent = new esri.geometry.Extent(
-              extent.xmin,
-              extent.ymin,
-              extent.xmax,
-              extent.ymax,
-              map.spatialReference
-            );
-            map.setExtent(mapExtent);
+            // let mapExtent = new esri.geometry.Extent(
+            //   extent.xmin,
+            //   extent.ymin,
+            //   extent.xmax,
+            //   extent.ymax,
+            //   extent.spatialReference
+            // );
+            // map.setExtent(mapExtent);
 
             MapControl.ExtentChanges[mapId] = map.on("extent-change", function (event) {
               if (MapControl.isSync[mapId]) {
@@ -176,7 +183,7 @@ export default {
       if ([null, undefined, ""].indexOf(this.view) !== -1) {
         return;
       }
-      
+
     },
     showIdentity() {
       this.$store.commit("splitMapId", this.view.id);
@@ -218,7 +225,7 @@ export default {
         this.$set(splitScreens[i - 1], "featureId", splitScreens[i].featureId);
       }
 
-      splitScreens.pop();
+      splitScreens.pop(); //移除列表中的一个元素(默认最后一个元素),并且返回该元素的值
       this.resetLayout(splitScreens.length);
       console.log("splitScreens", splitScreens);
       this.$store.commit("splitScreens", splitScreens);
@@ -230,14 +237,7 @@ export default {
     resetLayout(splitNumber) {
       const splitElements = document.querySelectorAll(".split-container");
       splitElements.forEach(element => {
-        element.classList.remove(
-          "layout2",
-          "layout3",
-          "layout4",
-          "layout5",
-          "layout6",
-          "layout7"
-        );
+        element.classList.remove("layout2", "layout3", "layout4", "layout5", "layout6", "layout7");
       });
     }
   },

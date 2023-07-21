@@ -23,13 +23,7 @@ const LoginModule = {
 }
 
 const GISModule = {
-  /**
-   * gis底图token
-   */
-  GetGISToken: {
-    url: 'http://58.213.48.106/ArcGISServer/api/GISServer/GetGISToken',
-    method: 'get'
-  }
+ 
 }
 
 

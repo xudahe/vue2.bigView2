@@ -76,17 +76,17 @@
 
         <div class="stadingbookDiv" style="width: 100%;height: 100%;">
             <div style="width: 100%;height: 100%;">
-                <div style="width: 17%;height: 100%;border-right: 1px #007AE2 solid;float: left;">
+                <div style="width: 4.34rem;height: 100%;border-right: 1px #007AE2 solid;float: left;">
                     <div style="height: calc(100% - 0rem);padding-left: 0.1rem;position: relative;">
                         <div class="treeBox"
                             style="height: 100%;margin-bottom: 0.2rem; overflow-y: auto;overflow-x: hidden;">
                             <Tree :data="stadinglist" :render="renderContent" @on-select-change="getdetail"
-                                class="demo-tree-render">
+                                class="demo-tree-render" :expand-node="true">
                             </Tree>
                         </div>
                     </div>
                 </div>
-                <div style="width: calc(83% - 1px);height: 100%;float: left;height: 100%;">
+                <div style="width: calc(100% - 4.34rem - 1px);height: 100%;float: left;height: 100%;">
                     <div class="tabpane" style="width: 100%;height: 100%;">
                         <div style="width: 100%;height: 0.7rem;;">
                             <div style="float: right; margin-bottom: 0.1rem;margin-top: 0.1rem;color:#fff;">
@@ -153,6 +153,9 @@ export default {
             repariModalTitle: "",
 
             tree_s: {
+                // root<Array>：树的根节点
+                // node<Object>：当前节点
+                // data<Object>：当前节点的数据
                 root: null, node: null, data: null
             },
 
@@ -320,12 +323,77 @@ export default {
             // 无子节点
             let children = h("Icon", {
                 props: {
-                    type: "ios-list-box-outline",
+                    type: "logo-buffer",
                     size: "20",
                 },
                 style: {
                     marginRight: "8px",
                     color: "#2DB7F5",
+                },
+            });
+
+            //新增
+            let addedModal = h("Icon", {
+                props: {
+                    type: "ios-add-circle-outline",
+                    color: "#6dffb3",
+                    size: "20",
+                },
+                on: {
+                    click: (e) => {
+                        e.stopPropagation()
+                        console.log("当前节点", data.title);
+                        this.addStand(data);
+                    },
+                },
+                attrs: {
+                    title: "新增",
+                },
+            });
+            //修改
+            let updateModal = h("Icon", {
+                style: {
+                    marginLeft: "10px",
+                },
+                props: {
+                    type: "ios-create-outline",
+                    color: "#64b6fb",
+                    size: "20",
+                },
+                //h函数配置事件，包括自定义事件
+                on: {
+                    click: (e) => {
+                        e.stopPropagation()
+                        console.log("当前节点", data.title);
+                        this.updateStand(root, node, data);
+                    },
+                },
+                // h函数配置原生的html属性
+                attrs: {
+                    title: "修改",
+                },
+            });
+            //删除
+            let deleteModal = h("Icon", {
+                style: {
+                    marginLeft: "10px",
+                },
+                props: {
+                    type: "ios-trash-outline",
+                    color: "#ff8d95",
+                    size: "20",
+                },
+                on: {
+                    click: (e) => {
+                        e.stopPropagation()
+                        console.log("当前节点", data.title);
+                        if (data.title != '全部') {
+                            this.deletestand(root, node, data);
+                        }
+                    },
+                },
+                attrs: {
+                    title: "删除",
                 },
             });
 
@@ -346,7 +414,7 @@ export default {
                             },
                             [
                                 // 给树节点不同的图标，有子节点跟没有子节点定义不同的图标
-                                (data.children && data.children.length) > 0 ? parent : children,
+                                parent,
                                 h("span", data.title),
                             ]
                         ),
@@ -359,107 +427,12 @@ export default {
                                 },
                             },
                             [
-                                h("Icon", {
-                                    style: {
-                                        marginLeft: "10px",
-                                    },
-                                    props: {
-                                        type: "ios-add-circle-outline",
-                                        color: "#6dffb3",
-                                        size: "20",
-                                    },
-                                    on: {
-                                        click: () => {
-                                            console.log("当前节点", data.title);
-                                            this.addStand(data);
-                                        },
-                                    },
-                                    attrs: {
-                                        title: "新增",
-                                    },
-                                }),
+                                addedModal,
                             ]
                         ),
                     ]
                 );
-            } else if (!data.children || data.children.length == 0) {
-                return h("span",
-                    {
-                        style: {
-                            display: "inline-block",
-                            width: "100%",
-                        },
-                    },
-                    [
-                        h(
-                            "span",
-                            {
-                                style: {
-                                    display: "inline-block",
-                                },
-                            },
-                            [
-                                // 给树节点不同的图标，有子节点跟没有子节点定义不同的图标
-                                (data.children && data.children.length) > 0 ? parent : children,
-                                h("span", data.title),
-                            ]
-                        ),
-                        h("span",
-                            {
-                                style: {
-                                    display: "inline-block",
-                                    float: "right",
-                                    marginRight: "5px",
-                                },
-                            },
-                            [
-                                h("Icon", {
-                                    style: {
-                                        marginLeft: "10px",
-                                    },
-                                    props: {
-                                        type: "ios-create-outline",
-                                        color: "#64b6fb",
-                                        size: "20",
-                                    },
-                                    //h函数配置事件，包括自定义事件
-                                    on: {
-                                        click: () => {
-                                            console.log("当前节点", data.title);
-                                            this.updateStand(root, node, data);
-                                        },
-                                    },
-                                    // h函数配置原生的html属性
-                                    attrs: {
-                                        title: "修改",
-                                    },
-                                }),
-                                h("Icon", {
-                                    style: {
-                                        marginLeft: "10px",
-                                    },
-                                    props: {
-                                        type: "ios-trash-outline",
-                                        color: "#ff8d95",
-                                        size: "20",
-                                    },
-                                    on: {
-                                        click: () => {
-                                            console.log("当前节点", data.title);
-                                            if (data.title != '全部') {
-                                                this.deletestand(root, node, data);
-                                            }
-                                        },
-                                    },
-                                    attrs: {
-                                        title: "删除",
-                                    },
-                                }),
-                            ]
-                        ),
-                    ]
-                );
-            } else {
+            } else if (data.type && data.type == 'dir') {
                 return h(
                     "span",
                     {
@@ -477,7 +450,7 @@ export default {
                             },
                             [
                                 // 给树节点不同的图标，有子节点跟没有子节点定义不同的图标
-                                (data.children && data.children.length) > 0 ? parent : children,
+                                parent,
                                 h("span", data.title),
                             ]
                         ),
@@ -490,64 +463,46 @@ export default {
                                 },
                             },
                             [
-                                h("Icon", {
-                                    props: {
-                                        type: "ios-add-circle-outline",
-                                        color: "#6dffb3",
-                                        size: "20",
-                                    },
-                                    on: {
-                                        click: () => {
-                                            console.log("当前节点", data.title);
-                                            this.addStand(data);
-                                        },
-                                    },
-                                    attrs: {
-                                        title: "新增",
-                                    },
-                                }),
-                                h("Icon", {
-                                    style: {
-                                        marginLeft: "10px",
-                                    },
-                                    props: {
-                                        type: "ios-create-outline",
-                                        color: "#64b6fb",
-                                        size: "20",
-                                    },
-                                    //h函数配置事件，包括自定义事件
-                                    on: {
-                                        click: () => {
-                                            console.log("当前节点", data.title);
-                                            this.updateStand(root, node, data);
-                                        },
-                                    },
-                                    // h函数配置原生的html属性
-                                    attrs: {
-                                        title: "修改",
-                                    },
-                                }),
-                                h("Icon", {
-                                    style: {
-                                        marginLeft: "10px",
-                                    },
-                                    props: {
-                                        type: "ios-trash-outline",
-                                        color: "#ff8d95",
-                                        size: "20",
-                                    },
-                                    on: {
-                                        click: () => {
-                                            console.log("当前节点", data.title);
-                                            if (data.title != '全部') {
-                                                this.deletestand(root, node, data);
-                                            }
-                                        },
-                                    },
-                                    attrs: {
-                                        title: "删除",
-                                    },
-                                }),
+                                addedModal,
+                                updateModal,
+                                deleteModal,
+                            ]
+                        ),
+                    ]
+                );
+            } else {
+                return h("span",
+                    {
+                        style: {
+                            display: "inline-block",
+                            width: "100%",
+                        },
+                    },
+                    [
+                        h(
+                            "span",
+                            {
+                                style: {
+                                    display: "inline-block",
+                                },
+                            },
+                            [
+                                // 给树节点不同的图标，有子节点跟没有子节点定义不同的图标
+                                children,
+                                h("span", data.title),
+                            ]
+                        ),
+                        h("span",
+                            {
+                                style: {
+                                    display: "inline-block",
+                                    float: "right",
+                                    marginRight: "5px",
+                                },
+                            },
+                            [
+                                updateModal,
+                                deleteModal,
                             ]
                         ),
                     ]
@@ -559,11 +514,15 @@ export default {
             let source = [
                 {
                     id: '1',
+                    level: 1,
+                    type: "dir",
                     title: "全部",
                     expand: true,
                     children: [
                         {
                             id: '1-1',
+                            level: 2,
+                            type: "dir",
                             title: "鼓楼",
                             expand: true,
                             children: [
@@ -579,6 +538,8 @@ export default {
                         },
                         {
                             id: '1-2',
+                            level: 2,
+                            type: "dir",
                             title: "江宁",
                             expand: true,
                             children: [
@@ -594,6 +555,8 @@ export default {
                         },
                         {
                             id: '1-3',
+                            level: 2,
+                            type: "dir",
                             title: "溧水",
                             expand: true,
                             children: [
@@ -609,6 +572,8 @@ export default {
                         },
                         {
                             id: '1-4',
+                            level: 2,
+                            type: "dir",
                             title: "玄武",
                             expand: true,
                             children: [
@@ -645,8 +610,13 @@ export default {
             this.stadinglist = source;
         },
         addStand(data) {
+            this.tree_s = {
+                root: null,
+                node: null,
+                data: data,
+            };
+
             this.clearAddSource1();
-            this.tree_s.data = data;
             this.equModal = true;
             this.equModelTitle = "新增分组"
         },
@@ -666,10 +636,11 @@ export default {
             if (this.equModelTitle == "新增分组") {
                 const children = this.tree_s.data.children || [];
                 children.push({
+                    type: this.tree_s.data.level == 1 ? "dir" : "file",
                     title: this.stadingVal.title,
                     expand: true
                 });
-                this.tree_s.data.children = children
+                this.$set(this.tree_s.data, 'children', children);
                 this.equModal = false;
                 this.$Message.success('添加成功')
             } else {
@@ -767,7 +738,7 @@ export default {
             this.$Modal.confirm({
                 content: '您确定要删除吗？',
                 title: '提示',
-                okText: '离开',
+                okText: '确定',
                 cancelText: '取消',
                 onOk: () => {
 
@@ -775,6 +746,8 @@ export default {
             })
         },
         getdetail(list, val) {
+            if (val.type && val.type == "dir") return;
+
             // 选取最后一层
             if (!val.children) {
                 this.checkstand = val;

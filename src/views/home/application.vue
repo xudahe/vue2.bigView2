@@ -1,4 +1,4 @@
-<!--运营-->
+<!--总览-->
 <template>
 	<div id="application" class="applicationDiv">
 		<component :is="classname"></component>

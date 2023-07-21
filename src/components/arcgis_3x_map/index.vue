@@ -6,39 +6,11 @@
   height: 100%;
 }
 
-//start--------------流向溯源css动画--------------
-.svgbox {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  display: block;
-  z-index: 1;
-}
-
-.flow {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  animation: flow 50s linear infinite;
-}
-
-@keyframes flow {
-  from {
-    stroke-dasharray: 10, 5;
-  }
-
-  to {
-    stroke-dasharray: 40, 5;
-  }
-}
-
-//end--------------流向溯源css动画--------------
-
 .app-right-bottom {
   z-index: 4;
   position: absolute;
   bottom: 10px;
-  right: 10px;
+  right: 15px;
 
   #mapType {
     height: 46px;
@@ -138,7 +110,7 @@
     // font-size: -0.803222rem;
     color: #fff;
     width: 100% !important;
-    height: 48px !important;
+    height: 53px !important;
     margin-bottom: 1px;
   }
 
@@ -148,7 +120,7 @@
     height: 50px !important;
     padding: 4px 0px !important;
     // font-size: -0.803222rem;
-    color: #fff;
+    // color: #fff;
   }
 
   .Dropdowns_buttons {
@@ -159,7 +131,7 @@
     display: block;
     background: #fff;
     box-sizing: border-box;
-    border-radius: 10px 10px 0px 0px !important;
+    // border-radius: 10px 10px 0px 0px !important;
     box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.15);
     padding: 1px;
     background-color: #0e61b7 !important;
@@ -167,14 +139,14 @@
   }
 
   .toolbar-none {
-    border-radius: 0px 0px 10px 10px !important;
+    // border-radius: 0px 0px 10px 10px !important;
     padding-bottom: 4px;
   }
 
   .jiantou {
     position: absolute;
     left: -6px;
-    bottom: -4px;
+    bottom: -7px;
     -webkit-transform: rotate(300deg);
     transform: rotate(315deg);
     font-size: 15px;
@@ -201,7 +173,7 @@
       <bottombar :datasource="currentscale"></bottombar>
       <component :is="current_com" :ref="current_ref"></component>
 
-      <div class="app-right-top" style="position: absolute;right: 0.14rem;top: 0.28rem;z-index: 1;">
+      <div class="app-right-top" style="position: absolute;right: 0.15rem;top: 0.15rem;z-index: 1;">
         <div class="toolbars">
           <i-button type="text" size="small" @click="expandcoll" :title="istoolvis ? '收缩' : '展开'"
             style="font-size:0.2rem;width:100%">
@@ -247,6 +219,9 @@
               <Dropdown-item name="jjfx">
                 <Icon type="logo-dropbox" size="xs" /> 净距
               </Dropdown-item>
+              <Dropdown-item name="dpfx">
+                <Icon type="logo-dropbox" size="xs" /> 倒坡
+              </Dropdown-item>
               <Dropdown-item name="sxbz">
                 <Icon type="logo-dropbox" size="xs" /> 标注
               </Dropdown-item>
@@ -255,7 +230,7 @@
 
           <Dropdown title="工具箱" trigger="hover" @on-click="toolbarGjx" placement="left">
             <i-button type="text" size="small" class="Dropdowns_button Dropdowns_buttons">
-              <Icon type="md-arrow-dropleft" class="jiantou" />
+              <Icon type="md-arrow-dropleft" class="jiantou" style="bottom: -0.10rem;" />
               <Icon type="ios-albums"></Icon>
               <span style="display:block">工具箱</span>
             </i-button>
@@ -307,8 +282,8 @@ import * as esriLoader from 'esri-loader';
 import { MapControl } from "./js/MapControl";
 import mapconfig from "./js/mapconfig";
 import bus from "@/eventBus.js";
-import bottombar from "../arcgis_map/child/bottombar.vue";
-import syfxAnalys from "../arcgis_map/child/syfxAnalys.vue";
+import bottombar from "@/components/arcgis_3x_map/child/bottombar.vue";
+import syfxAnalys from "@/components/arcgis_3x_map/child/syfxAnalys.vue";
 
 var map, navToolbar;
 export default {
@@ -352,74 +327,58 @@ export default {
         css: true,
       };
 
-      esriLoader.loadCss(); //默认情况下，loadCss()加载最新的样式
+      esriLoader.loadCss("https://js.arcgis.com/3.27/esri/css/esri.css");
+      esriLoader.loadCss("https://js.arcgis.com/3.27/dijit/themes/claro/claro.css");
+
       esriLoader.loadModules(
         [
-          "dojo/_base/event",
-          "dojo/_base/connect",
-          "dojo/parser",
-          "dojo/on",
-          "dojo/_base/Color",
           "esri/map",
-          "esri/SpatialReference",
           "esri/geometry/Extent",
           "esri/geometry/scaleUtils",
+          "esri/SpatialReference",
           "esri/layers/ArcGISTiledMapServiceLayer",
           "esri/layers/ArcGISDynamicMapServiceLayer",
+          "esri/layers/ArcGISImageServiceLayer",
           "esri/tasks/GeometryService",
-          "esri/tasks/IdentifyTask",
-          "esri/tasks/IdentifyParameters",
           "esri/toolbars/draw",
-          "esri/toolbars/navigation",
           "esri/toolbars/edit",
-          "dojo/dom-construct",
-          "dojo/dom",
-          "esri/config",
-          "dojo/fx",
-          "dojo/domReady!"
+          "esri/toolbars/navigation",
+          "esri/dijit/Popup",
         ],
         options
       ).then(
         ([
-          event,
-          connect,
-          parser,
-          on,
-          Color,
           Map,
-          SpatialReference,
           Extent,
           scaleUtils,
+          SpatialReference,
           ArcGISTiledMapServiceLayer,
           ArcGISDynamicMapServiceLayer,
+          ArcGISImageServiceLayer,
           GeometryService,
-          IdentifyTask,
-          IdentifyParameters,
           Draw,
-          Navigation,
           Edit,
-          domConstruct,
-          dom,
-          esriConfig,
-          Fx,
+          Navigation,
+          Popup,
         ]) => {
-
           //增加跨域配置 --3.2x写法
           // esriConfig.defaults.io.corsEnabledServers.push("webst01.is.autonavi.com");
 
-          MapControl.popupinfo = new esri.dijit.Popup(null, document.createElement("div"));
+          //创建popup弹出层
+          MapControl.popupinfo = new Popup(null, document.createElement("div"));
+
           //加载地图
           map = new Map(_this.mapId, {
             logo: false, // esri logo
             slider: false,
             infoWindow: MapControl.popupinfo,
-            SpatialReference: new SpatialReference(4326),
-            showLabels: false,
+            // showLabels: false,
             // zoom: 10, // 缩放级别
             // maxZoom: 18 // 最大缩放级别
           });
 
           //arcgis 在线切片底图图
+          // var myTileLayer = new ArcGISTiledMapServiceLayer("http://10.10.31.184:1325/arcgis/rest/services/%E6%B1%9F%E8%8B%8F%E7%9C%81%E5%9F%BA%E7%A1%80%E5%9C%B0%E7%90%86%E6%95%B0%E6%8D%AE%E5%BA%93%E9%85%8D%E5%9B%BE/MapServer");
           var myTileLayer = new ArcGISTiledMapServiceLayer("https://map.geoq.cn/arcgis/rest/services/ChinaOnlineCommunity/MapServer");
           map.addLayer(myTileLayer)
 
@@ -430,12 +389,12 @@ export default {
           // basemaplayer.id = basemapurl;
           // map.addLayer(basemaplayer); //添加底图
 
-          let navToolbar = new esri.toolbars.Navigation(map);
-          let drawToolbar = new esri.toolbars.Draw(map);
-          let editToolbar = new esri.toolbars.Edit(map);
-          const geometryservice = new esri.tasks.GeometryService(
-            mapconfig.GeometryService + '?token=' + this.$store.getters.GISToken
-          );
+          // let navToolbar = new esri.toolbars.Navigation(map);
+          // let drawToolbar = new esri.toolbars.Draw(map);
+          // let editToolbar = new esri.toolbars.Edit(map);
+          // const geometryservice = new esri.tasks.GeometryService(
+          //   mapconfig.GeometryService + '?token=' + this.$store.getters.GISToken
+          // );
 
           //绘制图层
           for (let i = 1; i < 6; i++) {
@@ -445,18 +404,16 @@ export default {
             MapControl.graphicLayers["gralyr" + i] = graphicLayer;
           }
 
-          var carLayer = new esri.layers.GraphicsLayer({
-            id: "carLayer"
-          });
+          var carLayer = new esri.layers.GraphicsLayer();
+          carLayer.id = "carLayer";
           map.addLayer(carLayer);
 
-          var lineLayer = new esri.layers.GraphicsLayer({
-            id: "lineLayer"
-          });
+          var lineLayer = new esri.layers.GraphicsLayer();
+          lineLayer.id = "lineLayer";
           map.addLayer(lineLayer);
 
           //地图对象加载完成后执行该方法
-          map.on("load", initFunctionality());
+          // map.on("load", initFunctionality());
 
           //绑定鼠标在地图上移动事件
           map.on("mouse-move", function (event) {
@@ -485,24 +442,33 @@ export default {
             console.log("当前地图层级：" + map.getLevel())
           });
 
+          //点击地图响应
+          map.on("click", function (e) {
+
+          });
+
           function initFunctionality() {
             _this.$store.dispatch("mapload", true);
 
             MapControl.map[_this.mapId] = map;
             MapControl.isLoad[_this.mapId] = true;
-            MapControl.navToolbar[_this.mapId] = navToolbar;
-            MapControl.drawToolbar[_this.mapId] = drawToolbar;
-            MapControl.editToolbar[_this.mapId] = editToolbar;
-            MapControl.GeometryService = geometryservice;
+            // MapControl.navToolbar[_this.mapId] = navToolbar;
+            // MapControl.drawToolbar[_this.mapId] = drawToolbar;
+            // MapControl.editToolbar[_this.mapId] = editToolbar;
+            // MapControl.GeometryService = geometryservice;
 
-            let extent = mapconfig.extent;
-            let mapExtent = new esri.geometry.Extent(
-              extent.xmin,
-              extent.ymin,
-              extent.xmax,
-              extent.ymax,
-              map.spatialReference
-            );
+            let extent = {
+              "xmin": -20037507.067161843,
+              "ymin": -30240971.958386254,
+              "xmax": 20037507.067161843,
+              "ymax": 30240971.958386205,
+              "spatialReference": {
+                "wkid": 102100,
+                "latestWkid": 3857
+              }
+            };
+
+            let mapExtent = new esri.geometry.Extent(extent);
             map.setExtent(mapExtent);
 
             //css滤镜 修改地图样式
@@ -562,7 +528,7 @@ export default {
           MapControl.setMapZoomOut();
           break;
         case "full":
-          MapControl.setMapFull();
+          // MapControl.setMapFull();
           break;
         case "pan":
           MapControl.setMapPan();
@@ -610,13 +576,16 @@ export default {
           this.showCompt("syfxAnalys", "溯源")
           break;
         case "dmfx": //断面
-          this.showCompt("dmfxdio")
+          this.showCompt("")
           break;
         case "jjfx": //净距
-          this.showCompt("spacingalanaly")
+          this.showCompt("")
+          break;
+        case "dpfx": //倒坡
+          this.showCompt("")
           break;
         case "sxbz": //标注
-          this.showCompt("attributelabel")
+          this.showCompt("")
           break;
       }
     },
@@ -625,7 +594,9 @@ export default {
     showCompt(name, type) {
       this.current_com = this.current_ref = name;
       setTimeout(() => {
-        if (!this.$refs[name]) this.$refs[name].initial(type)
+        if (this.$refs[name] != undefined) {
+          this.$refs[name].initial(type)
+        }
       }, 500);
     },
     //移除组件
@@ -636,7 +607,12 @@ export default {
   mounted() {
     this.$store.dispatch("mapload", false);
     this.clearCompt();
-    // this.createMap();
+    this.createMap();
+
+    let _this = this;
+    bus.$off("map_spinShow").$on("map_spinShow", function (flag) {
+      _this.spinShow = flag;
+    })
   },
   beforeDestroy() {
     MapControl.setMapClear();

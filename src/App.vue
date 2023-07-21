@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import apiSetting from "@/api/apiSetting.js"
+
 export default {
   name: "app",
   components: {},
@@ -18,18 +18,6 @@ export default {
     }
   },
   mounted() {
-    // this.$ajax(apiSetting.GetGISToken, {
-    //   refurl: window.location.origin + '/'
-    // }).then(
-    //   res => {
-    //     if (res.data.success == true) {
-    //       this.$store.commit("GISToken", res.data.source);
-    //     }
-    //   },
-    //   error => {
-    //   }
-    // );
-
     document.getElementById('app').style.width = window.innerWidth + 'px';
     document.getElementById('app').style.height = window.innerHeight + 'px';
     window.addEventListener('keydown', function (event) {
