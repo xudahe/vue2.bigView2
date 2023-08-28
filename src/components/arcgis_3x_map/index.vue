@@ -344,6 +344,7 @@ export default {
           "esri/toolbars/edit",
           "esri/toolbars/navigation",
           "esri/dijit/Popup",
+          "dojo/domReady!"
         ],
         options
       ).then(

@@ -98,9 +98,13 @@ export default {
   },
   methods: {
     getmapid() {
-      if (this.view) {
-        this.$store.commit("splitMapId", this.view.id);
-        bus.$emit('getmapid', this.view.id);
+      try {
+        if (this.view && MapControl.isSync[this.view.id]) {
+          this.$store.commit("splitMapId", this.view.id);
+          bus.$emit('getmapid', this.domId);
+        }
+      } catch (error) {
+
       }
     },
     createView() {
@@ -116,7 +120,8 @@ export default {
 
       const basemap = {
         type: "Tiled", //切片
-        url: "http://10.10.10.48:6080/arcgis/rest/services/2018%E5%8D%97%E4%BA%AC%E5%9F%BA%E7%A1%80%E5%BA%95%E5%9B%BEWGS84/MapServer"
+        url: "http://10.10.10.83:6080/arcgis/rest/services/NJDXT2018/MapServer",
+        // url: "http://10.10.10.48:6080/arcgis/rest/services/2018%E5%8D%97%E4%BA%AC%E5%9F%BA%E7%A1%80%E5%BA%95%E5%9B%BEWGS84/MapServer"
       };
 
       loadCss("https://js.arcgis.com/3.27/esri/css/esri.css");
@@ -168,9 +173,9 @@ export default {
             // map.setExtent(mapExtent);
 
             MapControl.ExtentChanges[mapId] = map.on("extent-change", function (event) {
-              if (MapControl.isSync[mapId]) {
-                bus.$emit('ExtentChange', { event: event.extent, id: _this.domId });
-              }
+              // if (MapControl.isSync[mapId]) {
+              //   bus.$emit('ExtentChange', { event: event.extent, id: _this.domId });
+              // }
             })
           }
         })
@@ -328,5 +333,4 @@ export default {
   background: #fff;
   cursor: pointer;
 }
-</style>
 </style>

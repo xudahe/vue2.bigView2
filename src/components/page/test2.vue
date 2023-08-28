@@ -4,28 +4,27 @@
 
       <div style="overflow: auto;height: calc(100% - 0.4rem);" class="borderdiv">
         <Collapse accordion>
-          <template v-for="(item, index) in tableList">
-            <Panel style="margin:0.05rem;font-size: 0.12rem;font-weight: bold;" :key="index" :name="item.title + index">
-              {{ item.title }} &nbsp;&nbsp;
-              <div style="float:right;margin-right:0.1rem;font-size: 0.12rem;">
-                <span>3(台)</span>
-              </div>
-              <div slot="content" v-for="(itema, indev) in item.children" :key='indev'>
-                <div style="cursor:pointer;overflow: hidden;position: relative;padding-left: 0.05rem;"
-                  @click='expandlist(indev, itema, index)'
-                  :class="indev + 'a' + index == selectId ? 'bgActiveT' : 'bgActiveF'">
-                  <div class="midDiv">
-                    <div class="midlabel">泵站类型：</div>
-                    <div class="midvalue">{{ item.类型 }}</div>
-                  </div>
-                  <div class="midDiv">
-                    <div class="midlabel">运行时间：</div>
-                    <div class="midvalue">{{ item.运行时间 }}</div>
-                  </div>
+          <Panel style="margin:0.05rem;font-size: 0.12rem;font-weight: bold;" v-for="(item, index) in tableList"
+            :key="index" :name="item.title + index">
+            {{ item.title }} &nbsp;&nbsp;
+            <div style="float:right;margin-right:0.1rem;font-size: 0.12rem;">
+              <span>3(台)</span>
+            </div>
+            <div slot="content" v-for="(itema, indev) in item.children" :key='indev'>
+              <div style="cursor:pointer;overflow: hidden;position: relative;padding-left: 0.05rem;"
+                @click='expandlist(indev, itema, index)'
+                :class="indev + 'a' + index == selectId ? 'bgActiveT' : 'bgActiveF'">
+                <div class="midDiv">
+                  <div class="midlabel">泵站类型：</div>
+                  <div class="midvalue">{{ item.类型 }}</div>
+                </div>
+                <div class="midDiv">
+                  <div class="midlabel">运行时间：</div>
+                  <div class="midvalue">{{ item.运行时间 }}</div>
                 </div>
               </div>
-            </Panel>
-          </template>
+            </div>
+          </Panel>
         </Collapse>
       </div>
       <div style="padding-top: 0.1rem;">

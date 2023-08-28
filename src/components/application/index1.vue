@@ -113,7 +113,7 @@
 <script>
 import bus from "@/eventBus.js";
 import { MapControl } from "@/components/arcgis_3x_map/js/MapControl.js";
-import arcgisMap from "@/components/arcgis_3x_map/index.vue";
+import arcgisMap from "@/components/arcgis_4x_map/index.vue";
 import vDialog from "@/components/dialog/dialog.vue";
 
 export default {

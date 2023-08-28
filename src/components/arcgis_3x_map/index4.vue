@@ -66,7 +66,8 @@ export default {
             "esri/Basemap",
             "esri/widgets/BasemapToggle",
             "esri/views/SceneView",
-            "esri/views/MapView"
+            "esri/views/MapView",
+            "dojo/domReady!"
           ],
           options
         )

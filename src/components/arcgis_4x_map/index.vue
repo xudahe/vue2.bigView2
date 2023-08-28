@@ -1,11 +1,26 @@
 <template>
- <div></div>
+    <div>
 
+    </div>
 </template>
 
-<script setup>
+<script>
+export default {
+    components: {
+
+    },
+    data() {
+        return {
+
+        }
+    },
+    mounted() {
+
+    },
+    methods: {
+
+    },
+};
 </script>
 
-<style scoped lang="less">
-
-</style>
+<style scoped lang="less"></style>

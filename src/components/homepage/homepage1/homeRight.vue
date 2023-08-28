@@ -13,7 +13,7 @@
             <div style="height: calc(100% - 0.4rem);"></div>
         </div>
     </div>
-</div></template>
+</template>
   
 <script>
 

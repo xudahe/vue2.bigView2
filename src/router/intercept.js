@@ -16,9 +16,8 @@ NProgress.configure({
 router.beforeEach((to, from, next) => {
   NProgress.start(); //显示进度条
 
-
   //动态修改页面标题title
-  let title = to.meta.title ? to.meta.title + " - bigView" : store.state.metatitle;
+  let title = to.meta && to.meta.title ? to.meta.title + " - bigView" : store.state.metatitle;
   window.document.title = title;
 
   next();
